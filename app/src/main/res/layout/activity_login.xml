@@ -82,7 +82,7 @@
                     android:background="@color/teal"
                     android:layout_gravity="center"
                     android:layout_marginTop="16dp"
-                    android:text="Log on"
+                    android:text="Login"
                     android:textStyle="bold" />
 
                 <Button
