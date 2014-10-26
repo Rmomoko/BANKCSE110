@@ -15,6 +15,15 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+//import parse library
+import com.parse.Parse;
+import com.parse.ParseAnalytics;
+import com.parse.ParseUser;
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.SignUpCallback;
 
 
 public class RegisterActivity extends Activity{
@@ -35,6 +44,9 @@ public class RegisterActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        // set application id and client key:
+        Parse.initialize(this, "A2AaALh751ZRdPUWpkbWMExx0nCr5ZFpcHy2iEdh", "GuKu5oT53eQHRVVhoLSx5UEeZ0C1zkLCL2FGAh06");
 
         // Set up the login form.
         mUsernameView = (EditText) findViewById(R.id.user_userName_edit);
@@ -148,8 +160,39 @@ public class RegisterActivity extends Activity{
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
+
+
             //save data here
-            pageChange();
+            // store information to parse.com  (edited by Joe)
+            ParseUser user = new ParseUser();
+            user.setUsername(username);
+            user.setPassword(password);
+
+            // other fields can be set just like with ParseObject
+            user.put("realname", realName);
+            user.put("birthday",birthday);
+            user.setEmail(email);
+            user.put("birthday", birthday);
+            user.put("gender",gender);
+            user.put("address",address);
+            user.put("phone",phone);
+
+            user.signUpInBackground(new SignUpCallback() {
+                public void done(ParseException e) {
+                    if (e == null) {
+                        // Hooray! Let them use the app now.
+                        Toast.makeText(RegisterActivity.this, "Successful Signup!", Toast.LENGTH_SHORT).show();
+
+                        // go back to log in page
+                        pageChange();
+
+                    } else {
+                        // Sign up didn't succeed. Look at the ParseException
+                        // to figure out what went wrong
+                    }
+                }
+            });
+
         }
     }
 
