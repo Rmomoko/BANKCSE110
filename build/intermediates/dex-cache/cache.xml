@@ -2,34 +2,46 @@
 <pre-dex-items>
 
     <item
-        dex="/Users/Riversidemomoko/AndroidStudioProjects/BANKCSE110/app/build/intermediates/pre-dexed/debug/support-annotations-20.0.0-bca9cd8c8082330ef7549e0398af852faae531fd.jar"
-        jar="/Applications/Android Studio.app/sdk/extras/android/m2repository/com/android/support/support-annotations/20.0.0/support-annotations-20.0.0.jar"
+        dex="C:\Users\Yuxiao\Desktop\cs\BANKCSE110\app\build\intermediates\pre-dexed\debug\Parse-1.7.1-5a08b52691f6fcb91439f17f2f006afbd6dc96fa.jar"
+        jar="C:\Users\Yuxiao\Desktop\cs\BANKCSE110\app\libs\Parse-1.7.1.jar"
         jumboMode="false"
         revision="20.0.0"
-        sha1="9d9013e9ff35fc3756411e62873c363c70c638fa"/>
+        sha1="87c45f9f66da531a65f065ee32f603c7e6db1528"/>
     <item
-        dex="/Users/Riversidemomoko/AndroidStudioProjects/BANKCSE110/app/build/intermediates/pre-dexed/debug/internal_impl-20.0.0-70154075af3340b26b32d90cd99fdc0f39a726fa.jar"
-        jar="/Users/Riversidemomoko/AndroidStudioProjects/BANKCSE110/app/build/intermediates/exploded-aar/com.android.support/support-v4/20.0.0/libs/internal_impl-20.0.0.jar"
+        dex="C:\Users\Yuxiao\Desktop\cs\BANKCSE110\app\build\intermediates\pre-dexed\debug\bolts-android-1.1.3-d8f3014bcb92f3944e6badde31be300093028f8f.jar"
+        jar="C:\Users\Yuxiao\Desktop\cs\BANKCSE110\app\libs\bolts-android-1.1.3.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="e61e3dfc57eaa5c97f9e7061db5608fc7d02d39e"/>
+    <item
+        dex="C:\Users\Yuxiao\Desktop\cs\BANKCSE110\app\build\intermediates\pre-dexed\debug\classes-e3c3434e7105f7529d91541be318ec79d64194dd.jar"
+        jar="C:\Users\Yuxiao\Desktop\cs\BANKCSE110\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\20.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="f21927d22fe31889ecce94dd697a2e75b137e0ef"/>
+    <item
+        dex="C:\Users\Yuxiao\Desktop\cs\BANKCSE110\app\build\intermediates\pre-dexed\debug\internal_impl-20.0.0-aad85ff3a2c086802bf5f106672ab7ff49494f43.jar"
+        jar="C:\Users\Yuxiao\Desktop\cs\BANKCSE110\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\libs\internal_impl-20.0.0.jar"
         jumboMode="false"
         revision="20.0.0"
         sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d"/>
     <item
-        dex="/Users/Riversidemomoko/AndroidStudioProjects/BANKCSE110/app/build/intermediates/pre-dexed/debug/classes-4abebe34c5583148945140556c7046cd7c1eca0b.jar"
-        jar="/Users/Riversidemomoko/AndroidStudioProjects/BANKCSE110/app/build/intermediates/exploded-aar/com.android.support/support-v4/20.0.0/classes.jar"
+        dex="C:\Users\Yuxiao\Desktop\cs\BANKCSE110\app\build\intermediates\pre-dexed\debug\classes-1e982602f64468f2f83f0e7d050a52b14ce76e37.jar"
+        jar="C:\Users\Yuxiao\Desktop\cs\BANKCSE110\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\classes.jar"
         jumboMode="false"
         revision="20.0.0"
         sha1="8694693636ab36910c8100ce527c258ff3ebece0"/>
     <item
-        dex="/Users/Riversidemomoko/AndroidStudioProjects/BANKCSE110/app/build/intermediates/pre-dexed/debug/classes-91ca964e3b5040c2097d7b29087c40446fcb8417.jar"
-        jar="/Users/Riversidemomoko/AndroidStudioProjects/BANKCSE110/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.11/classes.jar"
+        dex="C:\Users\Yuxiao\Desktop\cs\BANKCSE110\app\build\intermediates\pre-dexed\debug\classes-0273a84bc85df63f07242cef999abb5bea745f5c.jar"
+        jar="C:\Users\Yuxiao\Desktop\cs\BANKCSE110\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\6.1.11\classes.jar"
         jumboMode="false"
         revision="20.0.0"
         sha1="0f700f6802ba1a1f1fa7ac26d5db0666a89d75a6"/>
     <item
-        dex="/Users/Riversidemomoko/AndroidStudioProjects/BANKCSE110/app/build/intermediates/pre-dexed/debug/classes-52395a17fb10323f201cae7fd7aedcab172012f3.jar"
-        jar="/Users/Riversidemomoko/AndroidStudioProjects/BANKCSE110/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/classes.jar"
+        dex="C:\Users\Yuxiao\Desktop\cs\BANKCSE110\app\build\intermediates\pre-dexed\debug\support-annotations-20.0.0-a4e02dbab34b1c29feadbf8661e1f5d48ed50a88.jar"
+        jar="C:\Users\Yuxiao\Desktop\cs\android studio\sdk\extras\android\m2repository\com\android\support\support-annotations\20.0.0\support-annotations-20.0.0.jar"
         jumboMode="false"
         revision="20.0.0"
-        sha1="f21927d22fe31889ecce94dd697a2e75b137e0ef"/>
+        sha1="9d9013e9ff35fc3756411e62873c363c70c638fa"/>
 
 </pre-dex-items>
