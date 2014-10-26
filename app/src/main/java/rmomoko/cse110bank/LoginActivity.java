@@ -63,9 +63,12 @@ public class LoginActivity extends Activity{
         mUsernameSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                // TODO: Check if login information is correct
+                pageChangetoAcInfo(view);
+               // attemptLogin();
             }
         });
+
         Button registerButton = (Button) findViewById(R.id.create_account_button);
         registerButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -74,17 +77,27 @@ public class LoginActivity extends Activity{
             }
         });
 
-
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView  = findViewById(R.id.login_progress);
+    }
+
+    /*
+                Author : Yen
+                account_info page if login successfully
+        */
+    public void pageChangetoAcInfo( View view){
+        Intent getAccountInfoScreen = new Intent(this, AccountInfo.class);
+        final int result = 1;
+        startActivityForResult(getAccountInfoScreen, result);
+        finish();
     }
 
     public void pageChange(View view) {
 
         // We have to state that are intention is to open another Activity. We do so
         // by passing a Context and the Activity that we want to open
+        //Intent getRegisterScreen = new Intent(this, RegisterActivity.class);
         Intent getRegisterScreen = new Intent(this, RegisterActivity.class);
-
         // We ask for the Activity to start and don't expect a result to be sent back
         // startActivity(getNameScreenIntent);
 
