@@ -46,7 +46,7 @@ public class RegisterActivity extends Activity{
         setContentView(R.layout.activity_register);
 
         // set application id and client key:
-        Parse.initialize(this, "A2AaALh751ZRdPUWpkbWMExx0nCr5ZFpcHy2iEdh", "GuKu5oT53eQHRVVhoLSx5UEeZ0C1zkLCL2FGAh06");
+        Parse.initialize(this, "dJqoRn28p66wHQsJkJKog1zaaRhP3iTDGoSDanYU", "FwLys6BrpNfLyoOWuQCD9vVhIgqYsfjv9RynGOEY");
 
         // Set up the login form.
         mUsernameView = (EditText) findViewById(R.id.user_userName_edit);
