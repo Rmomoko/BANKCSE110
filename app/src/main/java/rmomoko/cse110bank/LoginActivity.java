@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 //import parse library
 import com.parse.Parse;
 import com.parse.ParseAnalytics;
@@ -177,6 +178,11 @@ public class LoginActivity extends Activity{
                     } else {
                         Toast.makeText(LoginActivity.this, "Fail Login!", Toast.LENGTH_SHORT).show();
                         showProgress(false);
+                        View focusView = mUsernameView;
+                        mUsernameView.setError("Username or password is incorrect");
+                        mUsernameView.setText("");
+                        mPasswordView.setText("");
+                        focusView.requestFocus();
                     }
                 }
             });
