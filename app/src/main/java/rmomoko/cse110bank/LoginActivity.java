@@ -15,7 +15,15 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+//import parse library
+import com.parse.Parse;
+import com.parse.ParseAnalytics;
+import com.parse.ParseUser;
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.SignUpCallback;
 /**
  * A login screen that offers login via email/password.
 
@@ -64,8 +72,9 @@ public class LoginActivity extends Activity{
             @Override
             public void onClick(View view) {
                 // TODO: Check if login information is correct
-                pageChangetoAcInfo(view);
-               // attemptLogin();
+
+                //pageChangetoAcInfo(view);
+                attemptLogin();
             }
         });
 
@@ -85,7 +94,7 @@ public class LoginActivity extends Activity{
                 Author : Yen
                 account_info page if login successfully
         */
-    public void pageChangetoAcInfo( View view){
+    public void pageChangetoAcInfo(){
         Intent getAccountInfoScreen = new Intent(this, AccountInfo.class);
         final int result = 1;
         startActivityForResult(getAccountInfoScreen, result);
@@ -160,8 +169,19 @@ public class LoginActivity extends Activity{
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(username, password);
-            mAuthTask.execute((Void) null);
+            ParseUser.logInInBackground(username, password, new LogInCallback() {
+                public void done(ParseUser user, ParseException e) {
+                    if (user != null) {
+                        Toast.makeText(LoginActivity.this, "Successful Login!", Toast.LENGTH_SHORT).show();
+                        pageChangetoAcInfo();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Fail Login!", Toast.LENGTH_SHORT).show();
+                        showProgress(false);
+                    }
+                }
+            });
+            //mAuthTask = new UserLoginTask(username, password);
+            //mAuthTask.execute((Void) null);
         }
     }
 
@@ -230,6 +250,7 @@ public class LoginActivity extends Activity{
             } catch (InterruptedException e) {
                 return false;
             }
+
 
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
