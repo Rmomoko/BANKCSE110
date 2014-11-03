@@ -20,6 +20,7 @@ import android.widget.Toast;
 //import parse library
 import com.parse.Parse;
 import com.parse.ParseAnalytics;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -172,17 +173,23 @@ public class RegisterActivity extends Activity{
             user.put("realname", realName);
             user.put("birthday",birthday);
             user.setEmail(email);
-            user.put("birthday", birthday);
             user.put("gender",gender);
             user.put("address",address);
             user.put("phone",phone);
+
 
             user.signUpInBackground(new SignUpCallback() {
                 public void done(ParseException e) {
                     if (e == null) {
                         // Hooray! Let them use the app now.
                         Toast.makeText(RegisterActivity.this, "Successful Signup!", Toast.LENGTH_SHORT).show();
+                        ParseObject account = new ParseObject("Account");
+                        account.put("savingAccount", 500);
+                        account.put("checkingAccount", 0);
 
+                        ParseUser user = ParseUser.getCurrentUser();
+                        user.put("Account", account);
+                        user.saveInBackground();
                         // go back to log in page
                         pageChange();
 

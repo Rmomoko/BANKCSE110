@@ -16,26 +16,77 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.parse.GetCallback;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+import com.parse.Parse;
+import com.parse.ParseAnalytics;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.SignUpCallback;
+import com.parse.ParseQuery;
 /**
  * Created by yenhsialin on 10/25/2014.
  */
 public class AccountInfo extends Activity{
     private String _ac_num, _balance, _activity;
-    //private View mAccountInfoView;
+    private TextView checkingNumber;
+    private TextView savingNumber;
 
     public void onCreate(Bundle savedInstanceState){
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.account_info);
 
-        // TODO: Button funtion not add yet
-        Button openCheckingButton = (Button) findViewById(R.id.open_checking_button);
-        Button openSavingButton = (Button) findViewById(R.id.open_saving_button);
-        Button openCreditButton = (Button) findViewById(R.id.open_credit_button);
-        //openCheckingButton.setOnClickListener();
+        checkingNumber = (TextView) findViewById(R.id.checkingNumber);
+        savingNumber = (TextView) findViewById(R.id.savingNumber);
+        ParseUser user = ParseUser.getCurrentUser();
+        ParseObject account = user.getParseObject("Account");
+        account.fetchInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    checkingNumber.setText("$ " + object.getNumber("checkingAccount").toString());
+                    savingNumber.setText("$ " + object.getNumber("savingAccount").toString());
+                } else {
+                }
+            }
+        });
 
-        //mAccountInfoView = findViewById(R.id.ac_info);
+
+        Button creditButton = (Button) findViewById(R.id.credit_button);
+        creditButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pageToCredit(view);
+            }
+        });
+
+        Button debitButton = (Button) findViewById(R.id.debit_button);
+        debitButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pageToDebit(view);
+            }
+        });
+
+
+
 
     }
 
+    public void pageToCredit(View view) {
+        Intent getScreen = new Intent(this, CreditActivity.class);
+        final int result = 1;
+        startActivityForResult(getScreen, result);
+        finish();
+    }
+    public void pageToDebit(View view) {
+        Intent getScreen = new Intent(this, DebitActivity.class);
+        final int result = 1;
+        startActivityForResult(getScreen, result);
+        finish();
+    }
 }

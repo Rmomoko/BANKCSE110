@@ -68,8 +68,8 @@ public class LoginActivity extends Activity{
             }
         });
 
-        Button mUsernameSignInButton = (Button) findViewById(R.id.login_button);
-        mUsernameSignInButton.setOnClickListener(new OnClickListener() {
+        Button mUsernameLogInButton = (Button) findViewById(R.id.login_button);
+        mUsernameLogInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO: Check if login information is correct
@@ -86,6 +86,7 @@ public class LoginActivity extends Activity{
                 pageChange(view);
             }
         });
+
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView  = findViewById(R.id.login_progress);
@@ -174,12 +175,13 @@ public class LoginActivity extends Activity{
                 public void done(ParseUser user, ParseException e) {
                     if (user != null) {
                         Toast.makeText(LoginActivity.this, "Successful Login!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Big papa!", Toast.LENGTH_SHORT).show();
                         pageChangetoAcInfo();
                     } else {
-                        Toast.makeText(LoginActivity.this, "Fail Login!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Fail Login!", Toast.LENGTH_LONG).show();
                         showProgress(false);
                         View focusView = mUsernameView;
-                        mUsernameView.setError("Username or password is incorrect");
+                        mUsernameView.setError("The username or password is incorrect");
                         mUsernameView.setText("");
                         mPasswordView.setText("");
                         focusView.requestFocus();
