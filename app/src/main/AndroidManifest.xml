@@ -53,6 +53,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="rmomoko.cse110bank.AccountInfo" />
         </activity>
+        <activity
+            android:name=".CustomerAccountActivity"
+            android:label="CusAcInfo"
+            android:parentActivityName=".LoginActivity"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="rmomoko.cse110bank.LoginActivity" />
+        </activity>
     </application>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->

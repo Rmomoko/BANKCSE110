@@ -6,7 +6,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/ac_info"
+        android:id="@+id/cus_ac_info"
 
         >
         <LinearLayout
@@ -19,7 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Account Information"
-                android:id="@+id/acInfoTitleView"
+                android:id="@+id/cus_ac_title"
                 android:textSize="30dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Checking Account "
-                android:id="@+id/checkingView"
+                android:id="@+id/cus_check_view"
                 android:textSize="20dp"
                 android:layout_marginTop="25dp"
                 android:layout_below="@+id/acInfoTitleView"
@@ -43,7 +43,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/checkingNumber"
+                android:id="@+id/cus_check_number"
                 android:textSize="20dp"
                 android:layout_marginTop="25dp"
                 android:layout_below="@+id/acInfoTitleView"
@@ -54,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Saving Account "
-                android:id="@+id/savingView"
+                android:id="@+id/cus_save_view"
                 android:textSize="20dp"
                 android:layout_marginTop="25dp"
                 android:layout_below="@+id/acInfoTitleView"
@@ -64,7 +64,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/savingNumber"
+                android:id="@+id/cus_save_number"
                 android:textSize="20dp"
                 android:layout_marginTop="25dp"
                 android:layout_below="@+id/acInfoTitleView"
@@ -73,10 +73,9 @@
             <Button
                 android:layout_width="200dp"
                 android:layout_height="40dp"
-                android:text="Credit Account"
+                android:text="Print Summary"
                 android:textColor="#FFFFFF"
-                android:id="@+id/credit_button"
-                android:layout_below="@+id/open_checking_button"
+                android:id="@+id/cus_print_summary_button"
                 android:layout_gravity="center"
                 android:background="@color/teal"
                 style="?android:textAppearanceSmall"
@@ -87,10 +86,9 @@
             <Button
                 android:layout_width="200dp"
                 android:layout_height="40dp"
-                android:text="Debit Account"
+                android:text="Make Transfer"
                 android:textColor="#FFFFFF"
-                android:id="@+id/debit_button"
-                android:layout_below="@+id/open_saving_button"
+                android:id="@+id/cus_transfer_button"
                 android:layout_gravity="center"
                 android:background="@color/teal"
                 style="?android:textAppearanceSmall"

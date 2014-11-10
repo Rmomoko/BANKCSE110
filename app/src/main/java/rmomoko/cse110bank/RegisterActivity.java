@@ -176,7 +176,7 @@ public class RegisterActivity extends Activity{
             user.put("gender",gender);
             user.put("address",address);
             user.put("phone",phone);
-
+            user.put("isCustomer", true);
 
             user.signUpInBackground(new SignUpCallback() {
                 public void done(ParseException e) {
@@ -240,19 +240,8 @@ public class RegisterActivity extends Activity{
     }
 
     public void pageChange() {
-
-        // We have to state that are intention is to open another Activity. We do so
-        // by passing a Context and the Activity that we want to open
         Intent getLoginActivity = new Intent(this, LoginActivity.class);
-
-        // We ask for the Activity to start and don't expect a result to be sent back
-        // startActivity(getNameScreenIntent);
-
-        // We use startActivityForResult when we expect a result to be sent back
         final int result = 1;
-
-        // To send data use putExtra with a String name followed by its value
-        //getRegisterScreen.putExtra("callingActivity", "LoginActivity");
         startActivityForResult(getLoginActivity, result);
         finish();
     }
