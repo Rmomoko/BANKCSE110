@@ -45,7 +45,15 @@ public class DebitActivity extends Activity{
         checkingCredit.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                withdrawalCheckingAccount();
+                if(!debitAmount.getText().toString().isEmpty())
+                {
+                    withdrawalCheckingAccount();
+                }
+                else{
+                    debitAmount.setError("You must input a number");
+                    debitAmount.requestFocus();
+                }
+
             }
         });
 
@@ -53,7 +61,14 @@ public class DebitActivity extends Activity{
         savingCredit.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                withdrawalSavingAccount();
+                if(!debitAmount.getText().toString().isEmpty())
+                {
+                    withdrawalSavingAccount();
+                }
+                else{
+                    debitAmount.setError("You must input a number");
+                    debitAmount.requestFocus();
+                }
             }
         });
     }

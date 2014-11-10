@@ -32,10 +32,9 @@
                 android:layout_gravity="center"
                 android:layout_height="wrap_content"
                 android:hint="$"
-                android:inputType="number"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textIsSelectable="true" />
+                android:inputType="number" />
 
             <Button
                 android:id="@+id/checking_credit_button"

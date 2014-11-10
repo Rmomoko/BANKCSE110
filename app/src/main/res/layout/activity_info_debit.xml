@@ -33,10 +33,9 @@
                 android:layout_gravity="center"
                 android:layout_height="wrap_content"
                 android:hint="$"
-                android:inputType="text"
+                android:inputType="number"
                 android:maxLines="1"
-                android:singleLine="true"
-                android:textIsSelectable="true" />
+                android:singleLine="true" />
 
             <Button
                 android:id="@+id/checking_debit_button"

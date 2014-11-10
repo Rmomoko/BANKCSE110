@@ -47,7 +47,14 @@ public class CreditActivity extends Activity {
         checkingCredit.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                depositeCheckingAccount();
+                if(!creditAmount.getText().toString().isEmpty())
+                {
+                    depositeCheckingAccount();
+                }
+                else{
+                    creditAmount.setError("You must input a number");
+                    creditAmount.requestFocus();
+                }
             }
         });
 
@@ -55,27 +62,34 @@ public class CreditActivity extends Activity {
         savingCredit.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                depositeSavingAccount();
+                if(!creditAmount.getText().toString().isEmpty())
+                {
+                    depositeSavingAccount();
+                }
+                else{
+                    creditAmount.setError("You must input a number");
+                    creditAmount.requestFocus();
+                }
             }
         });
     }
 
     public void depositeCheckingAccount(){
-        amount = Integer.parseInt(creditAmount.getText().toString());
-        ParseUser user = ParseUser.getCurrentUser();
-        ParseObject account = user.getParseObject("Account");
-        account.fetchInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    int current = object.getNumber("checkingAccount").intValue();
-                    object.put("checkingAccount", current + amount);
-                    object.saveInBackground();
-                    Toast.makeText(CreditActivity.this, "Successful deposite!", Toast.LENGTH_SHORT).show();
-                    pageChange();
-                } else {
+         amount = Integer.parseInt(creditAmount.getText().toString());
+         ParseUser user = ParseUser.getCurrentUser();
+         ParseObject account = user.getParseObject("Account");
+         account.fetchInBackground(new GetCallback<ParseObject>() {
+                public void done(ParseObject object, ParseException e) {
+                    if (e == null) {
+                        int current = object.getNumber("checkingAccount").intValue();
+                        object.put("checkingAccount", current + amount);
+                        object.saveInBackground();
+                        Toast.makeText(CreditActivity.this, "Successful deposite!", Toast.LENGTH_SHORT).show();
+                        pageChange();
+                    } else {
+                    }
                 }
-            }
-        });
+            });
     }
     public void depositeSavingAccount(){
         amount = Integer.parseInt(creditAmount.getText().toString());
