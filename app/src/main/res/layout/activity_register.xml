@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/user_birthday_edit"
                     android:hint="mm/dd/yyyy"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:maxLines="1"
                     android:singleLine="true"/>
             </LinearLayout>
@@ -129,7 +129,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/user_email_edit"
                     android:hint="xxx@xxx.com"
-                    android:inputType="text"
+                    android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"/>
             </LinearLayout>
@@ -192,9 +192,9 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/user_phone_edit"
                     android:hint="xxx-xxx-xxxx"
-                    android:inputType="text"
                     android:maxLines="1"
-                    android:singleLine="true"/>
+                    android:singleLine="true"
+                    android:inputType="phone" />
             </LinearLayout>
 
             <LinearLayout

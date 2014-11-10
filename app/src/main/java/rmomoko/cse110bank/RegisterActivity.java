@@ -194,6 +194,15 @@ public class RegisterActivity extends Activity{
                         pageChange();
 
                     } else {
+                        if(e.getCode() == ParseException.USERNAME_TAKEN)
+                        {
+                            mUsernameView.setError("username exist");
+                        }
+                        if(e.getCode() == ParseException.EMAIL_TAKEN)
+                        {
+                            mEmailView.setError("email exist");
+                        }
+                        showProgress(false);
                         // Sign up didn't succeed. Look at the ParseException
                         // to figure out what went wrong
                     }

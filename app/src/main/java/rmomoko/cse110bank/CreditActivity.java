@@ -49,7 +49,7 @@ public class CreditActivity extends Activity {
             public void onClick(View view) {
                 if(!creditAmount.getText().toString().isEmpty())
                 {
-                    depositeCheckingAccount();
+                        depositeCheckingAccount();
                 }
                 else{
                     creditAmount.setError("You must input a number");
@@ -64,7 +64,7 @@ public class CreditActivity extends Activity {
             public void onClick(View view) {
                 if(!creditAmount.getText().toString().isEmpty())
                 {
-                    depositeSavingAccount();
+                        depositeSavingAccount();
                 }
                 else{
                     creditAmount.setError("You must input a number");

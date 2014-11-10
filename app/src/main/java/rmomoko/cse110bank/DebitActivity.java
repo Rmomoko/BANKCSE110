@@ -47,7 +47,7 @@ public class DebitActivity extends Activity{
             public void onClick(View view) {
                 if(!debitAmount.getText().toString().isEmpty())
                 {
-                    withdrawalCheckingAccount();
+                        withdrawalCheckingAccount();
                 }
                 else{
                     debitAmount.setError("You must input a number");
@@ -63,7 +63,7 @@ public class DebitActivity extends Activity{
             public void onClick(View view) {
                 if(!debitAmount.getText().toString().isEmpty())
                 {
-                    withdrawalSavingAccount();
+                        withdrawalSavingAccount();
                 }
                 else{
                     debitAmount.setError("You must input a number");

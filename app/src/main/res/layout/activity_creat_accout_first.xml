@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    tools:context=".CreatAccountActivity" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Personal Information  "
+        android:textSize="18dp"
+        android:textIsSelectable="false"
+        android:id="@+id/personalInfo"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name             "
+        android:id="@+id/name"
+        android:layout_alignBottom="@+id/firstName"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:id="@+id/firstName"
+        android:layout_width="130dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:hint="First Name"
+        android:inputType="text"
+        android:layout_toEndOf="@+id/name"
+        android:layout_below="@+id/personalInfo" />
+
+    <EditText
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/lastName_edit_text"
+        android:hint="Last Name"
+        android:inputType="textPersonName"
+        android:singleLine="true"
+        android:layout_toEndOf="@+id/firstName"
+        android:layout_below="@+id/personalInfo"
+        android:layout_alignEnd="@+id/address1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date of Birth  "
+        android:id="@+id/DOB"
+        android:layout_alignBottom="@+id/MM"
+        android:layout_alignEnd="@+id/DOB" />
+
+
+    <EditText
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/MM"
+        android:hint="MM"
+        android:inputType="date"
+        android:layout_below="@+id/firstName"
+        android:layout_alignStart="@+id/firstName" />
+
+    <EditText
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/DD"
+        android:hint="DD"
+        android:inputType="date"
+        android:layout_alignTop="@+id/MM"
+        android:layout_toEndOf="@+id/MM" />
+
+    <EditText
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/YY"
+        android:hint="YY"
+        android:inputType="date"
+        android:singleLine="true"
+        android:layout_alignTop="@+id/DD"
+        android:layout_toEndOf="@+id/DD" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Address  "
+        android:id="@+id/address"
+        android:layout_below="@+id/DOB"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="30dp" />
+
+    <EditText
+        android:layout_width="262dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/address1"
+        android:hint="Line1"
+        android:layout_toEndOf="@+id/name"
+        android:layout_alignBottom="@+id/address" />
+
+    <EditText
+        android:layout_width="262dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/address2"
+        android:hint="Line2(optional"
+        android:layout_toEndOf="@+id/name"
+        android:layout_below="@+id/address1"
+        android:layout_alignStart="@+id/address1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="City                "
+        android:layout_alignBottom="@+id/city"
+        android:layout_alignParentStart="true"
+        android:id="@+id/textView4" />
+
+    <EditText
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/city"
+        android:layout_below="@+id/address2"
+        android:layout_alignStart="@+id/address2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="    State"
+        android:layout_toEndOf="@+id/city"
+        android:id="@+id/stateView"
+        android:layout_alignBottom="@+id/city" />
+
+    <EditText
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/state"
+        android:layout_toEndOf="@+id/stateView"
+        android:layout_alignBottom="@+id/stateView"
+        android:layout_alignEnd="@+id/address2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Zip                "
+        android:layout_toStartOf="@+id/zip"
+        android:layout_alignBottom="@+id/zip"
+        android:layout_alignParentStart="true"
+        android:id="@+id/textView5" />
+
+
+    <EditText
+        android:layout_width="262dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/zip"
+        android:hint="enter 5 digit"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/city" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Phone           "
+        android:id="@+id/textView6"
+        android:layout_alignBottom="@+id/phone"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="262dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/phone"
+        android:hint="xxx-xxx-xxxx"
+        android:layout_below="@+id/zip"
+        android:layout_alignStart="@+id/zip"
+        android:inputType="phone" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email             "
+        android:layout_alignBottom="@+id/email"
+        android:layout_alignEnd="@+id/textView6"
+        android:id="@+id/textView2" />
+
+    <EditText
+        android:layout_width="262dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/email"
+        android:hint="xxx@xxx.com"
+        android:layout_below="@+id/phone"
+        android:layout_alignStart="@+id/phone"
+        android:inputType="textWebEmailAddress" />
+
+
+    <Button
+        android:id="@+id/submit"
+        style="?android:textAppearanceSmall"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:background="@color/teal"
+        android:layout_gravity="center"
+        android:text="Next"
+        android:textStyle="bold"
+        android:layout_toStartOf="@+id/state"
+        android:layout_alignParentBottom="true" />
+
+
+
+
+</RelativeLayout>
