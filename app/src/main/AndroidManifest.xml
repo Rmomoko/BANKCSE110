@@ -27,7 +27,7 @@
                 android:value="rmomoko.cse110bank.LoginActivity" />
         </activity>
         <activity
-            android:name=".AccountInfo"
+            android:name=".EmployeeModifiedCus"
             android:label="AcInfo"
             android:parentActivityName=".LoginActivity"
             android:theme="@style/AppTheme" >
@@ -38,7 +38,7 @@
         <activity
             android:name=".CreditActivity"
             android:label=""
-            android:parentActivityName=".AccountInfo"
+            android:parentActivityName=".EmployeeModifiedCus"
             android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -47,7 +47,7 @@
         <activity
             android:name=".DebitActivity"
             android:label=""
-            android:parentActivityName=".AccountInfo"
+            android:parentActivityName=".EmployeeModifiedCus"
             android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -61,6 +61,33 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="rmomoko.cse110bank.LoginActivity" />
+        </activity>
+        <activity
+            android:name=".TransferChoiceActivity"
+            android:label=""
+            android:parentActivityName=".CustomerAccountActivity"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="rmomoko.cse110bank.AccountInfo" />
+        </activity>
+        <activity
+            android:name=".TransferBetwennMyAccount"
+            android:label=""
+            android:parentActivityName=".TransferChoiceActivity"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="rmomoko.cse110bank.AccountInfo" />
+        </activity>
+        <activity
+            android:name=".TransferToSomeoneAccount"
+            android:label=""
+            android:parentActivityName=".TransferChoiceActivity"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="rmomoko.cse110bank.AccountInfo" />
         </activity>
     </application>
 

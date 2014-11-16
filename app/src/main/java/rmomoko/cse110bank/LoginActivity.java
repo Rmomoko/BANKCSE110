@@ -4,27 +4,20 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 //import parse library
 import com.parse.Parse;
-import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
-import com.parse.SignUpCallback;
 
 public class LoginActivity extends Activity{
 
@@ -70,7 +63,7 @@ public class LoginActivity extends Activity{
 
 
     public void pageChangetoAcInfo(){
-        Intent getAccountInfoScreen = new Intent(this, AccountInfo.class);
+        Intent getAccountInfoScreen = new Intent(this, EmployeeModifiedCus.class);
         final int result = 1;
         startActivityForResult(getAccountInfoScreen, result);
         finish();

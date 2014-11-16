@@ -58,8 +58,31 @@ public class CustomerAccountActivity extends Activity{
             }
         });
 
+        Button printSumButton = (Button) findViewById(R.id.cus_print_summary_button);
+        printSumButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               // pageToCredit(view);
+            }
+        });
 
+        Button transferButton = (Button) findViewById(R.id.cus_transfer_button);
+        transferButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pageToTransfer(view);
+            }
+        });
 
     }
+
+    public void pageToTransfer(View view) {
+        Intent getScreen = new Intent(this, TransferChoiceActivity.class);
+        final int result = 1;
+        startActivityForResult(getScreen, result);
+        finish();
+    }
+
+
 
 }
