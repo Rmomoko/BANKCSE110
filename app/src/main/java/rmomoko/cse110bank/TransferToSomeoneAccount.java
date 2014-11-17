@@ -58,14 +58,23 @@ public class TransferToSomeoneAccount extends Activity {
                                 if(!parseUsers.isEmpty()) {
                                     someone = parseUsers.get(0);
                                     if (!transferAmount.getText().toString().isEmpty()) {
-                                        if(!someone.getBoolean("isClosed"))
-                                        {
-                                            transferFromCk();
-                                        }
-                                        else
-                                        {
-                                            Toast.makeText(TransferToSomeoneAccount.this, "Fail transfer! That account is closed", Toast.LENGTH_SHORT).show();
-                                        }
+                                        someoneAccount = someone.getParseObject("Account");
+                                        someoneAccount.fetchInBackground(new GetCallback<ParseObject>() {
+                                            public void done(ParseObject object, ParseException e) {
+                                                if (e == null) {
+                                                    if(!object.getBoolean("isClosed"))
+                                                    {
+                                                        transferFromCk();
+                                                    }
+                                                    else
+                                                    {
+                                                        Toast.makeText(TransferToSomeoneAccount.this, "Fail transfer! That account is closed", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                } else {
+                                                }
+                                            }
+                                        });
+
                                     } else {
                                         transferAmount.setError("You must input a number");
                                         transferAmount.requestFocus();
@@ -108,14 +117,22 @@ public class TransferToSomeoneAccount extends Activity {
                                 if(!parseUsers.isEmpty()) {
                                     someone = parseUsers.get(0);
                                     if (!transferAmount.getText().toString().isEmpty()) {
-                                        if(!someone.getBoolean("isClosed"))
-                                        {
-                                            transferFromSa();
-                                        }
-                                        else
-                                        {
-                                            Toast.makeText(TransferToSomeoneAccount.this, "Fail transfer! That account is closed", Toast.LENGTH_SHORT).show();
-                                        }
+                                        someoneAccount = someone.getParseObject("Account");
+                                        someoneAccount.fetchInBackground(new GetCallback<ParseObject>() {
+                                            public void done(ParseObject object, ParseException e) {
+                                                if (e == null) {
+                                                    if(!object.getBoolean("isClosed"))
+                                                    {
+                                                        transferFromSa();
+                                                    }
+                                                    else
+                                                    {
+                                                        Toast.makeText(TransferToSomeoneAccount.this, "Fail transfer! That account is closed", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                } else {
+                                                }
+                                            }
+                                        });
                                     } else {
                                         transferAmount.setError("You must input a number");
                                         transferAmount.requestFocus();

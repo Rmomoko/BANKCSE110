@@ -14,7 +14,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 //import parse library
+import com.parse.GetCallback;
 import com.parse.Parse;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -63,7 +65,7 @@ public class LoginActivity extends Activity{
 
 
     public void pageChangetoAcInfo(){
-        Intent getAccountInfoScreen = new Intent(this, EmployeeModifiedCus.class);
+        Intent getAccountInfoScreen = new Intent(this, EmployeeChooseCus.class);
         final int result = 1;
         startActivityForResult(getAccountInfoScreen, result);
         finish();
@@ -127,24 +129,34 @@ public class LoginActivity extends Activity{
             ParseUser.logInInBackground(username, password, new LogInCallback() {
                 public void done(ParseUser user, ParseException e) {
                     if (user != null) {
-                        if(!user.getBoolean("isClosed")) {
-                            Toast.makeText(LoginActivity.this, "Successful Login!", Toast.LENGTH_SHORT).show();
-                            Toast.makeText(LoginActivity.this, "Successful login!", Toast.LENGTH_SHORT).show();
-                            if (user.getBoolean("isCustomer")) {
-                                pageChangetoCusAcInfo();
-                            } else {
-                                pageChangetoAcInfo();
+                        ParseObject selfAccount = user.getParseObject("Account");
+                        selfAccount.fetchInBackground(new GetCallback<ParseObject>() {
+                            public void done(ParseObject object, ParseException e) {
+                                if (e == null) {
+                                    if(!object.getBoolean("isClosed")) {
+                                        Toast.makeText(LoginActivity.this, "Successful Login!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LoginActivity.this, "Successful login!", Toast.LENGTH_SHORT).show();
+                                        if (ParseUser.getCurrentUser().getBoolean("isCustomer")) {
+                                            pageChangetoCusAcInfo();
+                                        } else {
+                                            pageChangetoAcInfo();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(LoginActivity.this, "Fail Login! Account Closed", Toast.LENGTH_SHORT).show();
+                                        showProgress(false);
+                                        View focusView = mUsernameView;
+                                        mUsernameView.setText("");
+                                        mPasswordView.setText("");
+                                        focusView.requestFocus();
+                                    }
+                                } else {
+                                }
                             }
-                        }
-                        else
-                        {
-                            Toast.makeText(LoginActivity.this, "Fail Login! Account Closed", Toast.LENGTH_SHORT).show();
-                            showProgress(false);
-                            View focusView = mUsernameView;
-                            mUsernameView.setText("");
-                            mPasswordView.setText("");
-                            focusView.requestFocus();
-                        }
+                        });
+
+
                     } else {
                         Toast.makeText(LoginActivity.this, "Fail Login!", Toast.LENGTH_LONG).show();
                         showProgress(false);

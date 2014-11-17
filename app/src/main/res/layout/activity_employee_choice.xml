@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <ScrollView
-        android:id="@+id/credit_page"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
@@ -29,7 +29,7 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:id="@+id/email"
+                android:id="@+id/employee_choose_email"
                 android:hint="Please type someone email"
                 android:maxLines="1"
                 android:singleLine="true"

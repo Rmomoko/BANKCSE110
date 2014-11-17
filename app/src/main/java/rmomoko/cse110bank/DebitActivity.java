@@ -8,10 +8,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.ParseException;
+
+import java.util.List;
 
 /**
  * Created by Yuxiao on 11/2/2014.
@@ -19,12 +23,15 @@ import com.parse.ParseException;
 public class DebitActivity extends Activity{
     private EditText debitAmount;
     private int amount;
+    private String someoneEmail;
+    private ParseUser someone;
 
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_debit);
         debitAmount = (EditText) findViewById(R.id.debit_amount);
+        someoneEmail = getIntent().getStringExtra("someoneEmail");
 
         Button checkingCredit = (Button) findViewById(R.id.checking_debit_button);
         checkingCredit.setOnClickListener(new OnClickListener() {
@@ -60,46 +67,85 @@ public class DebitActivity extends Activity{
 
     public void withdrawalCheckingAccount(){
         amount = Integer.parseInt(debitAmount.getText().toString());
-        ParseUser user = ParseUser.getCurrentUser();
-        ParseObject account = user.getParseObject("Account");
-        account.fetchInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    int current = object.getNumber("checkingAccount").intValue();
-                    if(amount > current)
+
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("email",someoneEmail);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> parseUsers, ParseException e) {
+                if(e == null)
+                {
+                    if(!parseUsers.isEmpty()) {
+                        someone = parseUsers.get(0);
+                        ParseObject account = someone.getParseObject("Account");
+                        account.fetchInBackground(new GetCallback<ParseObject>() {
+                            public void done(ParseObject object, ParseException e) {
+                                if (e == null) {
+                                    int current = object.getNumber("checkingAccount").intValue();
+                                    if(amount > current)
+                                    {
+                                        debitAmount.setError("Not enough money");
+                                    }
+                                    else{
+                                        object.put("checkingAccount", current - amount);
+                                        object.saveInBackground();
+                                        Toast.makeText(DebitActivity.this, "Successful withdrawal!", Toast.LENGTH_SHORT).show();
+                                        pageChange();
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    else
                     {
-                        debitAmount.setError("Not enough money");
+                        Toast.makeText(DebitActivity.this, "Fail Catch!", Toast.LENGTH_SHORT).show();
                     }
-                    else{
-                         object.put("checkingAccount", current - amount);
-                         object.saveInBackground();
-                         Toast.makeText(DebitActivity.this, "Successful withdrawal!", Toast.LENGTH_SHORT).show();
-                         pageChange();
-                    }
-                } else {
+                }
+                else
+                {
+                    Toast.makeText(DebitActivity.this, "Fail Catch!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
     public void withdrawalSavingAccount(){
         amount = Integer.parseInt(debitAmount.getText().toString());
-        ParseUser user = ParseUser.getCurrentUser();
-        ParseObject account = user.getParseObject("Account");
-        account.fetchInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    int current = object.getNumber("savingAccount").intValue();
-                    if(amount > current)
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("email",someoneEmail);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> parseUsers, ParseException e) {
+                if(e == null)
+                {
+                    if(!parseUsers.isEmpty()) {
+                        someone = parseUsers.get(0);
+                        ParseObject account = someone.getParseObject("Account");
+                        account.fetchInBackground(new GetCallback<ParseObject>() {
+                            public void done(ParseObject object, ParseException e) {
+                                if (e == null) {
+                                    int current = object.getNumber("savingAccount").intValue();
+                                    if(amount > current)
+                                    {
+                                        debitAmount.setError("Not enough money");
+                                    }
+                                    else{
+                                        object.put("savingAccount", current - amount);
+                                        object.saveInBackground();
+                                        Toast.makeText(DebitActivity.this, "Successful withdrawal!", Toast.LENGTH_SHORT).show();
+                                        pageChange();
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    else
                     {
-                        debitAmount.setError("Not enough money");
+                        Toast.makeText(DebitActivity.this, "Fail Catch!", Toast.LENGTH_SHORT).show();
                     }
-                    else{
-                        object.put("savingAccount", current - amount);
-                        object.saveInBackground();
-                        Toast.makeText(DebitActivity.this, "Successful withdrawal!", Toast.LENGTH_SHORT).show();
-                        pageChange();
-                    }
-                } else {
+                }
+                else
+                {
+                    Toast.makeText(DebitActivity.this, "Fail Catch!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -108,6 +154,7 @@ public class DebitActivity extends Activity{
 
         Intent getScreen = new Intent(this, EmployeeModifiedCus.class);
         final int result = 1;
+        getScreen.putExtra("someoneEmail",someoneEmail);
         startActivityForResult(getScreen, result);
         finish();
     }

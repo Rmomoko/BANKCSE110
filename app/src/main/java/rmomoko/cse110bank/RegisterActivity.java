@@ -178,7 +178,7 @@ public class RegisterActivity extends Activity{
             user.put("address",address);
             user.put("phone",phone);
             user.put("isCustomer", true);
-            user.put("isClosed", false);
+
 
             user.signUpInBackground(new SignUpCallback() {
                 public void done(ParseException e) {
@@ -188,7 +188,7 @@ public class RegisterActivity extends Activity{
                         ParseObject account = new ParseObject("Account");
                         account.put("savingAccount", 500);
                         account.put("checkingAccount", 0);
-
+                        account.put("isClosed", false);
                         ParseUser user = ParseUser.getCurrentUser();
                         user.put("Account", account);
                         user.saveInBackground();

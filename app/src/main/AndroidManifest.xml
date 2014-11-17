@@ -29,6 +29,15 @@
         <activity
             android:name=".EmployeeModifiedCus"
             android:label="AcInfo"
+            android:parentActivityName=".EmployeeChooseCus"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="rmomoko.cse110bank.EmployeeChooseCus" />
+        </activity>
+        <activity
+            android:name=".EmployeeChooseCus"
+            android:label="AcInfo"
             android:parentActivityName=".LoginActivity"
             android:theme="@style/AppTheme" >
             <meta-data
