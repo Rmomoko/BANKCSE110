@@ -80,11 +80,20 @@ public class CustomerAccountActivity extends Activity{
             @Override
             public void onClick(View view) {
                 ParseUser user = ParseUser.getCurrentUser();
-                user.put("isClosed", true);
-                user.saveInBackground();
-                ParseUser.logOut();
-                Toast.makeText(CustomerAccountActivity.this, "Your account is closed!", Toast.LENGTH_SHORT).show();
-                pageToLogin(view);
+                ParseObject account = user.getParseObject("Account");
+                account.fetchInBackground(new GetCallback<ParseObject>() {
+                    public void done(ParseObject object, ParseException e) {
+                        if (e == null) {
+                            object.put("isClosed", true);
+                            object.saveInBackground();
+                            ParseUser.logOut();
+                            Toast.makeText(CustomerAccountActivity.this, "Your account is closed!", Toast.LENGTH_SHORT).show();
+                            pageToLogin();
+                        } else {
+                        }
+                    }
+                });
+
             }
         });
     }
@@ -96,7 +105,7 @@ public class CustomerAccountActivity extends Activity{
         finish();
     }
 
-    public void pageToLogin(View view) {
+    public void pageToLogin() {
         Intent getScreen = new Intent(this, LoginActivity.class);
         final int result = 1;
         startActivityForResult(getScreen, result);
