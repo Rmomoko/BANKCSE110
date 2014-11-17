@@ -65,6 +65,7 @@ public class TransferToSomeoneAccount extends Activity {
                                                     if(!object.getBoolean("isClosed"))
                                                     {
                                                         if(!someone.getEmail().equals(ParseUser.getCurrentUser().getEmail())) {
+                                                            currentTo = object.getNumber("checkingAccount").intValue();
                                                             transferFromCk();
                                                         }
                                                         else
@@ -130,6 +131,7 @@ public class TransferToSomeoneAccount extends Activity {
                                                     if(!object.getBoolean("isClosed"))
                                                     {
                                                         if(!someone.getEmail().equals(ParseUser.getCurrentUser().getEmail())) {
+                                                            currentTo = object.getNumber("checkingAccount").intValue();
                                                             transferFromSa();
                                                         }
                                                         else
@@ -182,12 +184,7 @@ public class TransferToSomeoneAccount extends Activity {
         ParseObject selfAccount = user.getParseObject("Account");
         someoneAccount = someone.getParseObject("Account");
 
-        someoneAccount.fetchInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject parseObject, ParseException e) {
-                currentTo = parseObject.getNumber("checkingAccount").intValue();
-            }
-        });
+
 
         selfAccount.fetchInBackground(new GetCallback<ParseObject>() {
             @Override
@@ -198,8 +195,8 @@ public class TransferToSomeoneAccount extends Activity {
                         transferAmount.setError("Not enough money");
                     } else {
                         parseObject.put("checkingAccount", current - amount);
-                        someoneAccount.put("checkingAccount", currentTo + amount);
                         parseObject.saveInBackground();
+                        someoneAccount.put("checkingAccount", currentTo + amount);
                         someoneAccount.saveInBackground();
                         Toast.makeText(TransferToSomeoneAccount.this, "Successful transfer!", Toast.LENGTH_SHORT).show();
                         pageChange();
@@ -219,12 +216,7 @@ public class TransferToSomeoneAccount extends Activity {
         ParseObject selfAccount = user.getParseObject("Account");
         someoneAccount = someone.getParseObject("Account");
 
-        someoneAccount.fetchInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject parseObject, ParseException e) {
-                currentTo = parseObject.getNumber("checkingAccount").intValue();
-            }
-        });
+
 
         selfAccount.fetchInBackground(new GetCallback<ParseObject>() {
             @Override
@@ -234,6 +226,7 @@ public class TransferToSomeoneAccount extends Activity {
                     if (amount > current) {
                         transferAmount.setError("Not enough money");
                     } else {
+
                         parseObject.put("savingAccount", current - amount);
                         someoneAccount.put("checkingAccount", currentTo + amount);
                         parseObject.saveInBackground();
