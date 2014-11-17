@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -43,6 +44,7 @@ public class CustomerAccountActivity extends Activity{
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_account);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         checkingNumber = (TextView) findViewById(R.id.cus_check_number);
         savingNumber = (TextView) findViewById(R.id.cus_save_number);
 
@@ -111,5 +113,15 @@ public class CustomerAccountActivity extends Activity{
         startActivityForResult(getScreen, result);
         finish();
     }
+    public void onBackPressed()
+    {
+        ParseUser.logOut();
+        pageToLogin();
+    }
 
+    public boolean onOptionsItemSelected(MenuItem item){
+        ParseUser.logOut();
+        pageToLogin();
+        return true;
+    }
 }

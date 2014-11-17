@@ -3,6 +3,7 @@ package rmomoko.cse110bank;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +26,7 @@ public class TransferBetweenMyAccount extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transfer_my_own);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         transferAmount = (EditText) findViewById(R.id.transfer_my_own_amount);
 
 
@@ -114,7 +116,12 @@ public class TransferBetweenMyAccount extends Activity {
     }
 
 
-
+    public void pageChangeToChoice() {
+        Intent getScreen = new Intent(this, TransferChoiceActivity.class);
+        final int result = 1;
+        startActivityForResult(getScreen, result);
+        finish();
+    }
 
 
     public void pageChange() {
@@ -122,5 +129,15 @@ public class TransferBetweenMyAccount extends Activity {
         final int result = 1;
         startActivityForResult(getScreen, result);
         finish();
+    }
+
+    public void onBackPressed()
+    {
+        pageChangeToChoice();
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        pageChangeToChoice();
+        return true;
     }
 }

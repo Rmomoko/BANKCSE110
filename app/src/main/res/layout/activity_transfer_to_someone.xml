@@ -43,7 +43,8 @@
                 android:hint="$"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:inputType="number" />
+                android:inputType="number"
+                android:maxLength="6" />
 
             <Button
                 android:id="@+id/transfer_from_checking"

@@ -3,6 +3,7 @@ package rmomoko.cse110bank;
 import android.content.Intent;
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -32,7 +33,7 @@ public class EmployeeModifiedCus extends Activity{
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_change_account);
-
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         checkingNumber = (TextView) findViewById(R.id.checkingNumber);
         savingNumber = (TextView) findViewById(R.id.savingNumber);
         someoneEmail = getIntent().getStringExtra("someoneEmail");
@@ -153,5 +154,16 @@ public class EmployeeModifiedCus extends Activity{
         final int result = 1;
         startActivityForResult(getScreen, result);
         finish();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        pageToChoose();
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        pageToChoose();
+        return true;
     }
 }

@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -38,7 +39,7 @@ public class TransferChoiceActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transfer_choice);
-
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button transferMyOwnButton = (Button) findViewById(R.id.transfer_my_own_button);
         transferMyOwnButton.setOnClickListener(new View.OnClickListener() {
@@ -71,4 +72,20 @@ public class TransferChoiceActivity extends Activity {
         finish();
     }
 
+    public void pageToAcInfo() {
+        Intent getScreen = new Intent(this, CustomerAccountActivity.class);
+        final int result = 1;
+        startActivityForResult(getScreen, result);
+        finish();
+    }
+
+    public void onBackPressed()
+    {
+        pageToAcInfo();
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        pageToAcInfo();
+        return true;
+    }
 }

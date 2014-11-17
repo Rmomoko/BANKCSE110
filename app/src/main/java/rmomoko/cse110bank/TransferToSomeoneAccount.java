@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,6 +41,7 @@ public class TransferToSomeoneAccount extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transfer_to_someone);
         Parse.initialize(this, "dJqoRn28p66wHQsJkJKog1zaaRhP3iTDGoSDanYU", "FwLys6BrpNfLyoOWuQCD9vVhIgqYsfjv9RynGOEY");
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         transferAmount = (EditText) findViewById(R.id.transfer_to_someone_amount);
         someoneEmail = (EditText) findViewById(R.id.transfer_to_someone_email);
 
@@ -240,12 +242,27 @@ public class TransferToSomeoneAccount extends Activity {
         });
     }
 
-
+    public void pageChangeToChoice() {
+        Intent getScreen = new Intent(this, TransferChoiceActivity.class);
+        final int result = 1;
+        startActivityForResult(getScreen, result);
+        finish();
+    }
 
     public void pageChange() {
         Intent getScreen = new Intent(this, CustomerAccountActivity.class);
         final int result = 1;
         startActivityForResult(getScreen, result);
         finish();
+    }
+
+    public void onBackPressed()
+    {
+        pageChangeToChoice();
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        pageChangeToChoice();
+        return true;
     }
 }

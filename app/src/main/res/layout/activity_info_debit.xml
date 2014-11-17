@@ -35,7 +35,8 @@
                 android:hint="$"
                 android:inputType="number"
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:maxLength="6" />
 
             <Button
                 android:id="@+id/checking_debit_button"

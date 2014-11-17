@@ -2,6 +2,7 @@ package rmomoko.cse110bank;
 import android.content.Intent;
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -31,6 +32,7 @@ public class CreditActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_credit);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         creditAmount = (EditText) findViewById(R.id.credit_amount);
         someoneEmail = getIntent().getStringExtra("someoneEmail");
 
@@ -147,6 +149,16 @@ public class CreditActivity extends Activity {
         getScreen.putExtra("someoneEmail",someoneEmail);
         startActivityForResult(getScreen, result);
         finish();
+    }
+
+    public void onBackPressed()
+    {
+        pageChange();
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        pageChange();
+        return true;
     }
 }
 
