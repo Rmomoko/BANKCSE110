@@ -72,7 +72,7 @@
                 android:value="rmomoko.cse110bank.AccountInfo" />
         </activity>
         <activity
-            android:name=".TransferBetwennMyAccount"
+            android:name=".TransferBetweenMyAccount"
             android:label=""
             android:parentActivityName=".TransferChoiceActivity"
             android:theme="@style/AppTheme" >

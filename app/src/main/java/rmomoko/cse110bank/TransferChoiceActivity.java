@@ -34,7 +34,41 @@ import com.parse.ParseQuery;
  */
 public class TransferChoiceActivity extends Activity {
 
+    public void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_transfer_choice);
 
 
+        Button transferMyOwnButton = (Button) findViewById(R.id.transfer_my_own_button);
+        transferMyOwnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pageToMyOwn();
+            }
+        });
+
+        Button transferOtherButton = (Button) findViewById(R.id.transfer_to_someone_button);
+        transferOtherButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pageToSomeone();
+            }
+        });
+
+    }
+    public void pageToMyOwn() {
+        Intent getScreen = new Intent(this, TransferBetweenMyAccount.class);
+        final int result = 1;
+        startActivityForResult(getScreen, result);
+        finish();
+    }
+
+    public void pageToSomeone() {
+        Intent getScreen = new Intent(this, TransferToSomeoneAccount.class);
+        final int result = 1;
+        startActivityForResult(getScreen, result);
+        finish();
+    }
 
 }
