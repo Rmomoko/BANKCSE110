@@ -64,7 +64,13 @@ public class TransferToSomeoneAccount extends Activity {
                                                 if (e == null) {
                                                     if(!object.getBoolean("isClosed"))
                                                     {
-                                                        transferFromCk();
+                                                        if(!someone.getEmail().equals(ParseUser.getCurrentUser().getEmail())) {
+                                                            transferFromCk();
+                                                        }
+                                                        else
+                                                        {
+                                                            Toast.makeText(TransferToSomeoneAccount.this, "Fail transfer! Cannot transfer to yourself", Toast.LENGTH_SHORT).show();
+                                                        }
                                                     }
                                                     else
                                                     {
@@ -123,7 +129,13 @@ public class TransferToSomeoneAccount extends Activity {
                                                 if (e == null) {
                                                     if(!object.getBoolean("isClosed"))
                                                     {
-                                                        transferFromSa();
+                                                        if(!someone.getEmail().equals(ParseUser.getCurrentUser().getEmail())) {
+                                                            transferFromSa();
+                                                        }
+                                                        else
+                                                        {
+                                                            Toast.makeText(TransferToSomeoneAccount.this, "Fail transfer! Cannot transfer to yourself", Toast.LENGTH_SHORT).show();
+                                                        }
                                                     }
                                                     else
                                                     {
