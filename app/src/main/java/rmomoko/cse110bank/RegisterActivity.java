@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -45,7 +46,7 @@ public class RegisterActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         // set application id and client key:
         Parse.initialize(this, "dJqoRn28p66wHQsJkJKog1zaaRhP3iTDGoSDanYU", "FwLys6BrpNfLyoOWuQCD9vVhIgqYsfjv9RynGOEY");
 
@@ -177,6 +178,7 @@ public class RegisterActivity extends Activity{
             user.put("address",address);
             user.put("phone",phone);
             user.put("isCustomer", true);
+            user.put("isClosed", false);
 
             user.signUpInBackground(new SignUpCallback() {
                 public void done(ParseException e) {
@@ -255,22 +257,16 @@ public class RegisterActivity extends Activity{
         finish();
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        pageChange();
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public boolean onOptionsItemSelected(MenuItem item){
+        pageChange();
+        return true;
+    }
 
 
 }

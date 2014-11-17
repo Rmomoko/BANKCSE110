@@ -127,14 +127,23 @@ public class LoginActivity extends Activity{
             ParseUser.logInInBackground(username, password, new LogInCallback() {
                 public void done(ParseUser user, ParseException e) {
                     if (user != null) {
-                        Toast.makeText(LoginActivity.this, "Successful Login!", Toast.LENGTH_SHORT).show();
-                        Toast.makeText(LoginActivity.this, "Successful login!", Toast.LENGTH_SHORT).show();
-                        if(user.getBoolean("isCustomer"))
-                        {
-                            pageChangetoCusAcInfo();
+                        if(!user.getBoolean("isClosed")) {
+                            Toast.makeText(LoginActivity.this, "Successful Login!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Successful login!", Toast.LENGTH_SHORT).show();
+                            if (user.getBoolean("isCustomer")) {
+                                pageChangetoCusAcInfo();
+                            } else {
+                                pageChangetoAcInfo();
+                            }
                         }
-                        else {
-                            pageChangetoAcInfo();
+                        else
+                        {
+                            Toast.makeText(LoginActivity.this, "Fail Login! Account Closed", Toast.LENGTH_SHORT).show();
+                            showProgress(false);
+                            View focusView = mUsernameView;
+                            mUsernameView.setText("");
+                            mPasswordView.setText("");
+                            focusView.requestFocus();
                         }
                     } else {
                         Toast.makeText(LoginActivity.this, "Fail Login!", Toast.LENGTH_LONG).show();

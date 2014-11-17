@@ -15,6 +15,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.GetCallback;
 import com.parse.ParseObject;
@@ -74,6 +75,18 @@ public class CustomerAccountActivity extends Activity{
             }
         });
 
+        Button closeButton = (Button) findViewById(R.id.cus_close_button);
+        closeButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ParseUser user = ParseUser.getCurrentUser();
+                user.put("isClosed", true);
+                user.saveInBackground();
+                ParseUser.logOut();
+                Toast.makeText(CustomerAccountActivity.this, "Your account is closed!", Toast.LENGTH_SHORT).show();
+                pageToLogin(view);
+            }
+        });
     }
 
     public void pageToTransfer(View view) {
@@ -83,6 +96,11 @@ public class CustomerAccountActivity extends Activity{
         finish();
     }
 
-
+    public void pageToLogin(View view) {
+        Intent getScreen = new Intent(this, LoginActivity.class);
+        final int result = 1;
+        startActivityForResult(getScreen, result);
+        finish();
+    }
 
 }

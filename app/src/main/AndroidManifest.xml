@@ -69,7 +69,7 @@
             android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="rmomoko.cse110bank.AccountInfo" />
+                android:value="rmomoko.cse110bank.CustomerAccountActivity" />
         </activity>
         <activity
             android:name=".TransferBetweenMyAccount"
@@ -78,7 +78,7 @@
             android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="rmomoko.cse110bank.AccountInfo" />
+                android:value="rmomoko.cse110bank.TransferChoiceActivity" />
         </activity>
         <activity
             android:name=".TransferToSomeoneAccount"
@@ -87,7 +87,7 @@
             android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="rmomoko.cse110bank.AccountInfo" />
+                android:value="rmomoko.cse110bank.TransferChoiceActivity" />
         </activity>
     </application>
 

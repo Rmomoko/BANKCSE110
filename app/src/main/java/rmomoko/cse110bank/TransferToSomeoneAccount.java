@@ -58,7 +58,14 @@ public class TransferToSomeoneAccount extends Activity {
                                 if(!parseUsers.isEmpty()) {
                                     someone = parseUsers.get(0);
                                     if (!transferAmount.getText().toString().isEmpty()) {
-                                        transferFromCk();
+                                        if(!someone.getBoolean("isClosed"))
+                                        {
+                                            transferFromCk();
+                                        }
+                                        else
+                                        {
+                                            Toast.makeText(TransferToSomeoneAccount.this, "Fail transfer! That account is closed", Toast.LENGTH_SHORT).show();
+                                        }
                                     } else {
                                         transferAmount.setError("You must input a number");
                                         transferAmount.requestFocus();
@@ -101,7 +108,14 @@ public class TransferToSomeoneAccount extends Activity {
                                 if(!parseUsers.isEmpty()) {
                                     someone = parseUsers.get(0);
                                     if (!transferAmount.getText().toString().isEmpty()) {
-                                        transferFromSa();
+                                        if(!someone.getBoolean("isClosed"))
+                                        {
+                                            transferFromSa();
+                                        }
+                                        else
+                                        {
+                                            Toast.makeText(TransferToSomeoneAccount.this, "Fail transfer! That account is closed", Toast.LENGTH_SHORT).show();
+                                        }
                                     } else {
                                         transferAmount.setError("You must input a number");
                                         transferAmount.requestFocus();
