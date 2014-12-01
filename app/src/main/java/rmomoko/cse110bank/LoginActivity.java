@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.app.Application;
 
 //import parse library
 import com.parse.GetCallback;
@@ -21,6 +22,10 @@ import com.parse.ParseUser;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 
+import rmomoko.cse110bank.Object.CheckingAccount;
+import rmomoko.cse110bank.Object.User;
+import rmomoko.cse110bank.Object.Account;
+
 public class LoginActivity extends Activity{
 
     // UI references.
@@ -28,7 +33,8 @@ public class LoginActivity extends Activity{
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-
+    private User curUser;
+    private CheckingAccount userAccount;
 
 
     @Override
@@ -36,7 +42,10 @@ public class LoginActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Parse.initialize(this, "dJqoRn28p66wHQsJkJKog1zaaRhP3iTDGoSDanYU", "FwLys6BrpNfLyoOWuQCD9vVhIgqYsfjv9RynGOEY");
+
+
+        curUser = new User();
+        userAccount = new CheckingAccount();
 
         // Set up the login form.
         mUsernameView = (EditText) findViewById(R.id.username);
@@ -89,7 +98,8 @@ public class LoginActivity extends Activity{
 
 
     public void attemptLogin() {
-
+        User shuaige = new User();
+        shuaige.getSomeUser("sb");
         // Reset errors.
         mUsernameView.setError(null);
         mPasswordView.setError(null);
@@ -126,48 +136,76 @@ public class LoginActivity extends Activity{
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            ParseUser.logInInBackground(username, password, new LogInCallback() {
-                public void done(ParseUser user, ParseException e) {
-                    if (user != null) {
-                        ParseObject selfAccount = user.getParseObject("Account");
-                        selfAccount.fetchInBackground(new GetCallback<ParseObject>() {
-                            public void done(ParseObject object, ParseException e) {
-                                if (e == null) {
-                                    if(!object.getBoolean("isClosed")) {
-                                        Toast.makeText(LoginActivity.this, "Successful Login!", Toast.LENGTH_SHORT).show();
-                                        Toast.makeText(LoginActivity.this, "Successful login!", Toast.LENGTH_SHORT).show();
-                                        if (ParseUser.getCurrentUser().getBoolean("isCustomer")) {
-                                            pageChangetoCusAcInfo();
-                                        } else {
-                                            pageChangetoAcInfo();
-                                        }
-                                    }
-                                    else
-                                    {
-                                        Toast.makeText(LoginActivity.this, "Fail Login! Account Closed", Toast.LENGTH_SHORT).show();
-                                        showProgress(false);
-                                        View focusView = mUsernameView;
-                                        mUsernameView.setText("");
-                                        mPasswordView.setText("");
-                                        focusView.requestFocus();
-                                    }
-                                } else {
-                                }
-                            }
-                        });
-
-
-                    } else {
+            User.logInInBackground(username, password, new LogInCallback() {
+                @Override
+                public void done(ParseUser parseUser, ParseException e) {
+                    if(parseUser != null)
+                    {
+                        curUser = (User)User.getCurrentUser();
+                        loginCheck();
+                    }
+                    else
+                    {
                         Toast.makeText(LoginActivity.this, "Fail Login!", Toast.LENGTH_LONG).show();
                         showProgress(false);
-                        View focusView = mUsernameView;
+                        View focus = mUsernameView;
                         mUsernameView.setError("The username or password is incorrect");
                         mUsernameView.setText("");
                         mPasswordView.setText("");
-                        focusView.requestFocus();
+                        focus.requestFocus();
                     }
                 }
             });
+        }
+    }
+
+    public void loginCheck()
+    {
+        if(curUser.isCustomer())
+        {
+            userAccount = curUser.getAccount();
+            userAccount.fetchInBackground(new GetCallback<CheckingAccount>() {
+                @Override
+                public void done(CheckingAccount temp, ParseException e) {
+                    if(e == null)
+                    {
+                        accountCheck();
+                    }
+                    else
+                    {
+                        Toast.makeText(LoginActivity.this, "Fail Login! No Account", Toast.LENGTH_LONG).show();
+                        showProgress(false);
+                        View focus = mUsernameView;
+                        mUsernameView.setText("");
+                        mPasswordView.setText("");
+                        focus.requestFocus();
+                    }
+                }
+            });
+        }
+        else
+        {
+            Toast.makeText(LoginActivity.this, "Successful Login!", Toast.LENGTH_SHORT).show();
+            pageChangetoAcInfo();
+        }
+
+    }
+
+    public void accountCheck()
+    {
+        if(!userAccount.isClosed())
+        {
+            Toast.makeText(LoginActivity.this, "Successful Login!", Toast.LENGTH_SHORT).show();
+            pageChangetoCusAcInfo();
+        }
+        else
+        {
+            Toast.makeText(LoginActivity.this, "Fail Login! Account Closed", Toast.LENGTH_SHORT).show();
+            showProgress(false);
+            View focus = mUsernameView;
+            mUsernameView.setText("");
+            mPasswordView.setText("");
+            focus.requestFocus();
         }
     }
 

@@ -4,6 +4,8 @@
 package rmomoko.cse110bank.Object;
 public class CheckingAccount extends Account {
 
-
+    public CheckingAccount()
+    {
+    }
 
 }

@@ -4,6 +4,8 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.LogInCallback;
+import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -14,28 +16,28 @@ import java.util.List;
 /**
  * Created by Yuxiao on 11/22/2014.
  */
-public class User{
+@ParseClassName("_User")
+public class User extends ParseUser{
 
-    String username;
+    private ParseUser user;
 
     public User()
     {
-        username = "";
     }
 
-    public void getCurUser()
+    public boolean isCustomer()
     {
-        ParseUser current= ParseUser.getCurrentUser();
-        if(current != null)
-        {
-            username = current.getUsername();
-        }
+        return getBoolean("isCustomer");
+    }
+
+    public CheckingAccount getAccount()
+    {
+        return (CheckingAccount) getParseObject("Account");
     }
 
     public void getSomeUser(String email)
     {
-        System.out.println("1");
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
+       /* ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("email",email);
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
@@ -51,13 +53,9 @@ public class User{
                     }
                 }
             }
-        });
+        });*/
     }
 
-    public String getUserName()
-    {
-        return username;
-    }
 
 
 

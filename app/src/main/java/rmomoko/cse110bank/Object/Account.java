@@ -2,40 +2,48 @@
  * Created by kobeguo on 2014/11/2.
  */
 package rmomoko.cse110bank.Object;
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+import com.parse.Parse;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+
 import java.lang.String;
 import java.sql.Time;
 
-
-public class Account {
+@ParseClassName("Account")
+public class Account extends ParseObject{
     private String owner;
-    private boolean open;
+    private boolean isClosed;
     private double  balance;
    // private Time license100;
 
 
     public Account()
-    {}
+    {
+    }
 
-    public Account(String owner, boolean open, double balance){
-        this.owner = owner;
-        this.open = open;
-        this.balance = balance;
-//        this. license100.setTime(0);
+
+
+    public boolean isClosed()
+    {
+        return getBoolean("isClosed");
     }
 
     public void close(){
-        this.open = false;
+        this.isClosed = false;
     }
 
     public double depoiste(double amount){
-        if(open) {
+        if(isClosed) {
             balance += amount;
             return balance;
         }
         return -2;
     }
     public double withdraw(double amount){
-        if(balance > amount && open) {
+        if(balance > amount && isClosed) {
             balance -= amount;
             return balance;
         }
@@ -44,7 +52,7 @@ public class Account {
     }
 
     public  double checkBalance(){
-        if(open)
+        if(isClosed)
             return balance;
         else
             return -2;
