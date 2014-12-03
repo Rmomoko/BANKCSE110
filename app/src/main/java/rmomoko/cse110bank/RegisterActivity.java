@@ -172,6 +172,7 @@ public class RegisterActivity extends Activity{
             User user = new User();
             user.setUsername(username);
             user.setPassword(password);
+           // System.out.println("0");
 
             // other fields can be set just like with ParseObject
             user.put("realname", realName);
@@ -181,11 +182,15 @@ public class RegisterActivity extends Activity{
             user.put("address",address);
             user.put("phone",phone);
             user.put("isCustomer", true);
-
+           // System.out.println("1");
 
             user.signUpInBackground(new SignUpCallback() {
                 public void done(ParseException e) {
+             //       System.out.println("2");
+
                     if (e == null) {
+               //         System.out.println("3");
+
                         // Hooray! Let them use the app now.
                         Toast.makeText(RegisterActivity.this, "Successful Signup!", Toast.LENGTH_SHORT).show();
                         Account account = new Account();
@@ -199,6 +204,8 @@ public class RegisterActivity extends Activity{
                         pageChange();
 
                     } else {
+                 //       System.out.println("4");
+
                         if(e.getCode() == ParseException.USERNAME_TAKEN)
                         {
                             mUsernameView.setError("Username exist");

@@ -18,7 +18,7 @@ public class App extends Application{
         super.onCreate();
         ParseUser.registerSubclass(User.class);
         ParseObject.registerSubclass(Account.class);
-        Account.registerSubclass(CheckingAccount.class);
+        //Account.registerSubclass(CheckingAccount.class);
         Parse.initialize(this, "dJqoRn28p66wHQsJkJKog1zaaRhP3iTDGoSDanYU", "FwLys6BrpNfLyoOWuQCD9vVhIgqYsfjv9RynGOEY");
     }
 
