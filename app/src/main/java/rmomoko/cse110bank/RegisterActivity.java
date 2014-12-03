@@ -27,6 +27,9 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.SignUpCallback;
 
+import rmomoko.cse110bank.Object.User;
+import rmomoko.cse110bank.Object.Account;
+
 
 public class RegisterActivity extends Activity{
 
@@ -166,7 +169,7 @@ public class RegisterActivity extends Activity{
 
             //save data here
             // store information to parse.com  (edited by Joe)
-            ParseUser user = new ParseUser();
+            User user = new User();
             user.setUsername(username);
             user.setPassword(password);
 
@@ -185,7 +188,7 @@ public class RegisterActivity extends Activity{
                     if (e == null) {
                         // Hooray! Let them use the app now.
                         Toast.makeText(RegisterActivity.this, "Successful Signup!", Toast.LENGTH_SHORT).show();
-                        ParseObject account = new ParseObject("Account");
+                        Account account = new Account();
                         account.put("savingAccount", 500);
                         account.put("checkingAccount", 0);
                         account.put("isClosed", false);

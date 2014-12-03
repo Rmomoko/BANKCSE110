@@ -34,7 +34,7 @@ public class LoginActivity extends Activity{
     private View mProgressView;
     private View mLoginFormView;
     private User curUser;
-    private CheckingAccount userAccount;
+    private Account userAccount;
 
 
     @Override
@@ -45,7 +45,7 @@ public class LoginActivity extends Activity{
 
 
         curUser = new User();
-        userAccount = new CheckingAccount();
+        userAccount = new Account();
 
         // Set up the login form.
         mUsernameView = (EditText) findViewById(R.id.username);
@@ -99,7 +99,6 @@ public class LoginActivity extends Activity{
 
     public void attemptLogin() {
         User shuaige = new User();
-        shuaige.getSomeUser("sb");
         // Reset errors.
         mUsernameView.setError(null);
         mPasswordView.setError(null);
@@ -164,9 +163,9 @@ public class LoginActivity extends Activity{
         if(curUser.isCustomer())
         {
             userAccount = curUser.getAccount();
-            userAccount.fetchInBackground(new GetCallback<CheckingAccount>() {
+            userAccount.fetchInBackground(new GetCallback<Account>() {
                 @Override
-                public void done(CheckingAccount temp, ParseException e) {
+                public void done(Account temp, ParseException e) {
                     if(e == null)
                     {
                         accountCheck();

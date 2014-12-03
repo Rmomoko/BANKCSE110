@@ -19,20 +19,18 @@ import java.util.List;
 @ParseClassName("_User")
 public class User extends ParseUser{
 
-    private ParseUser user;
 
     public User()
-    {
-    }
+    {}
 
     public boolean isCustomer()
     {
         return getBoolean("isCustomer");
     }
 
-    public CheckingAccount getAccount()
+    public Account getAccount()
     {
-        return (CheckingAccount) getParseObject("Account");
+        return (Account) getParseObject("Account");
     }
 
     public void getSomeUser(String email)
