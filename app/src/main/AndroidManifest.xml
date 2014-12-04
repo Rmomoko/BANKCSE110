@@ -6,7 +6,7 @@
     <application
         android:allowBackup="true"
         android:name=".App"
-        android:icon="@drawable/eor"
+        android:icon="@drawable/ojc"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
