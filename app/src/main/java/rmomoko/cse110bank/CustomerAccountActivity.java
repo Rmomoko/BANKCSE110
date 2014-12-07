@@ -30,6 +30,12 @@ import com.parse.ParseException;
 import com.parse.SignUpCallback;
 import com.parse.ParseQuery;
 
+
+import rmomoko.cse110bank.Object.CheckingAccount;
+import rmomoko.cse110bank.Object.SavingAccount;
+import rmomoko.cse110bank.Object.User;
+import rmomoko.cse110bank.Object.Account;
+
 /**
  * Created by Yuxiao on 11/9/2014.
  */
@@ -37,7 +43,9 @@ public class CustomerAccountActivity extends Activity{
 
     private TextView checkingNumber;
     private TextView savingNumber;
-
+    private User user;
+    private CheckingAccount userCheckAccount;
+    private SavingAccount userSaveAccount;
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -48,14 +56,24 @@ public class CustomerAccountActivity extends Activity{
         checkingNumber = (TextView) findViewById(R.id.cus_check_number);
         savingNumber = (TextView) findViewById(R.id.cus_save_number);
 
-        ParseUser user = ParseUser.getCurrentUser();
-        ParseObject account = user.getParseObject("Account");
+        user = (User)ParseUser.getCurrentUser();
 
-        account.fetchInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
+        userCheckAccount = user.getCheckingAccount();
+        userSaveAccount = user.getSavingAccount();
+
+        userCheckAccount.fetchInBackground(new GetCallback<CheckingAccount>() {
+            public void done(CheckingAccount object, ParseException e) {
                 if (e == null) {
-                    checkingNumber.setText("$ " + object.getNumber("checkingAccount").toString());
-                    savingNumber.setText("$ " + object.getNumber("savingAccount").toString());
+                    userSaveAccount.fetchInBackground(new GetCallback<SavingAccount>() {
+                        public void done(SavingAccount object, ParseException e) {
+                            if (e == null) {
+                                checkingNumber.setText("$ " + userCheckAccount.getNumber("balance").toString());
+                                savingNumber.setText("$ " + userSaveAccount.getNumber("balance").toString());
+                            }
+                            else
+                            {}
+                        }
+                    });
                 } else {
                 }
             }

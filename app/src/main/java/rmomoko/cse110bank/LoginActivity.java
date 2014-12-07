@@ -166,13 +166,31 @@ public class LoginActivity extends Activity{
             userCheckAccount = curUser.getCheckingAccount();
             userSaveAccount = curUser.getSavingAccount();
 
+
             userCheckAccount.fetchInBackground(new GetCallback<CheckingAccount>() {
                 @Override
-                public void done(CheckingAccount temp, ParseException e) {
+                public void done(CheckingAccount checkTemp, ParseException e) {
                     if(e == null)
                     {
-                       // System.out.println("check:" + userAccount.isClosed());
-                        accountCheck();
+                        userSaveAccount.fetchInBackground(new GetCallback<SavingAccount>() {
+                            @Override
+                            public void done(SavingAccount saveTemp, ParseException e) {
+                                if(e != null)
+                                {
+                                    accountCheck();
+                                }
+                                else
+                                {
+                                    Toast.makeText(LoginActivity.this, "Fail Login! No Account", Toast.LENGTH_LONG).show();
+                                    showProgress(false);
+                                    View focus = mUsernameView;
+                                    mUsernameView.setText("");
+                                    mPasswordView.setText("");
+                                    focus.requestFocus();
+                                }
+
+                            }
+                        });
                     }
                     else
                     {
@@ -196,14 +214,14 @@ public class LoginActivity extends Activity{
 
     public void accountCheck()
     {
-        if(!userCheckAccount.isClosed())
+        if(!userCheckAccount.isClosed() || !userSaveAccount.isClosed())
         {
             Toast.makeText(LoginActivity.this, "Successful Login!", Toast.LENGTH_SHORT).show();
             pageChangetoCusAcInfo();
         }
         else
         {
-            Toast.makeText(LoginActivity.this, "Fail Login! Account Closed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Fail Login! All Account Closed", Toast.LENGTH_SHORT).show();
             showProgress(false);
             View focus = mUsernameView;
             mUsernameView.setText("");
