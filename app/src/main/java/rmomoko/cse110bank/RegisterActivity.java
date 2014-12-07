@@ -29,6 +29,8 @@ import com.parse.SignUpCallback;
 
 import rmomoko.cse110bank.Object.User;
 import rmomoko.cse110bank.Object.Account;
+import rmomoko.cse110bank.Object.CheckingAccount;
+import rmomoko.cse110bank.Object.SavingAccount;
 
 
 public class RegisterActivity extends Activity{
@@ -51,7 +53,6 @@ public class RegisterActivity extends Activity{
         setContentView(R.layout.activity_register);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         // set application id and client key:
-        Parse.initialize(this, "dJqoRn28p66wHQsJkJKog1zaaRhP3iTDGoSDanYU", "FwLys6BrpNfLyoOWuQCD9vVhIgqYsfjv9RynGOEY");
 
         // Set up the login form.
         mUsernameView = (EditText) findViewById(R.id.user_userName_edit);
@@ -166,15 +167,10 @@ public class RegisterActivity extends Activity{
             // perform the user login attempt.
             showProgress(true);
 
-
-            //save data here
-            // store information to parse.com  (edited by Joe)
             User user = new User();
             user.setUsername(username);
             user.setPassword(password);
-           // System.out.println("0");
 
-            // other fields can be set just like with ParseObject
             user.put("realname", realName);
             user.put("birthday",birthday);
             user.setEmail(email);
@@ -182,23 +178,23 @@ public class RegisterActivity extends Activity{
             user.put("address",address);
             user.put("phone",phone);
             user.put("isCustomer", true);
-           // System.out.println("1");
 
             user.signUpInBackground(new SignUpCallback() {
                 public void done(ParseException e) {
-             //       System.out.println("2");
-
                     if (e == null) {
-               //         System.out.println("3");
-
-                        // Hooray! Let them use the app now.
                         Toast.makeText(RegisterActivity.this, "Successful Signup!", Toast.LENGTH_SHORT).show();
-                        Account account = new Account();
-                        account.put("savingAccount", 500);
-                        account.put("checkingAccount", 0);
-                        account.put("isClosed", false);
+
+                        CheckingAccount checkingAccount = new CheckingAccount();
+                        checkingAccount.put("balance", 0);
+                        checkingAccount.put("isClosed", false);
+
+                        SavingAccount savingAccount = new SavingAccount();
+                        savingAccount.put("balance", 500);
+                        savingAccount.put("isClosed", false);
+
                         User user = (User)ParseUser.getCurrentUser();
-                        user.put("Account", account);
+                        user.put("CheckingAccount", checkingAccount);
+                        user.put("SavingAccount", savingAccount);
                         user.saveInBackground();
                         // go back to log in page
                         pageChange();
