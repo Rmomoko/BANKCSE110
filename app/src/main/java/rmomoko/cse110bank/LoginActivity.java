@@ -23,10 +23,9 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 
 import rmomoko.cse110bank.Object.CheckingAccount;
-import rmomoko.cse110bank.Object.Customer;
+import rmomoko.cse110bank.Object.SavingAccount;
 import rmomoko.cse110bank.Object.User;
 import rmomoko.cse110bank.Object.Account;
-import rmomoko.cse110bank.Object.Customer;
 
 public class LoginActivity extends Activity{
 
@@ -36,7 +35,8 @@ public class LoginActivity extends Activity{
     private View mProgressView;
     private View mLoginFormView;
     private User curUser;
-    private Account userAccount;
+    private CheckingAccount userCheckAccount;
+    private SavingAccount userSaveAccount;
 
 
     @Override
@@ -45,7 +45,8 @@ public class LoginActivity extends Activity{
         setContentView(R.layout.activity_login);
 
         curUser = new User();
-        userAccount = new Account();
+        userCheckAccount = new CheckingAccount();
+        userSaveAccount = new SavingAccount();
 
         // Set up the login form.
         mUsernameView = (EditText) findViewById(R.id.username);
@@ -162,11 +163,12 @@ public class LoginActivity extends Activity{
     {
         if(curUser.isCustomer())
         {
-            userAccount = curUser.getAccount();
+            userCheckAccount = curUser.getCheckingAccount();
+            userSaveAccount = curUser.getSavingAccount();
 
-            userAccount.fetchInBackground(new GetCallback<Account>() {
+            userCheckAccount.fetchInBackground(new GetCallback<CheckingAccount>() {
                 @Override
-                public void done(Account temp, ParseException e) {
+                public void done(CheckingAccount temp, ParseException e) {
                     if(e == null)
                     {
                        // System.out.println("check:" + userAccount.isClosed());
@@ -194,7 +196,7 @@ public class LoginActivity extends Activity{
 
     public void accountCheck()
     {
-        if(!userAccount.isClosed())
+        if(!userCheckAccount.isClosed())
         {
             Toast.makeText(LoginActivity.this, "Successful Login!", Toast.LENGTH_SHORT).show();
             pageChangetoCusAcInfo();

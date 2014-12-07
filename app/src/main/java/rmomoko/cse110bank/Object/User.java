@@ -28,9 +28,14 @@ public class User extends ParseUser{
         return getBoolean("isCustomer");
     }
 
-    public Account getAccount()
+    public CheckingAccount getCheckingAccount()
     {
-        return (Account) getParseObject("Account");
+        return (CheckingAccount) getParseObject("CheckingAccount");
+    }
+
+    public SavingAccount getSavingAccount()
+    {
+        return (SavingAccount) getParseObject("SavingAccount");
     }
 
     public void getSomeUser(String email)
