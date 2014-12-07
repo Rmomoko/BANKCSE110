@@ -31,6 +31,17 @@ public class Account extends ParseObject{
         return getBoolean("isClosed");
     }
 
+    public void closeAccount()
+    {
+        put("isClosed", true);
+        saveInBackground();
+    }
+
+    public int getBalance()
+    {
+        return getInt("Balance");
+    }
+
     public void close(){
         this.isClosed = false;
     }

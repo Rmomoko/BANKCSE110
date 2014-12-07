@@ -15,12 +15,16 @@ import android.widget.Toast;
 import android.app.Application;
 
 //import parse library
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import rmomoko.cse110bank.Object.CheckingAccount;
 import rmomoko.cse110bank.Object.SavingAccount;
@@ -163,9 +167,9 @@ public class LoginActivity extends Activity{
     {
         if(curUser.isCustomer())
         {
+
             userCheckAccount = curUser.getCheckingAccount();
             userSaveAccount = curUser.getSavingAccount();
-
 
             userCheckAccount.fetchInBackground(new GetCallback<CheckingAccount>() {
                 @Override
@@ -175,7 +179,7 @@ public class LoginActivity extends Activity{
                         userSaveAccount.fetchInBackground(new GetCallback<SavingAccount>() {
                             @Override
                             public void done(SavingAccount saveTemp, ParseException e) {
-                                if(e != null)
+                                if(e == null)
                                 {
                                     accountCheck();
                                 }

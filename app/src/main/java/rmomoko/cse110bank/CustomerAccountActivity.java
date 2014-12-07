@@ -67,15 +67,24 @@ public class CustomerAccountActivity extends Activity{
                     userSaveAccount.fetchInBackground(new GetCallback<SavingAccount>() {
                         public void done(SavingAccount object, ParseException e) {
                             if (e == null) {
-                                checkingNumber.setText("$ " + userCheckAccount.getNumber("balance").toString());
-                                savingNumber.setText("$ " + userSaveAccount.getNumber("balance").toString());
+                                System.out.println(""+userCheckAccount.getBalance());
+                                System.out.println(""+userSaveAccount.getBalance());
+
+                                if(!userCheckAccount.isClosed())
+                                    checkingNumber.setText("$ " + userCheckAccount.getBalance());
+                                else
+                                    checkingNumber.setText("Account Closed");
+                                if(!userSaveAccount.isClosed())
+                                    savingNumber.setText("$ " + userSaveAccount.getBalance());
+                                else
+                                    savingNumber.setText("Account Closed");
                             }
                             else
                             {}
                         }
                     });
-                } else {
-                }
+                } else
+                {}
             }
         });
 
@@ -95,20 +104,50 @@ public class CustomerAccountActivity extends Activity{
             }
         });
 
-        Button closeButton = (Button) findViewById(R.id.cus_close_button);
-        closeButton.setOnClickListener(new OnClickListener() {
+        Button closeCheckButton = (Button) findViewById(R.id.cus_close_check_button);
+        closeCheckButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                ParseUser user = ParseUser.getCurrentUser();
-                ParseObject account = user.getParseObject("Account");
-                account.fetchInBackground(new GetCallback<ParseObject>() {
-                    public void done(ParseObject object, ParseException e) {
+                user = (User)ParseUser.getCurrentUser();
+                userCheckAccount = user.getCheckingAccount();
+                userCheckAccount.fetchInBackground(new GetCallback<CheckingAccount>() {
+                    public void done(CheckingAccount object, ParseException e) {
                         if (e == null) {
-                            object.put("isClosed", true);
-                            object.saveInBackground();
-                            ParseUser.logOut();
-                            Toast.makeText(CustomerAccountActivity.this, "Your account is closed!", Toast.LENGTH_SHORT).show();
-                            pageToLogin();
+                            if(object.isClosed() == false) {
+                                object.closeAccount();
+                                checkingNumber.setText("Account Closed");
+                                Toast.makeText(CustomerAccountActivity.this, "Your account is closed now!", Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(CustomerAccountActivity.this, "Your account is already closed!", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                        }
+                    }
+                });
+
+            }
+        });
+
+        Button closeSaveButton = (Button) findViewById(R.id.cus_close_saving_button);
+        closeSaveButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                user = (User)ParseUser.getCurrentUser();
+                userSaveAccount = user.getSavingAccount();
+                userSaveAccount.fetchInBackground(new GetCallback<SavingAccount>() {
+                    public void done(SavingAccount object, ParseException e) {
+                        if (e == null) {
+                            if(object.isClosed() == false) {
+                                object.closeAccount();
+                                savingNumber.setText("Account Closed");
+                                Toast.makeText(CustomerAccountActivity.this, "Your account is closed now!", Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(CustomerAccountActivity.this, "Your account is already closed!", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
                         }
                     }
