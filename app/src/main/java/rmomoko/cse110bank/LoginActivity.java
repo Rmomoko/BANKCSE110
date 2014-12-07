@@ -23,8 +23,10 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 
 import rmomoko.cse110bank.Object.CheckingAccount;
+import rmomoko.cse110bank.Object.Customer;
 import rmomoko.cse110bank.Object.User;
 import rmomoko.cse110bank.Object.Account;
+import rmomoko.cse110bank.Object.Customer;
 
 public class LoginActivity extends Activity{
 
@@ -41,8 +43,6 @@ public class LoginActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
 
         curUser = new User();
         userAccount = new Account();
@@ -163,11 +163,13 @@ public class LoginActivity extends Activity{
         if(curUser.isCustomer())
         {
             userAccount = curUser.getAccount();
+
             userAccount.fetchInBackground(new GetCallback<Account>() {
                 @Override
                 public void done(Account temp, ParseException e) {
                     if(e == null)
                     {
+                       // System.out.println("check:" + userAccount.isClosed());
                         accountCheck();
                     }
                     else

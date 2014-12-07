@@ -197,7 +197,7 @@ public class RegisterActivity extends Activity{
                         account.put("savingAccount", 500);
                         account.put("checkingAccount", 0);
                         account.put("isClosed", false);
-                        ParseUser user = ParseUser.getCurrentUser();
+                        User user = (User)ParseUser.getCurrentUser();
                         user.put("Account", account);
                         user.saveInBackground();
                         // go back to log in page
