@@ -25,7 +25,7 @@
                 android:layout_centerHorizontal="true"
                 android:focusableInTouchMode="false"
                 android:focusable="false"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="30dp"
                 android:footerDividersEnabled="true"
                 android:divider="@color/teal" />
 
@@ -79,6 +79,7 @@
                 android:background="@color/teal"
                 style="?android:textAppearanceSmall"
                 android:textStyle="bold"
+
                 android:layout_centerHorizontal="true" />
 
             <Button
@@ -90,6 +91,7 @@
                 android:layout_below="@+id/open_saving_button"
                 android:layout_gravity="center"
                 android:background="@color/teal"
+                android:layout_marginTop="5dp"
                 style="?android:textAppearanceSmall"
                 android:textStyle="bold"
                 android:layout_centerHorizontal="true" />
@@ -102,6 +104,7 @@
                 android:layout_below="@+id/open_saving_button"
                 android:layout_gravity="center"
                 android:background="@color/teal"
+                android:layout_marginTop="5dp"
                 style="?android:textAppearanceSmall"
                 android:textStyle="bold"
                 android:layout_centerHorizontal="true" />
@@ -113,6 +116,7 @@
                 android:id="@+id/save_penalty_button"
                 android:layout_below="@+id/open_saving_button"
                 android:layout_gravity="center"
+                android:layout_marginTop="5dp"
                 android:background="@color/teal"
                 style="?android:textAppearanceSmall"
                 android:textStyle="bold"
@@ -125,6 +129,7 @@
                 android:id="@+id/check_interest_button"
                 android:layout_below="@+id/open_saving_button"
                 android:layout_gravity="center"
+                android:layout_marginTop="5dp"
                 android:background="@color/teal"
                 style="?android:textAppearanceSmall"
                 android:textStyle="bold"
@@ -137,6 +142,7 @@
                 android:id="@+id/save_interest_button"
                 android:layout_below="@+id/open_saving_button"
                 android:layout_gravity="center"
+                android:layout_marginTop="5dp"
                 android:background="@color/teal"
                 style="?android:textAppearanceSmall"
                 android:textStyle="bold"
