@@ -10,17 +10,29 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.Date;
+import java.util.List;
+
+import rmomoko.cse110bank.Object.User;
+import rmomoko.cse110bank.Object.Account;
+import rmomoko.cse110bank.Object.CheckingAccount;
+import rmomoko.cse110bank.Object.SavingAccount;
 /**
  * Created by Yuxiao on 11/16/2014.
  */
 public class TransferBetweenMyAccount extends Activity {
     private EditText transferAmount;
     private int amount;
+    private User someone;
+    private CheckingAccount userCheckAccount;
+    private SavingAccount userSaveAccount;
 
     public void onCreate(Bundle savedInstanceState) {
 
@@ -65,25 +77,49 @@ public class TransferBetweenMyAccount extends Activity {
 
     public void transferFromSaToCk(){
         amount = Integer.parseInt(transferAmount.getText().toString());
-        ParseUser user = ParseUser.getCurrentUser();
-        ParseObject account = user.getParseObject("Account");
-        account.fetchInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    int currentSaving = object.getNumber("savingAccount").intValue();
-                    int currentChecking =  object.getNumber("checkingAccount").intValue();
+        someone = (User)ParseUser.getCurrentUser();
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("username",someone.getUsername());
+        query.include("CheckingAccount");
+        query.include("SavingAccount");
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> parseUsers, ParseException e) {
+                if(e == null && !parseUsers.isEmpty())
+                {
+                    someone = (User)parseUsers.get(0);
+                    userCheckAccount = someone.getCheckingAccount();
+                    userSaveAccount = someone.getSavingAccount();
+                    int currentSaving = userSaveAccount.getBalance();
+                    int currentChecking = userCheckAccount.getBalance();
                     if(amount > currentSaving)
                     {
                         transferAmount.setError("Not enough money");
                     }
-                    else{
-                        object.put("checkingAccount", currentChecking + amount);
-                        object.put("savingAccount", currentSaving - amount);
-                        object.saveInBackground();
+                    else
+                    {
+                        userCheckAccount.put("balance", currentChecking + amount);
+                        userSaveAccount.put("balance", currentSaving - amount);
+                        userCheckAccount.saveInBackground();
+                        userSaveAccount.saveInBackground();
+                        Date currentTime = userCheckAccount.getUpdatedAt();
+                        String temp = userCheckAccount.getHistory();
+                        temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
+                                + userCheckAccount.getBalance() + " TransferIn " + amount + " from SelfAccount" + "\n";
+                        userCheckAccount.put("history", temp);
+                        userCheckAccount.saveInBackground();
+                        temp = userSaveAccount.getHistory();
+                        temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
+                                + userSaveAccount.getBalance() + " TransferOut " + amount + " To SelfAccount" + "\n";
+                        userSaveAccount.put("history", temp);
+                        userSaveAccount.saveInBackground();
                         Toast.makeText(TransferBetweenMyAccount.this, "Successful transfer!", Toast.LENGTH_SHORT).show();
                         pageChange();
                     }
-                } else {
+                }
+                else
+                {
+                    Toast.makeText(TransferBetweenMyAccount.this, "Fail Catch!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -91,25 +127,43 @@ public class TransferBetweenMyAccount extends Activity {
 
     public void transferFromCkToSa(){
         amount = Integer.parseInt(transferAmount.getText().toString());
-        ParseUser user = ParseUser.getCurrentUser();
-        ParseObject account = user.getParseObject("Account");
-        account.fetchInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    int currentChecking = object.getNumber("checkingAccount").intValue();
-                    int currentSaving = object.getNumber("savingAccount").intValue();
-                    if(amount > currentChecking)
-                    {
+        someone = (User)ParseUser.getCurrentUser();
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("username",someone.getUsername());
+        query.include("CheckingAccount");
+        query.include("SavingAccount");
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> parseUsers, ParseException e) {
+                if (e == null && !parseUsers.isEmpty()) {
+                    someone = (User) parseUsers.get(0);
+                    userCheckAccount = someone.getCheckingAccount();
+                    userSaveAccount = someone.getSavingAccount();
+                    int currentSaving = userSaveAccount.getBalance();
+                    int currentChecking = userCheckAccount.getBalance();
+                    if (amount > currentChecking) {
                         transferAmount.setError("Not enough money");
-                    }
-                    else{
-                        object.put("checkingAccount", currentChecking - amount);
-                        object.put("savingAccount", currentSaving + amount);
-                        object.saveInBackground();
+                    } else {
+                        userCheckAccount.put("balance", currentChecking - amount);
+                        userSaveAccount.put("balance", currentSaving + amount);
+                        userCheckAccount.saveInBackground();
+                        userSaveAccount.saveInBackground();
+                        Date currentTime = userCheckAccount.getUpdatedAt();
+                        String temp = userCheckAccount.getHistory();
+                        temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
+                                + userCheckAccount.getBalance() + " TransferOut " + amount + " To SelfAccount" + "\n";
+                        userCheckAccount.put("history", temp);
+                        userCheckAccount.saveInBackground();
+                        temp = userSaveAccount.getHistory();
+                        temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
+                                + userSaveAccount.getBalance() + " TransferIn " + amount + " From SelfAccount" + "\n";
+                        userSaveAccount.put("history", temp);
+                        userSaveAccount.saveInBackground();
                         Toast.makeText(TransferBetweenMyAccount.this, "Successful transfer!", Toast.LENGTH_SHORT).show();
                         pageChange();
                     }
                 } else {
+                    Toast.makeText(TransferBetweenMyAccount.this, "Fail Catch!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -187,10 +187,12 @@ public class RegisterActivity extends Activity{
                         CheckingAccount checkingAccount = new CheckingAccount();
                         checkingAccount.put("balance", 0);
                         checkingAccount.put("isClosed", false);
+                        checkingAccount.put("history", "");
 
                         SavingAccount savingAccount = new SavingAccount();
-                        savingAccount.put("balance", 500);
+                        savingAccount.put("balance", 0);
                         savingAccount.put("isClosed", false);
+                        savingAccount.put("history", "");
 
                         User user = (User)ParseUser.getCurrentUser();
                         user.put("CheckingAccount", checkingAccount);

@@ -20,6 +20,11 @@ import com.parse.SaveCallback;
 
 import java.util.List;
 
+import rmomoko.cse110bank.Object.User;
+import rmomoko.cse110bank.Object.Account;
+import rmomoko.cse110bank.Object.CheckingAccount;
+import rmomoko.cse110bank.Object.SavingAccount;
+
 /**
  * Created by yenhsialin on 10/25/2014.
  */
@@ -27,43 +32,40 @@ public class EmployeeModifiedCus extends Activity{
     private TextView checkingNumber;
     private TextView savingNumber;
     private String someoneEmail;
-    private ParseUser someone;
+    private User someone;
+    private CheckingAccount userCheckAccount;
+    private SavingAccount userSaveAccount;
 
     public void onCreate(Bundle savedInstanceState){
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_change_account);
         getActionBar().setDisplayHomeAsUpEnabled(true);
+
         checkingNumber = (TextView) findViewById(R.id.checkingNumber);
         savingNumber = (TextView) findViewById(R.id.savingNumber);
         someoneEmail = getIntent().getStringExtra("someoneEmail");
 
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("email",someoneEmail);
+        query.include("CheckingAccount");
+        query.include("SavingAccount");
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> parseUsers, ParseException e) {
-                if(e == null)
+                if(e == null && !parseUsers.isEmpty())
                 {
-                    if(!parseUsers.isEmpty()) {
-                        someone = parseUsers.get(0);
-                        ParseObject account = someone.getParseObject("Account");
-                        account.fetchInBackground(new GetCallback<ParseObject>() {
-                            public void done(ParseObject object, ParseException e) {
-                                if (e == null) {
-                                    checkingNumber.setText("$ " + object.getNumber("checkingAccount").toString());
-                                    savingNumber.setText("$ " + object.getNumber("savingAccount").toString());
-                                } else {
-                                    checkingNumber.setText("No User");
-                                    savingNumber.setText("No User");
-                                }
-                            }
-                        });
-                    }
+                    someone = (User)parseUsers.get(0);
+                    userCheckAccount = someone.getCheckingAccount();
+                    userSaveAccount = someone.getSavingAccount();
+                    if(!userCheckAccount.isClosed())
+                        checkingNumber.setText("$ " + userCheckAccount.getBalance());
                     else
-                    {
-                        Toast.makeText(EmployeeModifiedCus.this, "Fail Catch!", Toast.LENGTH_SHORT).show();
-                    }
+                        checkingNumber.setText("Account Closed");
+                    if(!userSaveAccount.isClosed())
+                        savingNumber.setText("$ " + userSaveAccount.getBalance());
+                    else
+                        savingNumber.setText("Account Closed");
                 }
                 else
                 {
@@ -92,44 +94,7 @@ public class EmployeeModifiedCus extends Activity{
             }
         });
 
-        Button empCloseButton = (Button) findViewById(R.id.emp_close_button);
-        empCloseButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //System.out.println(""+someone.getObjectId());
-               // someone.becomeInBackground("");
-                /*
-                someone.put("birthday", "123123123");
-                someone.saveInBackground();
-                Toast.makeText(EmployeeModifiedCus.this, "This account is closed!", Toast.LENGTH_SHORT).show();
-                pageToChoose();*/
-                //ParseUser user;
-                ParseObject selfAccount = someone.getParseObject("Account");
-                selfAccount.fetchInBackground(new GetCallback<ParseObject>() {
-                    public void done(ParseObject object, ParseException e) {
-                        if (e == null) {
-                            object.put("isClosed", true);
-                            object.saveInBackground();
-                            Toast.makeText(EmployeeModifiedCus.this, "This account is closed!", Toast.LENGTH_SHORT).show();
-                            pageToChoose();
-                        } else {
-                        }
-                    }
-                });
 
-                /*
-                someone.fetchInBackground(new GetCallback<ParseUser>() {
-                    @Override
-                    public void done(ParseUser user, ParseException e) {
-                        user.put("isClosed", true);
-                        user.saveInBackground();
-
-                        Toast.makeText(EmployeeModifiedCus.this, "This account is closed!", Toast.LENGTH_SHORT).show();
-                        pageToChoose();
-                    }
-                });*/
-            }
-        });
 
     }
 

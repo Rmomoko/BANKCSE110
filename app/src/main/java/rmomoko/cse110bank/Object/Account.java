@@ -39,7 +39,12 @@ public class Account extends ParseObject{
 
     public int getBalance()
     {
-        return getInt("Balance");
+        return getNumber("balance").intValue();
+    }
+
+    public String getHistory()
+    {
+        return getString("history");
     }
 
     public void close(){

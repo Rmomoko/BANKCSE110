@@ -20,10 +20,15 @@ import com.parse.ParseUser;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import rmomoko.cse110bank.Object.User;
+import rmomoko.cse110bank.Object.Account;
+import rmomoko.cse110bank.Object.CheckingAccount;
+import rmomoko.cse110bank.Object.SavingAccount;
 /**
  * Created by Yuxiao on 11/16/2014.
  */
@@ -32,18 +37,22 @@ public class TransferToSomeoneAccount extends Activity {
     private EditText transferAmount;
     private EditText someoneEmail;
     private int amount;
-    private ParseUser someone;
     private int currentTo;
-    private ParseObject someoneAccount;
+    private User someone;
+    private CheckingAccount someoneCheckAccount;
+    private User user;
+    private CheckingAccount userCheckAccount;
+    private SavingAccount userSaveAccount;
 
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transfer_to_someone);
-        Parse.initialize(this, "dJqoRn28p66wHQsJkJKog1zaaRhP3iTDGoSDanYU", "FwLys6BrpNfLyoOWuQCD9vVhIgqYsfjv9RynGOEY");
         getActionBar().setDisplayHomeAsUpEnabled(true);
         transferAmount = (EditText) findViewById(R.id.transfer_to_someone_amount);
         someoneEmail = (EditText) findViewById(R.id.transfer_to_someone_email);
+
+        user = (User)ParseUser.getCurrentUser();
 
         Button fromCkButton = (Button) findViewById(R.id.transfer_from_checking);
         fromCkButton.setOnClickListener(new View.OnClickListener() {
@@ -51,54 +60,36 @@ public class TransferToSomeoneAccount extends Activity {
             public void onClick(View view) {
                 if(!someoneEmail.getText().toString().isEmpty()) {
                     ParseQuery<ParseUser> query = ParseUser.getQuery();
-                    query.whereEqualTo("email",someoneEmail.getText().toString());
+                    query.whereEqualTo("email", someoneEmail.getText().toString());
+                    query.include("CheckingAccount");
+                    query.include("SavingAccount");
                     query.findInBackground(new FindCallback<ParseUser>() {
                         @Override
                         public void done(List<ParseUser> parseUsers, ParseException e) {
-                            if(e == null)
-                            {
-                                if(!parseUsers.isEmpty()) {
-                                    someone = parseUsers.get(0);
-                                    if (!transferAmount.getText().toString().isEmpty()) {
-                                        someoneAccount = someone.getParseObject("Account");
-                                        someoneAccount.fetchInBackground(new GetCallback<ParseObject>() {
-                                            public void done(ParseObject object, ParseException e) {
-                                                if (e == null) {
-                                                    if(!object.getBoolean("isClosed"))
-                                                    {
-                                                        if(!someone.getEmail().equals(ParseUser.getCurrentUser().getEmail())) {
-                                                            currentTo = object.getNumber("checkingAccount").intValue();
-                                                            transferFromCk();
-                                                        }
-                                                        else
-                                                        {
-                                                            Toast.makeText(TransferToSomeoneAccount.this, "Fail transfer! Cannot transfer to yourself", Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        Toast.makeText(TransferToSomeoneAccount.this, "Fail transfer! That account is closed", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                } else {
-                                                }
-                                            }
-                                        });
-
+                            if (e == null && !parseUsers.isEmpty()) {
+                                someone = (User) parseUsers.get(0);
+                                if (!transferAmount.getText().toString().isEmpty()) {
+                                    someoneCheckAccount = someone.getCheckingAccount();
+                                    if (!someoneCheckAccount.isClosed()) {
+                                        if (!someone.getEmail().equals(user.getEmail())) {
+                                            currentTo = someoneCheckAccount.getBalance();
+                                            transferFromCk();
+                                        } else {
+                                            Toast.makeText(TransferToSomeoneAccount.this, "Fail transfer! Cannot transfer to yourself", Toast.LENGTH_SHORT).show();
+                                        }
                                     } else {
-                                        transferAmount.setError("You must input a number");
-                                        transferAmount.requestFocus();
+                                        Toast.makeText(TransferToSomeoneAccount.this, "Fail transfer! That account is closed", Toast.LENGTH_SHORT).show();
                                     }
+                                } else {
+                                    transferAmount.setError("You must input a number");
+                                    transferAmount.requestFocus();
                                 }
-                                else
-                                {
-                                    someoneEmail.setError("You must input a valid email");
-                                    someoneEmail.requestFocus();
-                                }
+
                             }
                             else
                             {
-                                someoneEmail.setError("You must input a valid email");
-                                someoneEmail.requestFocus();
+                                transferAmount.setError("You must input an email");
+                                transferAmount.requestFocus();
                             }
                         }
                     });
@@ -117,53 +108,36 @@ public class TransferToSomeoneAccount extends Activity {
             public void onClick(View view) {
                 if(!someoneEmail.getText().toString().isEmpty()) {
                     ParseQuery<ParseUser> query = ParseUser.getQuery();
-                    query.whereEqualTo("email",someoneEmail.getText().toString());
+                    query.whereEqualTo("email", someoneEmail.getText().toString());
+                    query.include("CheckingAccount");
+                    query.include("SavingAccount");
                     query.findInBackground(new FindCallback<ParseUser>() {
                         @Override
                         public void done(List<ParseUser> parseUsers, ParseException e) {
-                            if(e == null)
-                            {
-                                if(!parseUsers.isEmpty()) {
-                                    someone = parseUsers.get(0);
-                                    if (!transferAmount.getText().toString().isEmpty()) {
-                                        someoneAccount = someone.getParseObject("Account");
-                                        someoneAccount.fetchInBackground(new GetCallback<ParseObject>() {
-                                            public void done(ParseObject object, ParseException e) {
-                                                if (e == null) {
-                                                    if(!object.getBoolean("isClosed"))
-                                                    {
-                                                        if(!someone.getEmail().equals(ParseUser.getCurrentUser().getEmail())) {
-                                                            currentTo = object.getNumber("checkingAccount").intValue();
-                                                            transferFromSa();
-                                                        }
-                                                        else
-                                                        {
-                                                            Toast.makeText(TransferToSomeoneAccount.this, "Fail transfer! Cannot transfer to yourself", Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        Toast.makeText(TransferToSomeoneAccount.this, "Fail transfer! That account is closed", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                } else {
-                                                }
-                                            }
-                                        });
+                            if (e == null && !parseUsers.isEmpty()) {
+                                someone = (User) parseUsers.get(0);
+                                if (!transferAmount.getText().toString().isEmpty()) {
+                                    someoneCheckAccount = someone.getCheckingAccount();
+                                    if (!someoneCheckAccount.isClosed()) {
+                                        if (!someone.getEmail().equals(user.getEmail())) {
+                                            currentTo = someoneCheckAccount.getBalance();
+                                            transferFromSa();
+                                        } else {
+                                            Toast.makeText(TransferToSomeoneAccount.this, "Fail transfer! Cannot transfer to yourself", Toast.LENGTH_SHORT).show();
+                                        }
                                     } else {
-                                        transferAmount.setError("You must input a number");
-                                        transferAmount.requestFocus();
+                                        Toast.makeText(TransferToSomeoneAccount.this, "Fail transfer! That account is closed", Toast.LENGTH_SHORT).show();
                                     }
+                                } else {
+                                    transferAmount.setError("You must input a number");
+                                    transferAmount.requestFocus();
                                 }
-                                else
-                                {
-                                    someoneEmail.setError("You must input a valid email");
-                                    someoneEmail.requestFocus();
-                                }
+
                             }
                             else
                             {
-                                someoneEmail.setError("You must input a valid email");
-                                someoneEmail.requestFocus();
+                                transferAmount.setError("You must input an email");
+                                transferAmount.requestFocus();
                             }
                         }
                     });
@@ -181,25 +155,33 @@ public class TransferToSomeoneAccount extends Activity {
 
     public void transferFromCk(){
         amount = Integer.parseInt(transferAmount.getText().toString());
-        ParseUser user = ParseUser.getCurrentUser();
 
-        ParseObject selfAccount = user.getParseObject("Account");
-        someoneAccount = someone.getParseObject("Account");
-
-
-
-        selfAccount.fetchInBackground(new GetCallback<ParseObject>() {
+        userCheckAccount = user.getCheckingAccount();
+        userCheckAccount.fetchInBackground(new GetCallback<CheckingAccount>() {
             @Override
-            public void done(ParseObject parseObject, ParseException e) {
+            public void done(CheckingAccount Object, ParseException e) {
                 if (e == null) {
-                    int current = parseObject.getNumber("checkingAccount").intValue();
+                    int current = Object.getBalance();
                     if (amount > current) {
                         transferAmount.setError("Not enough money");
                     } else {
-                        parseObject.put("checkingAccount", current - amount);
-                        parseObject.saveInBackground();
-                        someoneAccount.put("checkingAccount", currentTo + amount);
-                        someoneAccount.saveInBackground();
+                        Object.put("balance", current - amount);
+                        Object.saveInBackground();
+                        someoneCheckAccount.put("balance", currentTo + amount);
+                        someoneCheckAccount.saveInBackground();
+
+                        Date currentTime = someoneCheckAccount.getUpdatedAt();
+                        String temp = someoneCheckAccount.getHistory();
+                        temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
+                                + someoneCheckAccount.getBalance() + " TransferIn " + amount + " from " + user.getEmail() + "\n";
+                        someoneCheckAccount.put("history", temp);
+                        someoneCheckAccount.saveInBackground();
+                        temp = Object.getHistory();
+                        temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
+                                + Object.getBalance() + " TransferOut " + amount + " To " + someone.getEmail() + "\n";
+                        Object.put("history", temp);
+                        Object.saveInBackground();
+
                         Toast.makeText(TransferToSomeoneAccount.this, "Successful transfer!", Toast.LENGTH_SHORT).show();
                         pageChange();
                     }
@@ -213,26 +195,34 @@ public class TransferToSomeoneAccount extends Activity {
 
     public void transferFromSa(){
         amount = Integer.parseInt(transferAmount.getText().toString());
-        ParseUser user = ParseUser.getCurrentUser();
 
-        ParseObject selfAccount = user.getParseObject("Account");
-        someoneAccount = someone.getParseObject("Account");
-
-
-
-        selfAccount.fetchInBackground(new GetCallback<ParseObject>() {
+        userSaveAccount = user.getSavingAccount();
+        userSaveAccount.fetchInBackground(new GetCallback<SavingAccount>() {
             @Override
-            public void done(ParseObject parseObject, ParseException e) {
+            public void done(SavingAccount Object, ParseException e) {
                 if (e == null) {
-                    int current = parseObject.getNumber("savingAccount").intValue();
+                    int current = Object.getBalance();
                     if (amount > current) {
                         transferAmount.setError("Not enough money");
                     } else {
 
-                        parseObject.put("savingAccount", current - amount);
-                        someoneAccount.put("checkingAccount", currentTo + amount);
-                        parseObject.saveInBackground();
-                        someoneAccount.saveInBackground();
+                        Object.put("balance", current - amount);
+                        someoneCheckAccount.put("balance", currentTo + amount);
+                        Object.saveInBackground();
+                        someoneCheckAccount.saveInBackground();
+
+                        Date currentTime = someoneCheckAccount.getUpdatedAt();
+                        String temp = someoneCheckAccount.getHistory();
+                        temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
+                                + someoneCheckAccount.getBalance() + " TransferIn " + amount + " from " + user.getEmail() + "\n";
+                        someoneCheckAccount.put("history", temp);
+                        someoneCheckAccount.saveInBackground();
+                        temp = Object.getHistory();
+                        temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
+                                + Object.getBalance() + " TransferOut " + amount + " To " + someone.getEmail() + "\n";
+                        Object.put("history", temp);
+                        Object.saveInBackground();
+                        
                         Toast.makeText(TransferToSomeoneAccount.this, "Successful transfer!", Toast.LENGTH_SHORT).show();
                         pageChange();
                     }

@@ -19,19 +19,24 @@ import com.parse.ParseUser;
 
 import java.util.List;
 
+import rmomoko.cse110bank.Object.User;
+import rmomoko.cse110bank.Object.Account;
+import rmomoko.cse110bank.Object.CheckingAccount;
+import rmomoko.cse110bank.Object.SavingAccount;
 /**
  * Created by Yuxiao on 11/16/2014.
  */
 public class EmployeeChooseCus extends Activity {
     private EditText someoneEmail;
-    private ParseUser someone;
+    private User someone;
+    private CheckingAccount userCheckAccount;
+    private SavingAccount userSaveAccount;
 
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_choice);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        Parse.initialize(this, "dJqoRn28p66wHQsJkJKog1zaaRhP3iTDGoSDanYU", "FwLys6BrpNfLyoOWuQCD9vVhIgqYsfjv9RynGOEY");
 
         someoneEmail = (EditText) findViewById(R.id.employee_choose_email);
 
@@ -42,34 +47,23 @@ public class EmployeeChooseCus extends Activity {
                 if(!someoneEmail.getText().toString().isEmpty()) {
                     ParseQuery<ParseUser> query = ParseUser.getQuery();
                     query.whereEqualTo("email",someoneEmail.getText().toString());
+                    query.include("CheckingAccount");
+                    query.include("SavingAccount");
                     query.findInBackground(new FindCallback<ParseUser>() {
                         @Override
                         public void done(List<ParseUser> parseUsers, ParseException e) {
-                            if(e == null)
+                            if(e == null && !parseUsers.isEmpty())
                             {
-                                if(!parseUsers.isEmpty()) {
-                                    someone = parseUsers.get(0);
-                                    ParseObject selfAccount = someone.getParseObject("Account");
-                                    selfAccount.fetchInBackground(new GetCallback<ParseObject>() {
-                                        public void done(ParseObject object, ParseException e) {
-                                            if (e == null) {
-                                                if(!object.getBoolean("isClosed"))
-                                                {
-                                                    pageChange();
-                                                }
-                                                else
-                                                {
-                                                    Toast.makeText(EmployeeChooseCus.this, "Fail Login! That account is closed", Toast.LENGTH_SHORT).show();
-                                                }
-                                            } else {
-                                            }
-                                        }
-                                    });
-
+                                someone = (User)parseUsers.get(0);
+                                userCheckAccount = someone.getCheckingAccount();
+                                userSaveAccount = someone.getSavingAccount();
+                                if(!userCheckAccount.isClosed() || !userSaveAccount.isClosed())
+                                {
+                                    pageChange();
                                 }
                                 else
                                 {
-                                    someoneEmail.setError("You must input a valid email");
+                                    Toast.makeText(EmployeeChooseCus.this, "The accounts are all closed!", Toast.LENGTH_SHORT).show();
                                     someoneEmail.requestFocus();
                                 }
                             }

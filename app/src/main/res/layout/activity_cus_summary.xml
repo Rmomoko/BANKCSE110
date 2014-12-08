@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/cus_summary_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Checking Account Summary"
+                android:layout_marginTop="30dp"
+                android:textSize="28dp"
+                android:fontFamily="sans-serif-light"
+                android:layout_gravity="center"></TextView>
+
+            <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="180dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/check_history"
+                    android:text=""
+                    android:textSize="12dp"
+                    android:fontFamily="sans-serif-light"
+                    ></TextView>
+            </ScrollView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Saving Account Summary"
+                android:textSize="28dp"
+                android:fontFamily="sans-serif-light"
+                android:layout_gravity="center"></TextView>
+            <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="180dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/save_history"
+                    android:text=""
+                    android:textSize="12dp"
+                    android:fontFamily="sans-serif-light"></TextView>
+            </ScrollView>
+
+            <Button
+                android:id="@+id/cus_summary_back"
+                style="?android:textAppearanceSmall"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:background="@color/teal"
+                android:layout_gravity="center"
+                android:text="Back"
+                android:textStyle="bold"
+                android:layout_toStartOf="@+id/state"
+                android:layout_alignParentBottom="true" />
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

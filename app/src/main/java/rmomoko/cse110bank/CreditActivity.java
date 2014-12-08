@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.lang.Integer;
+import java.util.Date;
 import java.util.List;
 
 import com.parse.FindCallback;
@@ -19,6 +20,11 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.ParseException;
 
+import rmomoko.cse110bank.Object.User;
+import rmomoko.cse110bank.Object.Account;
+import rmomoko.cse110bank.Object.CheckingAccount;
+import rmomoko.cse110bank.Object.SavingAccount;
+
 /**
  * Created by Yuxiao on 11/2/2014.
  */
@@ -26,7 +32,9 @@ public class CreditActivity extends Activity {
     private EditText creditAmount;
     private int amount;
     private String someoneEmail;
-    private ParseUser someone;
+    private User someone;
+    private CheckingAccount userCheckAccount;
+    private SavingAccount userSaveAccount;
 
     public void onCreate(Bundle savedInstanceState) {
 
@@ -68,34 +76,30 @@ public class CreditActivity extends Activity {
     }
 
     public void depositeCheckingAccount(){
-         amount = Integer.parseInt(creditAmount.getText().toString());
+        amount = Integer.parseInt(creditAmount.getText().toString());
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("email",someoneEmail);
+        query.include("CheckingAccount");
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> parseUsers, ParseException e) {
-                if(e == null)
+                if(e == null && !parseUsers.isEmpty())
                 {
-                    if(!parseUsers.isEmpty()) {
-                        someone = parseUsers.get(0);
-                        ParseObject account = someone.getParseObject("Account");
-                        account.fetchInBackground(new GetCallback<ParseObject>() {
-                            public void done(ParseObject object, ParseException e) {
-                                if (e == null) {
-                                    int current = object.getNumber("checkingAccount").intValue();
-                                    object.put("checkingAccount", current + amount);
-                                    object.saveInBackground();
-                                    Toast.makeText(CreditActivity.this, "Successful deposite!", Toast.LENGTH_SHORT).show();
-                                    pageChange();
-                                } else {
-                                }
-                            }
-                        });
-                    }
-                    else
-                    {
-                        Toast.makeText(CreditActivity.this, "Fail Catch!", Toast.LENGTH_SHORT).show();
-                    }
+                    someone = (User)parseUsers.get(0);
+                    userCheckAccount = someone.getCheckingAccount();
+
+                    int current = userCheckAccount.getBalance();
+
+                    userCheckAccount.put("balance", current + amount);
+                    userCheckAccount.saveInBackground();
+                    Date currentTime = userCheckAccount.getUpdatedAt();
+                    String temp = userCheckAccount.getHistory();
+                    temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
+                                + userCheckAccount.getBalance() + " Credit " + amount + "\n";
+                    userCheckAccount.put("history", temp);
+                    userCheckAccount.saveInBackground();
+                    Toast.makeText(CreditActivity.this, "Successful deposite!", Toast.LENGTH_SHORT).show();
+                    pageChange();
                 }
                 else
                 {
@@ -109,31 +113,26 @@ public class CreditActivity extends Activity {
         amount = Integer.parseInt(creditAmount.getText().toString());
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("email",someoneEmail);
+        query.include("SavingAccount");
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> parseUsers, ParseException e) {
-                if(e == null)
+                if(e == null && !parseUsers.isEmpty())
                 {
-                    if(!parseUsers.isEmpty()) {
-                        someone = parseUsers.get(0);
-                        ParseObject account = someone.getParseObject("Account");
-                        account.fetchInBackground(new GetCallback<ParseObject>() {
-                            public void done(ParseObject object, ParseException e) {
-                                if (e == null) {
-                                    int current = object.getNumber("savingAccount").intValue();
-                                    object.put("savingAccount", current + amount);
-                                    object.saveInBackground();
-                                    Toast.makeText(CreditActivity.this, "Successful deposite!", Toast.LENGTH_SHORT).show();
-                                    pageChange();
-                                } else {
-                                }
-                            }
-                        });
-                    }
-                    else
-                    {
-                        Toast.makeText(CreditActivity.this, "Fail Catch!", Toast.LENGTH_SHORT).show();
-                    }
+                    someone = (User)parseUsers.get(0);
+                    userSaveAccount = someone.getSavingAccount();
+
+                    int current = userSaveAccount.getBalance();
+                    userSaveAccount.put("balance", current + amount);
+                    userSaveAccount.saveInBackground();
+                    Date currentTime = userSaveAccount.getUpdatedAt();
+                    String temp = userSaveAccount.getHistory();
+                    temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
+                            + userSaveAccount.getBalance() + " Credit " + amount + "\n";
+                    userSaveAccount.put("history", temp);
+                    userSaveAccount.saveInBackground();
+                    Toast.makeText(CreditActivity.this, "Successful deposite!", Toast.LENGTH_SHORT).show();
+                    pageChange();
                 }
                 else
                 {

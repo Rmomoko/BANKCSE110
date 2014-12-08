@@ -67,9 +67,6 @@ public class CustomerAccountActivity extends Activity{
                     userSaveAccount.fetchInBackground(new GetCallback<SavingAccount>() {
                         public void done(SavingAccount object, ParseException e) {
                             if (e == null) {
-                                System.out.println(""+userCheckAccount.getBalance());
-                                System.out.println(""+userSaveAccount.getBalance());
-
                                 if(!userCheckAccount.isClosed())
                                     checkingNumber.setText("$ " + userCheckAccount.getBalance());
                                 else
@@ -92,7 +89,7 @@ public class CustomerAccountActivity extends Activity{
         printSumButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-               // pageToCredit(view);
+                pageToSummary(view);
             }
         });
 
@@ -117,6 +114,7 @@ public class CustomerAccountActivity extends Activity{
                                 object.closeAccount();
                                 checkingNumber.setText("Account Closed");
                                 Toast.makeText(CustomerAccountActivity.this, "Your account is closed now!", Toast.LENGTH_SHORT).show();
+                                check();
                             }
                             else
                             {
@@ -143,6 +141,7 @@ public class CustomerAccountActivity extends Activity{
                                 object.closeAccount();
                                 savingNumber.setText("Account Closed");
                                 Toast.makeText(CustomerAccountActivity.this, "Your account is closed now!", Toast.LENGTH_SHORT).show();
+                                check();
                             }
                             else
                             {
@@ -155,6 +154,22 @@ public class CustomerAccountActivity extends Activity{
 
             }
         });
+    }
+
+    public void check()
+    {
+        if(userCheckAccount.isClosed() && userSaveAccount.isClosed())
+        {
+            user.logOut();
+            pageToLogin();
+        }
+    }
+
+    public void pageToSummary(View view) {
+        Intent getScreen = new Intent(this, CusSummaryActivity.class);
+        final int result = 1;
+        startActivityForResult(getScreen, result);
+        finish();
     }
 
     public void pageToTransfer(View view) {

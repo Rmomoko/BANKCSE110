@@ -16,8 +16,12 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.ParseException;
 
+import java.util.Date;
 import java.util.List;
-
+import rmomoko.cse110bank.Object.User;
+import rmomoko.cse110bank.Object.Account;
+import rmomoko.cse110bank.Object.CheckingAccount;
+import rmomoko.cse110bank.Object.SavingAccount;
 /**
  * Created by Yuxiao on 11/2/2014.
  */
@@ -25,7 +29,9 @@ public class DebitActivity extends Activity{
     private EditText debitAmount;
     private int amount;
     private String someoneEmail;
-    private ParseUser someone;
+    private User someone;
+    private CheckingAccount userCheckAccount;
+    private SavingAccount userSaveAccount;
 
     public void onCreate(Bundle savedInstanceState) {
 
@@ -72,35 +78,30 @@ public class DebitActivity extends Activity{
 
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("email",someoneEmail);
+        query.include("CheckingAccount");
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> parseUsers, ParseException e) {
-                if(e == null)
+                if(e == null && !parseUsers.isEmpty())
                 {
-                    if(!parseUsers.isEmpty()) {
-                        someone = parseUsers.get(0);
-                        ParseObject account = someone.getParseObject("Account");
-                        account.fetchInBackground(new GetCallback<ParseObject>() {
-                            public void done(ParseObject object, ParseException e) {
-                                if (e == null) {
-                                    int current = object.getNumber("checkingAccount").intValue();
-                                    if(amount > current)
-                                    {
-                                        debitAmount.setError("Not enough money");
-                                    }
-                                    else{
-                                        object.put("checkingAccount", current - amount);
-                                        object.saveInBackground();
-                                        Toast.makeText(DebitActivity.this, "Successful withdrawal!", Toast.LENGTH_SHORT).show();
-                                        pageChange();
-                                    }
-                                }
-                            }
-                        });
-                    }
-                    else
+                    someone = (User)parseUsers.get(0);
+                    userCheckAccount = someone.getCheckingAccount();
+                    int current = userCheckAccount.getBalance();
+                    if(amount > current)
                     {
-                        Toast.makeText(DebitActivity.this, "Fail Catch!", Toast.LENGTH_SHORT).show();
+                        debitAmount.setError("Not enough money");
+                    }
+                    else {
+                        userCheckAccount.put("balance", current - amount);
+                        userCheckAccount.saveInBackground();
+                        Date currentTime = userCheckAccount.getUpdatedAt();
+                        String temp = userCheckAccount.getHistory();
+                        temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
+                                + userCheckAccount.getBalance() + " Debit " + amount + "\n";
+                        userCheckAccount.put("history", temp);
+                        userCheckAccount.saveInBackground();
+                        Toast.makeText(DebitActivity.this, "Successful withdrawal!", Toast.LENGTH_SHORT).show();
+                        pageChange();
                     }
                 }
                 else
@@ -112,37 +113,33 @@ public class DebitActivity extends Activity{
     }
     public void withdrawalSavingAccount(){
         amount = Integer.parseInt(debitAmount.getText().toString());
+
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("email",someoneEmail);
+        query.include("SavingAccount");
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> parseUsers, ParseException e) {
-                if(e == null)
+                if(e == null && !parseUsers.isEmpty())
                 {
-                    if(!parseUsers.isEmpty()) {
-                        someone = parseUsers.get(0);
-                        ParseObject account = someone.getParseObject("Account");
-                        account.fetchInBackground(new GetCallback<ParseObject>() {
-                            public void done(ParseObject object, ParseException e) {
-                                if (e == null) {
-                                    int current = object.getNumber("savingAccount").intValue();
-                                    if(amount > current)
-                                    {
-                                        debitAmount.setError("Not enough money");
-                                    }
-                                    else{
-                                        object.put("savingAccount", current - amount);
-                                        object.saveInBackground();
-                                        Toast.makeText(DebitActivity.this, "Successful withdrawal!", Toast.LENGTH_SHORT).show();
-                                        pageChange();
-                                    }
-                                }
-                            }
-                        });
-                    }
-                    else
+                    someone = (User)parseUsers.get(0);
+                    userSaveAccount = someone.getSavingAccount();
+                    int current = userSaveAccount.getBalance();
+                    if(amount > current)
                     {
-                        Toast.makeText(DebitActivity.this, "Fail Catch!", Toast.LENGTH_SHORT).show();
+                        debitAmount.setError("Not enough money");
+                    }
+                    else {
+                        userSaveAccount.put("balance", current - amount);
+                        userSaveAccount.saveInBackground();
+                        Date currentTime = userSaveAccount.getUpdatedAt();
+                        String temp = userSaveAccount.getHistory();
+                        temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
+                                + userSaveAccount.getBalance() + " Debit " + amount + "\n";
+                        userSaveAccount.put("history", temp);
+                        userSaveAccount.saveInBackground();
+                        Toast.makeText(DebitActivity.this, "Successful withdrawal!", Toast.LENGTH_SHORT).show();
+                        pageChange();
                     }
                 }
                 else
