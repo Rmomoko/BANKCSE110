@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.lang.Integer;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +31,7 @@ import rmomoko.cse110bank.Object.SavingAccount;
  */
 public class CreditActivity extends Activity {
     private EditText creditAmount;
-    private int amount;
+    private double amount;
     private String someoneEmail;
     private User someone;
     private CheckingAccount userCheckAccount;
@@ -76,7 +77,7 @@ public class CreditActivity extends Activity {
     }
 
     public void depositeCheckingAccount(){
-        amount = Integer.parseInt(creditAmount.getText().toString());
+        amount = Double.parseDouble(creditAmount.getText().toString());
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("email",someoneEmail);
         query.include("CheckingAccount");
@@ -88,14 +89,16 @@ public class CreditActivity extends Activity {
                     someone = (User)parseUsers.get(0);
                     userCheckAccount = someone.getCheckingAccount();
 
-                    int current = userCheckAccount.getBalance();
+                    double current = userCheckAccount.getBalance();
 
+
+                    DecimalFormat f = new DecimalFormat("##.00");
                     userCheckAccount.put("balance", current + amount);
                     userCheckAccount.saveInBackground();
                     Date currentTime = userCheckAccount.getUpdatedAt();
                     String temp = userCheckAccount.getHistory();
-                    temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
-                                + userCheckAccount.getBalance() + " Credit " + amount + "\n";
+                    temp = (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
+                                + f.format(userCheckAccount.getBalance()) + " Credit " + f.format(amount) + "\n"+ temp;
                     userCheckAccount.put("history", temp);
                     userCheckAccount.saveInBackground();
                     Toast.makeText(CreditActivity.this, "Successful deposite!", Toast.LENGTH_SHORT).show();
@@ -110,7 +113,7 @@ public class CreditActivity extends Activity {
 
     }
     public void depositeSavingAccount(){
-        amount = Integer.parseInt(creditAmount.getText().toString());
+        amount = Double.parseDouble(creditAmount.getText().toString());
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("email",someoneEmail);
         query.include("SavingAccount");
@@ -122,13 +125,14 @@ public class CreditActivity extends Activity {
                     someone = (User)parseUsers.get(0);
                     userSaveAccount = someone.getSavingAccount();
 
-                    int current = userSaveAccount.getBalance();
+                    double current = userSaveAccount.getBalance();
+                    DecimalFormat f = new DecimalFormat("##.00");
                     userSaveAccount.put("balance", current + amount);
                     userSaveAccount.saveInBackground();
                     Date currentTime = userSaveAccount.getUpdatedAt();
                     String temp = userSaveAccount.getHistory();
-                    temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
-                            + userSaveAccount.getBalance() + " Credit " + amount + "\n";
+                    temp = (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
+                            + f.format(userSaveAccount.getBalance()) + " Credit " + f.format(amount) + "\n" + temp;
                     userSaveAccount.put("history", temp);
                     userSaveAccount.saveInBackground();
                     Toast.makeText(CreditActivity.this, "Successful deposite!", Toast.LENGTH_SHORT).show();

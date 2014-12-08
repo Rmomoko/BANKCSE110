@@ -18,6 +18,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -36,14 +37,14 @@ public class TransferToSomeoneAccount extends Activity {
 
     private EditText transferAmount;
     private EditText someoneEmail;
-    private int amount;
-    private int currentTo;
+    private double amount;
+    private double currentTo;
     private User someone;
     private CheckingAccount someoneCheckAccount;
     private User user;
     private CheckingAccount userCheckAccount;
     private SavingAccount userSaveAccount;
-
+    private DecimalFormat f = new DecimalFormat("##.00");
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -154,14 +155,14 @@ public class TransferToSomeoneAccount extends Activity {
 
 
     public void transferFromCk(){
-        amount = Integer.parseInt(transferAmount.getText().toString());
+        amount = Double.parseDouble(transferAmount.getText().toString());
 
         userCheckAccount = user.getCheckingAccount();
         userCheckAccount.fetchInBackground(new GetCallback<CheckingAccount>() {
             @Override
             public void done(CheckingAccount Object, ParseException e) {
                 if (e == null) {
-                    int current = Object.getBalance();
+                    double current = Object.getBalance();
                     if (amount > current) {
                         transferAmount.setError("Not enough money");
                     } else {
@@ -172,13 +173,13 @@ public class TransferToSomeoneAccount extends Activity {
 
                         Date currentTime = someoneCheckAccount.getUpdatedAt();
                         String temp = someoneCheckAccount.getHistory();
-                        temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
-                                + someoneCheckAccount.getBalance() + " TransferIn " + amount + " from " + user.getEmail() + "\n";
+                        temp = (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
+                                + f.format(someoneCheckAccount.getBalance()) + " TransferIn " + f.format(amount) + " from " + user.getEmail() + "\n"+ temp;
                         someoneCheckAccount.put("history", temp);
                         someoneCheckAccount.saveInBackground();
                         temp = Object.getHistory();
-                        temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
-                                + Object.getBalance() + " TransferOut " + amount + " To " + someone.getEmail() + "\n";
+                        temp = (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
+                                + f.format(Object.getBalance()) + " TransferOut " + f.format(amount) + " To " + someone.getEmail() + "\n"+ temp;
                         Object.put("history", temp);
                         Object.saveInBackground();
 
@@ -194,14 +195,14 @@ public class TransferToSomeoneAccount extends Activity {
 
 
     public void transferFromSa(){
-        amount = Integer.parseInt(transferAmount.getText().toString());
+        amount = Double.parseDouble(transferAmount.getText().toString());
 
         userSaveAccount = user.getSavingAccount();
         userSaveAccount.fetchInBackground(new GetCallback<SavingAccount>() {
             @Override
             public void done(SavingAccount Object, ParseException e) {
                 if (e == null) {
-                    int current = Object.getBalance();
+                    double current = Object.getBalance();
                     if (amount > current) {
                         transferAmount.setError("Not enough money");
                     } else {
@@ -213,13 +214,13 @@ public class TransferToSomeoneAccount extends Activity {
 
                         Date currentTime = someoneCheckAccount.getUpdatedAt();
                         String temp = someoneCheckAccount.getHistory();
-                        temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
-                                + someoneCheckAccount.getBalance() + " TransferIn " + amount + " from " + user.getEmail() + "\n";
+                        temp = (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
+                                + f.format(someoneCheckAccount.getBalance()) + " TransferIn " + f.format(amount) + " from " + user.getEmail() + "\n"+ temp;
                         someoneCheckAccount.put("history", temp);
                         someoneCheckAccount.saveInBackground();
                         temp = Object.getHistory();
-                        temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
-                                + Object.getBalance() + " TransferOut " + amount + " To " + someone.getEmail() + "\n";
+                        temp = (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
+                                + f.format(Object.getBalance()) + " TransferOut " + f.format(amount) + " To " + someone.getEmail() + "\n"+ temp;
                         Object.put("history", temp);
                         Object.saveInBackground();
                         

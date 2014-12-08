@@ -31,6 +31,8 @@ import com.parse.SignUpCallback;
 import com.parse.ParseQuery;
 
 
+import java.text.DecimalFormat;
+
 import rmomoko.cse110bank.Object.CheckingAccount;
 import rmomoko.cse110bank.Object.SavingAccount;
 import rmomoko.cse110bank.Object.User;
@@ -46,7 +48,7 @@ public class CustomerAccountActivity extends Activity{
     private User user;
     private CheckingAccount userCheckAccount;
     private SavingAccount userSaveAccount;
-
+    private DecimalFormat f = new DecimalFormat("##.00");
 
     public void onCreate(Bundle savedInstanceState) {
 
@@ -68,11 +70,11 @@ public class CustomerAccountActivity extends Activity{
                         public void done(SavingAccount object, ParseException e) {
                             if (e == null) {
                                 if(!userCheckAccount.isClosed())
-                                    checkingNumber.setText("$ " + userCheckAccount.getBalance());
+                                    checkingNumber.setText("$ " + f.format(userCheckAccount.getBalance()));
                                 else
                                     checkingNumber.setText("Account Closed");
                                 if(!userSaveAccount.isClosed())
-                                    savingNumber.setText("$ " + userSaveAccount.getBalance());
+                                    savingNumber.setText("$ " + f.format(userSaveAccount.getBalance()));
                                 else
                                     savingNumber.setText("Account Closed");
                             }

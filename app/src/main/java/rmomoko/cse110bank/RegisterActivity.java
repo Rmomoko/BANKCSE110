@@ -185,12 +185,12 @@ public class RegisterActivity extends Activity{
                         Toast.makeText(RegisterActivity.this, "Successful Signup!", Toast.LENGTH_SHORT).show();
 
                         CheckingAccount checkingAccount = new CheckingAccount();
-                        checkingAccount.put("balance", 0);
+                        checkingAccount.put("balance", 0.0);
                         checkingAccount.put("isClosed", false);
                         checkingAccount.put("history", "");
 
                         SavingAccount savingAccount = new SavingAccount();
-                        savingAccount.put("balance", 0);
+                        savingAccount.put("balance", 0.0);
                         savingAccount.put("isClosed", false);
                         savingAccount.put("history", "");
 
@@ -198,6 +198,12 @@ public class RegisterActivity extends Activity{
                         user.put("CheckingAccount", checkingAccount);
                         user.put("SavingAccount", savingAccount);
                         user.saveInBackground();
+                        checkingAccount.put("lastTimePenalty", user.getCreatedAt());
+                        checkingAccount.put("lastTimeInterest", user.getCreatedAt());
+                        savingAccount.put("lastTimePenalty", user.getCreatedAt());
+                        savingAccount.put("lastTimeInterest", user.getCreatedAt());
+                        savingAccount.saveInBackground();
+                        checkingAccount.saveInBackground();
                         // go back to log in page
                         pageChange();
 

@@ -17,6 +17,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -29,11 +30,11 @@ import rmomoko.cse110bank.Object.SavingAccount;
  */
 public class TransferBetweenMyAccount extends Activity {
     private EditText transferAmount;
-    private int amount;
+    private double amount;
     private User someone;
     private CheckingAccount userCheckAccount;
     private SavingAccount userSaveAccount;
-
+    private DecimalFormat f = new DecimalFormat("##.00");
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -76,7 +77,7 @@ public class TransferBetweenMyAccount extends Activity {
     }
 
     public void transferFromSaToCk(){
-        amount = Integer.parseInt(transferAmount.getText().toString());
+        amount = Double.parseDouble(transferAmount.getText().toString());
         someone = (User)ParseUser.getCurrentUser();
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("username",someone.getUsername());
@@ -90,8 +91,8 @@ public class TransferBetweenMyAccount extends Activity {
                     someone = (User)parseUsers.get(0);
                     userCheckAccount = someone.getCheckingAccount();
                     userSaveAccount = someone.getSavingAccount();
-                    int currentSaving = userSaveAccount.getBalance();
-                    int currentChecking = userCheckAccount.getBalance();
+                    double currentSaving = userSaveAccount.getBalance();
+                    double currentChecking = userCheckAccount.getBalance();
                     if(amount > currentSaving)
                     {
                         transferAmount.setError("Not enough money");
@@ -104,13 +105,13 @@ public class TransferBetweenMyAccount extends Activity {
                         userSaveAccount.saveInBackground();
                         Date currentTime = userCheckAccount.getUpdatedAt();
                         String temp = userCheckAccount.getHistory();
-                        temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
-                                + userCheckAccount.getBalance() + " TransferIn " + amount + " from SelfAccount" + "\n";
+                        temp = (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
+                                + f.format(userCheckAccount.getBalance()) + " TransferIn " + f.format(amount) + " from SelfAccount" + "\n"+temp ;
                         userCheckAccount.put("history", temp);
                         userCheckAccount.saveInBackground();
                         temp = userSaveAccount.getHistory();
-                        temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
-                                + userSaveAccount.getBalance() + " TransferOut " + amount + " To SelfAccount" + "\n";
+                        temp = (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
+                                + f.format(userSaveAccount.getBalance()) + " TransferOut " + f.format(amount) + " To SelfAccount" + "\n"+ temp;
                         userSaveAccount.put("history", temp);
                         userSaveAccount.saveInBackground();
                         Toast.makeText(TransferBetweenMyAccount.this, "Successful transfer!", Toast.LENGTH_SHORT).show();
@@ -126,7 +127,7 @@ public class TransferBetweenMyAccount extends Activity {
     }
 
     public void transferFromCkToSa(){
-        amount = Integer.parseInt(transferAmount.getText().toString());
+        amount = Double.parseDouble(transferAmount.getText().toString());
         someone = (User)ParseUser.getCurrentUser();
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("username",someone.getUsername());
@@ -139,8 +140,8 @@ public class TransferBetweenMyAccount extends Activity {
                     someone = (User) parseUsers.get(0);
                     userCheckAccount = someone.getCheckingAccount();
                     userSaveAccount = someone.getSavingAccount();
-                    int currentSaving = userSaveAccount.getBalance();
-                    int currentChecking = userCheckAccount.getBalance();
+                    double currentSaving = userSaveAccount.getBalance();
+                    double currentChecking = userCheckAccount.getBalance();
                     if (amount > currentChecking) {
                         transferAmount.setError("Not enough money");
                     } else {
@@ -150,13 +151,13 @@ public class TransferBetweenMyAccount extends Activity {
                         userSaveAccount.saveInBackground();
                         Date currentTime = userCheckAccount.getUpdatedAt();
                         String temp = userCheckAccount.getHistory();
-                        temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
-                                + userCheckAccount.getBalance() + " TransferOut " + amount + " To SelfAccount" + "\n";
+                        temp = (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
+                                + f.format(userCheckAccount.getBalance()) + " TransferOut " + f.format(amount) + " To SelfAccount" + "\n" +temp;
                         userCheckAccount.put("history", temp);
                         userCheckAccount.saveInBackground();
                         temp = userSaveAccount.getHistory();
-                        temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
-                                + userSaveAccount.getBalance() + " TransferIn " + amount + " From SelfAccount" + "\n";
+                        temp = (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
+                                +f.format(userSaveAccount.getBalance()) + " TransferIn " + f.format(amount) + " From SelfAccount" + "\n"+ temp;
                         userSaveAccount.put("history", temp);
                         userSaveAccount.saveInBackground();
                         Toast.makeText(TransferBetweenMyAccount.this, "Successful transfer!", Toast.LENGTH_SHORT).show();

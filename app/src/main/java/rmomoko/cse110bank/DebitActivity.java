@@ -15,7 +15,9 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.ParseException;
+import com.parse.SaveCallback;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 import rmomoko.cse110bank.Object.User;
@@ -27,11 +29,15 @@ import rmomoko.cse110bank.Object.SavingAccount;
  */
 public class DebitActivity extends Activity{
     private EditText debitAmount;
-    private int amount;
+    private double amount;
+    private double current;
     private String someoneEmail;
     private User someone;
     private CheckingAccount userCheckAccount;
     private SavingAccount userSaveAccount;
+    private DecimalFormat f = new DecimalFormat("##.00");
+    private static final double LIMIT = 10000.0;
+
 
     public void onCreate(Bundle savedInstanceState) {
 
@@ -74,7 +80,7 @@ public class DebitActivity extends Activity{
     }
 
     public void withdrawalCheckingAccount(){
-        amount = Integer.parseInt(debitAmount.getText().toString());
+        amount = Double.parseDouble(debitAmount.getText().toString());
 
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("email",someoneEmail);
@@ -86,22 +92,52 @@ public class DebitActivity extends Activity{
                 {
                     someone = (User)parseUsers.get(0);
                     userCheckAccount = someone.getCheckingAccount();
-                    int current = userCheckAccount.getBalance();
+                    current = userCheckAccount.getBalance();
                     if(amount > current)
                     {
                         debitAmount.setError("Not enough money");
                     }
+                    else if(amount > LIMIT)
+                    {
+                        Toast.makeText(DebitActivity.this, "You have reach the limit!", Toast.LENGTH_SHORT).show();
+                    }
                     else {
-                        userCheckAccount.put("balance", current - amount);
-                        userCheckAccount.saveInBackground();
-                        Date currentTime = userCheckAccount.getUpdatedAt();
-                        String temp = userCheckAccount.getHistory();
-                        temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
-                                + userCheckAccount.getBalance() + " Debit " + amount + "\n";
-                        userCheckAccount.put("history", temp);
-                        userCheckAccount.saveInBackground();
-                        Toast.makeText(DebitActivity.this, "Successful withdrawal!", Toast.LENGTH_SHORT).show();
-                        pageChange();
+                        userCheckAccount.put("isClosed", false);
+                        userCheckAccount.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                String[] history = userCheckAccount.getHistory().split("\n");
+                                Date today = userCheckAccount.getUpdatedAt();
+                                double temp = 0;
+                                String currentTime = "" + (today.getYear()+ 1900) + "/" + (today.getMonth()+1) + "/" + today.getDate();
+                                for(int i = 0; i < history.length; i++) {
+                                    String[] element = history[i].split(" ");
+                                    if(!element[0].equals(currentTime)) break;
+                                    if(element[2].equals("Debit")) temp += Double.parseDouble(element[3]);
+                                }
+                                if(temp  + amount> LIMIT)
+                                {
+                                    Toast.makeText(DebitActivity.this, "You have reach the limit!", Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    userCheckAccount.put("balance", current - amount);
+                                    Date currentTimes = userCheckAccount.getUpdatedAt();
+                                    String temps = userCheckAccount.getHistory();
+                                    temps = (currentTimes.getYear() + 1900) + "/" + (currentTimes.getMonth() + 1) + "/" + currentTimes.getDate() + " "
+                                            + f.format(current - amount) + " Debit " + f.format(amount) + "\n" + temps;
+                                    userCheckAccount.put("history", temps);
+                                    userCheckAccount.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            Toast.makeText(DebitActivity.this, "Successful withdrawal!", Toast.LENGTH_SHORT).show();
+                                            pageChange();
+                                        }
+                                    });
+
+                                }
+                            }
+                        });
                     }
                 }
                 else
@@ -112,7 +148,7 @@ public class DebitActivity extends Activity{
         });
     }
     public void withdrawalSavingAccount(){
-        amount = Integer.parseInt(debitAmount.getText().toString());
+        amount = Double.parseDouble(debitAmount.getText().toString());
 
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("email",someoneEmail);
@@ -124,22 +160,54 @@ public class DebitActivity extends Activity{
                 {
                     someone = (User)parseUsers.get(0);
                     userSaveAccount = someone.getSavingAccount();
-                    int current = userSaveAccount.getBalance();
+                    current = userSaveAccount.getBalance();
                     if(amount > current)
                     {
                         debitAmount.setError("Not enough money");
                     }
+                    else if(amount > LIMIT)
+                    {
+                        Toast.makeText(DebitActivity.this, "You have reach the limit!", Toast.LENGTH_SHORT).show();
+                    }
                     else {
-                        userSaveAccount.put("balance", current - amount);
-                        userSaveAccount.saveInBackground();
-                        Date currentTime = userSaveAccount.getUpdatedAt();
-                        String temp = userSaveAccount.getHistory();
-                        temp = temp + (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
-                                + userSaveAccount.getBalance() + " Debit " + amount + "\n";
-                        userSaveAccount.put("history", temp);
-                        userSaveAccount.saveInBackground();
-                        Toast.makeText(DebitActivity.this, "Successful withdrawal!", Toast.LENGTH_SHORT).show();
-                        pageChange();
+                        userSaveAccount.put("isClosed", false);
+                        userSaveAccount.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                String[] history = userSaveAccount.getHistory().split("\n");
+                                Date today = userSaveAccount.getUpdatedAt();
+                                double temp = 0;
+                                String currentTime = "" + (today.getYear()+ 1900) + "/" + (today.getMonth()+1) + "/" + today.getDate();
+                                for(int i = 0; i < history.length; i++) {
+                                    String[] element = history[i].split(" ");
+                                    if(!element[0].equals(currentTime)) break;
+                                    if(element[2].equals("Debit")) temp += Double.parseDouble(element[3]);
+                                }
+                                if(temp  + amount> LIMIT)
+                                {
+                                    Toast.makeText(DebitActivity.this, "You have reach the limit!", Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    userSaveAccount.put("balance", current - amount);
+                                    Date currentTimes = userSaveAccount.getUpdatedAt();
+                                    String temps = userSaveAccount.getHistory();
+                                    temps = (currentTimes.getYear() + 1900) + "/" + (currentTimes.getMonth() + 1) + "/" + currentTimes.getDate() + " "
+                                            + f.format(current - amount) + " Debit " + f.format(amount) + "\n" + temps;
+                                    userSaveAccount.put("history", temps);
+                                    userSaveAccount.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            Toast.makeText(DebitActivity.this, "Successful withdrawal!", Toast.LENGTH_SHORT).show();
+                                            pageChange();
+                                        }
+                                    });
+                                }
+                            }
+                        });
+
+
+
                     }
                 }
                 else
