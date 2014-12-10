@@ -11,24 +11,43 @@
         >
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="360dp"
+            android:layout_height="450dp"
             android:orientation="vertical"
-            >
+            android:layout_gravity="center"
+            android:weightSum="1"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true">
+
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:text="Checking Account Summary"
-                android:layout_marginTop="30dp"
-                android:textSize="28dp"
-                android:fontFamily="sans-serif-light"
-                android:layout_gravity="center"></TextView>
+                android:textSize="26dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:focusableInTouchMode="false"
+                android:focusable="false"
+                android:footerDividersEnabled="true"
+                android:divider="@color/teal"></TextView>
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/teal" />
 
             <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
-                android:layout_height="180dp"
-                >
+                android:layout_height="150dp"
+                android:fillViewport="false">
                 <TextView
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/check_history"
@@ -40,14 +59,31 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:text="Saving Account Summary"
-                android:textSize="28dp"
-                android:fontFamily="sans-serif-light"
-                android:layout_gravity="center"></TextView>
+                android:textSize="26dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:focusableInTouchMode="false"
+                android:focusable="false"
+                android:footerDividersEnabled="true"
+                android:divider="@color/teal"></TextView>
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/teal" />
+
             <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
-                android:layout_height="180dp"
+                android:layout_height="150dp"
                 >
                 <TextView
                     android:layout_width="wrap_content"
@@ -59,17 +95,17 @@
             </ScrollView>
 
             <Button
-                android:id="@+id/cus_summary_back"
-                style="?android:textAppearanceSmall"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:text="Print Summary"
                 android:textColor="#FFFFFF"
-                android:background="@color/teal"
+                android:id="@+id/cus_summary_back"
                 android:layout_gravity="center"
-                android:text="Back"
+                android:background="@color/teal"
+                style="?android:textAppearanceSmall"
                 android:textStyle="bold"
-                android:layout_toStartOf="@+id/state"
-                android:layout_alignParentBottom="true" />
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp" />
         </LinearLayout>
 
     </ScrollView>

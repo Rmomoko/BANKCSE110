@@ -7,123 +7,168 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/cus_ac_info"
+        android:layout_alignParentEnd="true"
+        android:fillViewport="false">
 
+    </ScrollView>
 
-        >
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="360dp"
+        android:layout_height="520dp"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:weightSum="1"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center">
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="Account Information"
+            android:id="@+id/cus_ac_title"
+            android:textSize="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:focusableInTouchMode="false"
+            android:focusable="false"
+            android:footerDividersEnabled="true"
+            android:divider="@color/teal"
+            android:layout_marginTop="20dp"
+            android:layout_weight="0.31" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Account Information"
-                android:id="@+id/cus_ac_title"
-                android:textSize="30dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:focusableInTouchMode="false"
-                android:focusable="false"
-                android:layout_marginTop="30dp"
-                android:footerDividersEnabled="true"
-                android:divider="@color/teal" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/teal" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Checking Account "
+            android:id="@+id/cus_check_view"
+            android:textSize="20dp"
+            android:layout_marginTop="25dp"
+            android:layout_below="@+id/acInfoTitleView"
+            android:layout_alignStart="@+id/acInfoTitleView"
+            android:clickable="true"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Checking Account "
-                android:id="@+id/cus_check_view"
-                android:textSize="20dp"
-                android:layout_marginTop="25dp"
-                android:layout_below="@+id/acInfoTitleView"
-                android:layout_alignStart="@+id/acInfoTitleView"
-                android:clickable="true" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:id="@+id/cus_check_number"
+            android:textSize="20dp"
+            android:layout_marginTop="15dp"
+            android:clickable="true"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/cus_check_number"
-                android:textSize="20dp"
-                android:layout_marginTop="25dp"
-                android:layout_below="@+id/acInfoTitleView"
-                android:layout_alignStart="@+id/acInfoTitleView"
-                android:clickable="true" />
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/teal" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Saving Account "
-                android:id="@+id/cus_save_view"
-                android:textSize="20dp"
-                android:layout_marginTop="25dp"
-                android:layout_below="@+id/acInfoTitleView"
-                android:layout_alignStart="@+id/acInfoTitleView"
-                android:clickable="true" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Saving Account "
+            android:id="@+id/cus_save_view"
+            android:textSize="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/acInfoTitleView"
+            android:layout_alignStart="@+id/acInfoTitleView"
+            android:clickable="true"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:id="@+id/cus_save_number"
+            android:textSize="20dp"
+            android:layout_marginTop="15dp"
+            android:clickable="true"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/cus_save_number"
-                android:textSize="20dp"
-                android:layout_marginTop="25dp"
-                android:layout_below="@+id/acInfoTitleView"
-                android:layout_alignStart="@+id/acInfoTitleView"
-                android:clickable="true" />
-            <Button
-                android:layout_width="200dp"
-                android:layout_height="40dp"
-                android:text="Print Summary"
-                android:textColor="#FFFFFF"
-                android:id="@+id/cus_print_summary_button"
-                android:layout_gravity="center"
-                android:background="@color/teal"
-                style="?android:textAppearanceSmall"
-                android:textStyle="bold"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp" />
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/teal" />
 
-            <Button
-                android:layout_width="200dp"
-                android:layout_height="40dp"
-                android:text="Make Transfer"
-                android:textColor="#FFFFFF"
-                android:id="@+id/cus_transfer_button"
-                android:layout_gravity="center"
-                android:background="@color/teal"
-                style="?android:textAppearanceSmall"
-                android:textStyle="bold"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp" />
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="35dp"
+            android:text="Print Summary"
+            android:textColor="#FFFFFF"
+            android:id="@+id/cus_print_summary_button"
+            android:layout_below="@+id/cus_transfer_button"
+            android:layout_gravity="center"
+            android:background="@color/teal"
+            style="?android:textAppearanceSmall"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp" />
 
-            <Button
-                android:layout_width="200dp"
-                android:layout_height="40dp"
-                android:text="Close Checking Account"
-                android:textColor="#FFFFFF"
-                android:id="@+id/cus_close_check_button"
-                android:layout_gravity="center"
-                android:background="@color/teal"
-                style="?android:textAppearanceSmall"
-                android:textStyle="bold"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp" />
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="35dp"
+            android:text="Make Transfer"
+            android:textColor="#FFFFFF"
+            android:id="@+id/cus_transfer_button"
+            android:layout_below="@+id/cus_close_check_button"
+            android:layout_gravity="center"
+            android:background="@color/teal"
+            style="?android:textAppearanceSmall"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp" />
 
-            <Button
-                android:layout_width="200dp"
-                android:layout_height="40dp"
-                android:text="Close Saving Account"
-                android:textColor="#FFFFFF"
-                android:id="@+id/cus_close_saving_button"
-                android:layout_gravity="center"
-                android:background="@color/teal"
-                style="?android:textAppearanceSmall"
-                android:textStyle="bold"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp" />
-        </LinearLayout>
-    </ScrollView>
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="35dp"
+            android:text="Close Checking Account"
+            android:textColor="#FFFFFF"
+            android:id="@+id/cus_close_check_button"
+            android:layout_gravity="center"
+            android:background="@color/teal"
+            style="?android:textAppearanceSmall"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp" />
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="35dp"
+            android:text="Close Saving Account"
+            android:textColor="#FFFFFF"
+            android:id="@+id/cus_close_saving_button"
+            android:layout_gravity="center"
+            android:background="@color/teal"
+            style="?android:textAppearanceSmall"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp" />
+
+    </LinearLayout>
 
 
 
