@@ -1,3 +1,8 @@
+/**
+ * Team Name: Orange Chicken
+ *  File Name: EmployeeChooseCus.java
+ *  Description: Employee can choose any customer account and change to that page
+ */
 package rmomoko.cse110bank;
 
 import android.app.Activity;
@@ -23,32 +28,51 @@ import rmomoko.cse110bank.Object.User;
 import rmomoko.cse110bank.Object.Account;
 import rmomoko.cse110bank.Object.CheckingAccount;
 import rmomoko.cse110bank.Object.SavingAccount;
+
 /**
- * Created by Yuxiao on 11/16/2014.
+ * Name:        EmployeeChooseCus
+ * Purpose:     Change to specific customer account when teller search for that customer.
+ * Description: Get the customer's email from database.
+ *              Create tell's activity button to perform the activity.
  */
 public class EmployeeChooseCus extends Activity {
+    //store the searching customer email
     private EditText someoneEmail;
+    //store user and user's two accounts
     private User someone;
     private CheckingAccount userCheckAccount;
     private SavingAccount userSaveAccount;
 
+    /**
+     * Name:         OnCreate
+     * Purpose:      Create the layout of Customer Account Information page
+     * Description:  Create the UI of EmployeeChooseCus page.
+     *               Get data from database to check the customer account
+     */
     public void onCreate(Bundle savedInstanceState) {
 
+        /* Create the layout of Tell's action page*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_choice);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         someoneEmail = (EditText) findViewById(R.id.employee_choose_email);
 
+        /* create credit button */
         Button empLoginCus = (Button) findViewById(R.id.employee_choose_cus);
         empLoginCus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //input searching email is valid
                 if(!someoneEmail.getText().toString().isEmpty()) {
+                    //load all users from database
                     ParseQuery<ParseUser> query = ParseUser.getQuery();
+                    //search the customer
                     query.whereEqualTo("email",someoneEmail.getText().toString());
                     query.include("CheckingAccount");
                     query.include("SavingAccount");
+                    //if the customer exists, save its accounts,
+                    //otherwise print out debug message
                     query.findInBackground(new FindCallback<ParseUser>() {
                         @Override
                         public void done(List<ParseUser> parseUsers, ParseException e) {
@@ -57,6 +81,8 @@ public class EmployeeChooseCus extends Activity {
                                 someone = (User)parseUsers.get(0);
                                 userCheckAccount = someone.getCheckingAccount();
                                 userSaveAccount = someone.getSavingAccount();
+                                //if the finding account still available,change page to there
+                                //otherwise, print out the debug message
                                 if(!userCheckAccount.isClosed() || !userSaveAccount.isClosed())
                                 {
                                     pageChange();
@@ -84,7 +110,14 @@ public class EmployeeChooseCus extends Activity {
         });
     }
 
+
+    /**
+     * Name:         pageChange
+     * Purpose:      Change to EmployeeModifiedCus page when empLoginCus button is clicked
+     * Description:  Go to EmployeeModifiedCus page.
+     */
     public void pageChange() {
+        //create the new page and change to the targe page and close the current page
         Intent getScreen = new Intent(this, EmployeeModifiedCus.class);
         getScreen.putExtra("someoneEmail", someoneEmail.getText().toString());
         final int result = 1;
@@ -92,13 +125,25 @@ public class EmployeeChooseCus extends Activity {
         finish();
     }
 
+    /**
+     * Name:         pageChangeToLogin
+     * Purpose:      Change to LoginActivity page when return button is clicked
+     * Description:  Go to EmployeeModifiedCus page.
+     */
     public void pageChangeToLogin() {
+        //create new page and change to it, then close the current page
         Intent getLoginActivity = new Intent(this, LoginActivity.class);
         final int result = 1;
         startActivityForResult(getLoginActivity, result);
         finish();
     }
 
+    /**
+     * Name:         onBackPressed
+     * Purpose:      Change to LoginActivity page and logout the current account
+     *               when back button is clicked
+     * Description:  Go to EmployeeModifiedCus page by calling LoginActivity function
+     */
     @Override
     public void onBackPressed()
     {
@@ -106,6 +151,12 @@ public class EmployeeChooseCus extends Activity {
         pageChangeToLogin();
     }
 
+    /**
+     * Name:         onOptionsItemSelected
+     * Purpose:      Change to LoginActivity page and logout the current account
+     *               when left top button is clicked
+     * Description:  Go to EmployeeModifiedCus page by calling LoginActivity function
+     */
     public boolean onOptionsItemSelected(MenuItem item){
         ParseUser.logOut();
         pageChangeToLogin();
