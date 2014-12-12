@@ -1,9 +1,17 @@
+/**
+ * Team Name: Orange Chicken
+ *  File Name: Employee.java
+ *  Description: ***TODO****
+ *
+ */
 package rmomoko.cse110bank.Object;
 
 import com.parse.ParseClassName;
 
 /**
- * Created by Shuaige on 2014/12/6.
+ * Name:            Customer
+ * Description:   ****TODO****
+ *
  */
 @ParseClassName("Employee")
 public class Employee extends User{

@@ -1,7 +1,8 @@
 /**
  * Team Name: Orange Chicken
  *  File Name: EmployeeModifiedCus.java
- *  Description: Display Customer's account information when teller login.
+ *  Description: Display Customer's account information when banker login.
+ *                     Create all the transaction activity button, goto another page if the button is clicked.
  *
  */
 
@@ -62,12 +63,12 @@ public class EmployeeModifiedCus extends Activity{
     private DecimalFormat f = new DecimalFormat("##.00");
 
     /**
-        * Name:           OnCreate
-        * Purpose:        Create the layout of Customer Account Information page
-        * Description:  Create the UI of CustomerAccountActivity page.
-        *                      Get data from database to display the amount of accounts.
-        *                      Create all the buttons to do all the customer account activities from teller.
-        */
+     * Name:           OnCreate
+     * Purpose:        Create the layout of Customer Account Information page
+     * Description:  Create the UI of CustomerAccountActivity page.
+     *                      Get data from database to display the amount of accounts.
+     *                      Create all the buttons to do all the customer account activities from teller.
+     */
     public void onCreate(Bundle savedInstanceState){
         /* Create the layout of Tell's action page*/
         super.onCreate(savedInstanceState);
@@ -143,7 +144,7 @@ public class EmployeeModifiedCus extends Activity{
         checkPenaltyButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                /* user's accoun not closed */
+                /* user's account not closed */
                 if(!userCheckAccount.isClosed()) {
                     userCheckAccount.put("isClosed", false);
                     userCheckAccount.saveInBackground();
@@ -162,7 +163,7 @@ public class EmployeeModifiedCus extends Activity{
                             /* get the last time balance */
                             ave = userCheckAccount.average();
                         }
-                        /* check account balance less than 100 */
+                        /* check account average balance less than 100 */
                         if(ave < 100)
                         {
                             /* apply penalty on current balance */
@@ -208,9 +209,12 @@ public class EmployeeModifiedCus extends Activity{
         savePenaltyButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                /* user's accoun not closed */
                 if(!userSaveAccount.isClosed()) {
                     userSaveAccount.put("isClosed", false);
                     userSaveAccount.saveInBackground();
+
+                    /* check the penalty every 30 days */
                     if(userSaveAccount.getUpdatedAt().getTime() - userSaveAccount.getDate("lastTimePenalty").getTime() > THIRTYDAY)
                     {
                         double ave;
@@ -221,23 +225,31 @@ public class EmployeeModifiedCus extends Activity{
                         {
                             ave = userSaveAccount.average();
                         }
+
+                        /* check account average balance less than 100 */
                         if(ave < 100)
                         {
+                            /* apply penalty on current balance */
                             double current = userSaveAccount.getBalance();
                             userSaveAccount.put("balance", current - 25.0);
                             userSaveAccount.put("lastTimePenalty", userSaveAccount.getUpdatedAt());
                             userSaveAccount.saveInBackground();
+                            /* update penalty time */
                             Date currentTime = userSaveAccount.getUpdatedAt();
+                             /* string to show penalty history on customer's account summary */
                             String temp = userSaveAccount.getHistory();
                             temp = (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
                                     + f.format(userSaveAccount.getBalance()) + " penalty " + f.format(25) + "\n"+temp ;
                             userSaveAccount.put("history", temp);
                             userSaveAccount.saveInBackground();
+
+                            /* reset the checking account amount */
                             savingNumber.setText("$ " + f.format((current - 25)));
                             Toast.makeText(EmployeeModifiedCus.this, "Penalty Apply", Toast.LENGTH_SHORT).show();
                         }
                         else
                         {
+                            /* no penalty applied, update the penalty check time */
                             userSaveAccount.put("lastTimePenalty", userSaveAccount.getUpdatedAt());
                             userSaveAccount.saveInBackground();
                             Toast.makeText(EmployeeModifiedCus.this, "No need to penalty within 30 days", Toast.LENGTH_SHORT).show();
@@ -361,12 +373,16 @@ public class EmployeeModifiedCus extends Activity{
         saveInterestButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                 /* user's account not closed */
                 if(!userSaveAccount.isClosed()) {
                     userSaveAccount.put("isClosed", false);
                     userSaveAccount.saveInBackground();
+
+                     /* user did not have activities in the 30 days */
                     if(userSaveAccount.getUpdatedAt().getTime() - userSaveAccount.getDate("lastTimeInterest").getTime() > THIRTYDAY)
                     {
                         double ave;
+                        /* user did not have activities in the 30 days */
                         if(userSaveAccount.getHistory().isEmpty()) {
                             ave = userSaveAccount.getBalance();
                         }
@@ -377,6 +393,7 @@ public class EmployeeModifiedCus extends Activity{
                         if(ave >= 1000 && ave < 2000)
                         {
                             double current = userSaveAccount.getBalance();
+                            /* apply 2% interest to savinging accoun balance */
                             userSaveAccount.put("balance", current + ave * 0.02);
                             userSaveAccount.put("lastTimeInterest", userSaveAccount.getUpdatedAt());
                             userSaveAccount.saveInBackground();
@@ -386,9 +403,12 @@ public class EmployeeModifiedCus extends Activity{
                                     + f.format(userSaveAccount.getBalance()) + " Interest " + f.format(ave * 0.02) + "\n"+temp ;
                             userSaveAccount.put("history", temp);
                             userSaveAccount.saveInBackground();
+
+                            /* update the checking account amount */
                             savingNumber.setText("$ " + f.format((current + ave * 0.02)));
                             Toast.makeText(EmployeeModifiedCus.this, "Interest Apply", Toast.LENGTH_SHORT).show();
                         }
+                        /* check the average amount range */
                         else if(ave >= 2000 && ave < 3000)
                         {
                             double current = userSaveAccount.getBalance();
@@ -404,6 +424,7 @@ public class EmployeeModifiedCus extends Activity{
                             savingNumber.setText("$ " +f.format( (current + ave * 0.03)));
                             Toast.makeText(EmployeeModifiedCus.this, "Interest Apply", Toast.LENGTH_SHORT).show();
                         }
+                        /* check the average amount range */
                         else if(ave >= 3000)
                         {
                             double current = userSaveAccount.getBalance();
@@ -436,10 +457,10 @@ public class EmployeeModifiedCus extends Activity{
     }
 
     /**
-        * Name:             pageToCredit
-        * Purpose:        Change page when print credit button clicked.
-        * Description:  Go to credit account page.
-        */
+     * Name:             pageToCredit
+     * Purpose:        Change page when print credit button clicked.
+     * Description:  Change page to credit account page.
+     */
     public void pageToCredit(View view) {
         Intent getScreen = new Intent(this, CreditActivity.class);
         final int result = 1;
@@ -449,10 +470,10 @@ public class EmployeeModifiedCus extends Activity{
     }
 
     /**
-        * Name:             pageToDredit
-        * Purpose:        Change page when print dredit button clicked.
-        * Description:  Go to dredit account page.
-        */
+     * Name:             pageToDredit
+     * Purpose:        Change page when print dredit button clicked.
+     * Description:  Go to dredit account page.
+     */
     public void pageToDebit(View view) {
         Intent getScreen = new Intent(this, DebitActivity.class);
         final int result = 1;
@@ -461,10 +482,10 @@ public class EmployeeModifiedCus extends Activity{
         finish();
     }
     /**
-         * Name:           pageToChoose
-         * Purpose:        Change page to search for customer when customer's account closed.
-         * Description:  Go to search for customer page.
-        */
+     * Name:           pageToChoose
+     * Purpose:        Change page to search for customer when customer's account closed.
+     * Description:  Go to search for customer page.
+     */
     public void pageToChoose() {
 
         Intent getScreen = new Intent(this, EmployeeChooseCus.class);
@@ -473,12 +494,22 @@ public class EmployeeModifiedCus extends Activity{
         finish();
     }
 
+    /**
+     * Name:          onBackPressed
+     * Purpose:       Enforce the customer to logout and go to login page.
+     * Description:  Enforce the customer to logout and go to login page.
+     */
     @Override
     public void onBackPressed()
     {
         pageToChoose();
     }
 
+    /**
+     * Name:          onOptionsItemSelected
+     * Purpose:     Enforce the customer to logout and go to login page.
+     * Description:  Enforce the customer to logout and go to login page.
+     */
     public boolean onOptionsItemSelected(MenuItem item){
         pageToChoose();
         return true;

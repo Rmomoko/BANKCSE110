@@ -1,5 +1,8 @@
 /**
- * Created by kobeguo on 2014/11/2.
+ * Team Name: Orange Chicken
+ *  File Name: Account.java
+ *  Description:  *TODO*
+ *
  */
 package rmomoko.cse110bank.Object;
 import com.parse.ParseClassName;
@@ -13,50 +16,84 @@ import java.lang.String;
 import java.sql.Time;
 import java.util.Date;
 
+
+/**
+ * Name:            Account
+ * Purpose:        *TODO*
+ * Description:
+ *
+ *
+ */
 @ParseClassName("Account")
 public class Account extends ParseObject{
+
+    /* Variable */
     private String owner;
-    private boolean isClosed;
+    private boolean isClosed;           // boolean value to check account is closed or not
     private double  balance;
-   // private Time license100;
+    // private Time license100;
     private static final long THIRTYDAY = 2592000000L;
     private static final long DAY = 86400000L;
     private static final double LIMIT = 10000.0;
 
+    /**
+     * Name:           Account
+     * Purpose:       Create a Account object.
+     */
     public Account()
     {
     }
 
-
-
+    /**
+     * Name:           isClosed
+     * Purpose:       Check account closed or not.
+     * Description: Get the boolean value in the data and return that boolean value.
+     * Return Value: boolean isClosed - return true if the account is closed, otherwise return false.
+     *
+     */
     public boolean isClosed()
     {
         return getBoolean("isClosed");
     }
 
-
-
+    /**
+     * Name:           closeAccount
+     * Purpose:       Process close account activity.
+     * Description:  change the value true into database in isClosed object.
+     *
+     * Return Value: Void.
+     *
+     */
     public void closeAccount()
     {
         put("isClosed", true);
         saveInBackground();
     }
 
-
+    /**
+     * Name:           average
+     * Purpose:        *************  TODO(including inline comment ***************
+     * Description:
+     * Return Value:
+     *
+     */
     public double average()
     {
         double totalAmount = 0;
         Date today = getUpdatedAt();
         String currentTime = "" + (today.getYear()+ 1900) + "/" + (today.getMonth()+1) + "/" + today.getDate();
         String lastTime;
+
         today = new Date((today.getYear()+ 1900),
                 (today.getMonth()+1),
                 today.getDate());
+
         String[] history = getString("history").split("\n");
 
         for(int i = 0; i < history.length; i++)
         {
             String[] element = history[i].split(" ");
+
             if(!element[0].equals(currentTime))
             {
                 lastTime = currentTime;
@@ -83,20 +120,49 @@ public class Account extends ParseObject{
         return totalAmount / 30;
     }
 
+    /**
+     * Name:           getBalance
+     * Purpose:       get account balance from database.
+     * Description:  get the double value of balance from parse.com then return the value.
+     * Return Value:  double balance - balance in the account.
+     *
+     */
     public double getBalance()
     {
         return getNumber("balance").doubleValue();
     }
 
+    /**
+     * Name:           getHistory
+     *  Purpose:       get account history from database.
+     * Description:  get the string value of history from parse.com then return the value.
+     * Return Value:  String history - history stored in parse.com
+     *
+     */
     public String getHistory()
     {
         return getString("history");
     }
 
+    /**
+     * Name:           close
+     * Purpose:       make the account isClosed value to false.
+     * Description:  Set this account's isClosed value to false.
+     * Return Value:  Void
+     *
+     */
     public void close(){
         this.isClosed = false;
     }
 
+    /**
+     * Name:           deposite
+     *  Purpose:       deposit money into account
+     * Description:  Check if the account is closed or not. If closed, return account closed sign we set it to be -2.
+     *                       If the account did not close, add the amount to the balance then return the new balance.
+     * Return Value:  double balance - new balance after processing the deposit.
+     *
+     */
     public double depoiste(double amount){
         if(isClosed) {
             balance += amount;
@@ -104,15 +170,34 @@ public class Account extends ParseObject{
         }
         return -2;
     }
+
+    /**
+     * Name:            withdraw
+     *  Purpose:       withdraw money from account
+     * Description:  Check if the account is closed or not. If closed, return account closed sign we set it to be -1.
+     *                      If the account did not close and the withdraw amount is within the balance, then
+     *                      process the transaction. Return the new balance after withdraw.
+     * Return Value:  double balance - new balance after processing the deposit.
+     *
+     */
     public double withdraw(double amount){
+        // check the money is enough in the account to withdraw and the account is not closed.
         if(balance > amount && isClosed) {
             balance -= amount;
             return balance;
         }
-            return -1;
 
+        return -1;
     }
 
+    /**
+     * Name:           checkBalance
+     *  Purpose:       get balance for account information.
+     * Description:  Check if the account is closed or not. If closed, return account closed sign we set it to be -2.
+     *                      If the account did not close return the balance.
+     * Return Value:  double balance - value of account balance.
+     *
+     */
     public  double checkBalance(){
         if(isClosed)
             return balance;
@@ -120,7 +205,7 @@ public class Account extends ParseObject{
             return -2;
     }
 
-    //big pa pa pa说这个先不写。。。。。。
+    //big pa pa pa说这个先不写。。。。。。*****TODO******
     public void penalty(){
         if(balance < 100){
 
