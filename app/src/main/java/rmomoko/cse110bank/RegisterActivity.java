@@ -1,3 +1,11 @@
+/**
+ * Team Name: Orange Chicken
+ *  File Name: RegisterActivity.java
+ *  Description: The process of register a new account. Customer need to fill out the
+ *               register form following the hint.
+ *
+ */
+
 package rmomoko.cse110bank;
 import android.content.Intent;
 import android.animation.Animator;
@@ -33,6 +41,13 @@ import rmomoko.cse110bank.Object.CheckingAccount;
 import rmomoko.cse110bank.Object.SavingAccount;
 
 
+/**
+ * Name:          RegisterActivity
+ * Purpose:       Show up the register process.
+ * Description:   The activity is the process of register a new account. Customer must
+ *                follow the hint to fill out the register form. And set up the user name
+ *                and password for their account.
+ */
 public class RegisterActivity extends Activity{
 
     // UI references.
@@ -48,6 +63,11 @@ public class RegisterActivity extends Activity{
     private View mRegisterFormView;
 
     @Override
+    /**
+     * Name:        onCreate
+     * Purpose:     Create the layout for the register account page.
+     * Description: Create the UI for the RegisterActivity page.
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
@@ -76,6 +96,11 @@ public class RegisterActivity extends Activity{
         mProgressView  = findViewById(R.id.register_progress);
     }
 
+    /**
+     * Name:            attempRegister
+     * Purpose:         Check if the activity is valid.
+     * Description:     Check each input is valid for the register process.
+     */
     public void attemptRegister() {
 
         // Reset errors.
@@ -208,7 +233,6 @@ public class RegisterActivity extends Activity{
                         pageChange();
 
                     } else {
-                 //       System.out.println("4");
 
                         if(e.getCode() == ParseException.USERNAME_TAKEN)
                         {
@@ -229,7 +253,9 @@ public class RegisterActivity extends Activity{
     }
 
     /**
-     * Shows the progress UI and hides the login form.
+     * Name:        showProgress
+     * Purpose:     Shows the progress UI and hides the login form.
+     * Description: Shows the progress UI and hides the login form.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public void showProgress(final boolean show) {
@@ -264,6 +290,11 @@ public class RegisterActivity extends Activity{
         }
     }
 
+    /**
+     * Name:        pageChange
+     * Purpose:     change the page to login activity.
+     * Description: Change the page to login activity.
+     */
     public void pageChange() {
         Intent getLoginActivity = new Intent(this, LoginActivity.class);
         final int result = 1;
