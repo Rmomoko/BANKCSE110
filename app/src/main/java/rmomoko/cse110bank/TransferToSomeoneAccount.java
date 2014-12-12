@@ -1,3 +1,8 @@
+/**
+ * Team Name: Orange Chicken
+ *  File Name: TransferToSomeoneAccount.java
+ *  Description: Transfer the money to some other user's account
+ */
 package rmomoko.cse110bank;
 
 import android.app.Activity;
@@ -31,7 +36,10 @@ import rmomoko.cse110bank.Object.Account;
 import rmomoko.cse110bank.Object.CheckingAccount;
 import rmomoko.cse110bank.Object.SavingAccount;
 /**
- * Created by Yuxiao on 11/16/2014.
+ * Name:          TransferToSomeoneAccount
+ * Purpose:       Transfer the money to some other user's account
+ * Description:   This class extends activity and creates many functions in order to be able to
+ *                transfer money to some other user's account.
  */
 public class TransferToSomeoneAccount extends Activity {
 
@@ -45,6 +53,13 @@ public class TransferToSomeoneAccount extends Activity {
     private CheckingAccount userCheckAccount;
     private SavingAccount userSaveAccount;
     private DecimalFormat f = new DecimalFormat("##.00");
+
+    /**
+     * Name:           OnCreate
+     * Purpose:        Create the layout for transfer between users' accounts page
+     * Description:    Create the UI for transfer between users' accounts page,and link each
+     *                 button with its corresponding storage of data.
+     */
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -152,8 +167,12 @@ public class TransferToSomeoneAccount extends Activity {
         });
     }
 
-
-
+    /**
+     * Name:          transferFromCk
+     * Purpose:       Transfer money from checking account to some other user's account
+     * Description:   Fetch current data from database, and transfer money from checking account
+     *                to some other user's account based on the amount specified by the user.
+     */
     public void transferFromCk(){
         amount = Double.parseDouble(transferAmount.getText().toString());
 
@@ -193,7 +212,12 @@ public class TransferToSomeoneAccount extends Activity {
     }
 
 
-
+    /**
+     * Name:          transferFromSa
+     * Purpose:       Transfer money from saving account to some other user's account
+     * Description:   Fetch current data from database, and transfer money from saving account
+     *                to some other user's account based on the amount specified by the user.
+     */
     public void transferFromSa(){
         amount = Double.parseDouble(transferAmount.getText().toString());
 
@@ -232,26 +256,42 @@ public class TransferToSomeoneAccount extends Activity {
             }
         });
     }
-
+    /**
+     * Name:           pageToChoose
+     * Purpose:        Change page to search for customer when customer's account closed.
+     * Description:  Go to search for customer page.
+     */
     public void pageChangeToChoice() {
         Intent getScreen = new Intent(this, TransferChoiceActivity.class);
         final int result = 1;
         startActivityForResult(getScreen, result);
         finish();
     }
-
+    /**
+     * Name:          pageChange
+     * Purpose:      Go to a certain page in this case the customer account activity page
+     * Description:  Go to the customer account activity page
+     */
     public void pageChange() {
         Intent getScreen = new Intent(this, CustomerAccountActivity.class);
         final int result = 1;
         startActivityForResult(getScreen, result);
         finish();
     }
-
+    /**
+     * Name:          onBackPressed
+     * Purpose:       Go back to the previous page
+     * Description:   Go back to the recent previous page.
+     */
     public void onBackPressed()
     {
         pageChangeToChoice();
     }
-
+    /**
+     * Name:          onOptionsItemSelected
+     * Purpose:     Enforce the customer to logout and go to login page.
+     * Description:  Enforce the customer to logout and go to login page.
+     */
     public boolean onOptionsItemSelected(MenuItem item){
         pageChangeToChoice();
         return true;

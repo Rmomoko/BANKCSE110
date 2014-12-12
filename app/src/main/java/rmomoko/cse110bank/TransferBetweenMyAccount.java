@@ -1,3 +1,9 @@
+/**
+ * Team Name: Orange Chicken
+ *  File Name: TransferBetweenMyAccount.java
+ *  Description: Transfer the money between the checking account and saving account
+ */
+
 package rmomoko.cse110bank;
 
 import android.app.Activity;
@@ -25,8 +31,12 @@ import rmomoko.cse110bank.Object.User;
 import rmomoko.cse110bank.Object.Account;
 import rmomoko.cse110bank.Object.CheckingAccount;
 import rmomoko.cse110bank.Object.SavingAccount;
+
 /**
- * Created by Yuxiao on 11/16/2014.
+ * Name:          TransferBetweenMyAccount
+ * Purpose:       Transfer the money between the checking account and saving account
+ * Description:   This class extends activity and creates many functions in order to be able to
+ *                transfer money between the checking account and the saving account.
  */
 public class TransferBetweenMyAccount extends Activity {
     private EditText transferAmount;
@@ -35,6 +45,13 @@ public class TransferBetweenMyAccount extends Activity {
     private CheckingAccount userCheckAccount;
     private SavingAccount userSaveAccount;
     private DecimalFormat f = new DecimalFormat("##.00");
+
+    /**
+     * Name:           OnCreate
+     * Purpose:        Create the layout transfer between inner accounts page
+     * Description:    Create the UI for transfer between inner accounts page,and link each
+     *                 button with its corresponding storage of data.
+     */
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -76,6 +93,12 @@ public class TransferBetweenMyAccount extends Activity {
         });
     }
 
+    /**
+     * Name:          transferFromSaToCk
+     * Purpose:       Transfer money from saving account to checking account
+     * Description:   Fetch current data from database, and transfer money from saving account
+     *                to checking account based on the amount specified by the user.
+     */
     public void transferFromSaToCk(){
         amount = Double.parseDouble(transferAmount.getText().toString());
         someone = (User)ParseUser.getCurrentUser();
@@ -125,7 +148,12 @@ public class TransferBetweenMyAccount extends Activity {
             }
         });
     }
-
+    /**
+     * Name:          transferFromCkToSa
+     * Purpose:       Transfer money from checking account to saving account
+     * Description:   Fetch current data from database, and transfer money from checking account
+     *                to saving account based on the amount specified by the user.
+     */
     public void transferFromCkToSa(){
         amount = Double.parseDouble(transferAmount.getText().toString());
         someone = (User)ParseUser.getCurrentUser();
@@ -170,7 +198,11 @@ public class TransferBetweenMyAccount extends Activity {
         });
     }
 
-
+    /**
+     * Name:           pageToChoose
+     * Purpose:        Change page to search for customer when customer's account closed.
+     * Description:  Go to search for customer page.
+     */
     public void pageChangeToChoice() {
         Intent getScreen = new Intent(this, TransferChoiceActivity.class);
         final int result = 1;
@@ -178,7 +210,11 @@ public class TransferBetweenMyAccount extends Activity {
         finish();
     }
 
-
+    /**
+     * Name:          pageChange
+     * Purpose:      Go to a certain page in this case the customer account activity page
+     * Description:  Go to the customer account activity page
+     */
     public void pageChange() {
         Intent getScreen = new Intent(this, CustomerAccountActivity.class);
         final int result = 1;
@@ -186,11 +222,21 @@ public class TransferBetweenMyAccount extends Activity {
         finish();
     }
 
+    /**
+     * Name:          onBackPressed
+     * Purpose:       Go back to the previous page
+     * Description:   Go back to the recent previous page.
+     */
     public void onBackPressed()
     {
         pageChangeToChoice();
     }
 
+    /**
+     * Name:          onOptionsItemSelected
+     * Purpose:     Enforce the customer to logout and go to login page.
+     * Description:  Enforce the customer to logout and go to login page.
+     */
     public boolean onOptionsItemSelected(MenuItem item){
         pageChangeToChoice();
         return true;
