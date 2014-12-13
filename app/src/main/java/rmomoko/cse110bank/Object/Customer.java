@@ -1,7 +1,7 @@
 /**
  * Team Name: Orange Chicken
  *  File Name: Customer.java
- *  Description:   ****TODO****
+ *  Description:   Create a Customer type to identify customer or employee
  *
  */
 
@@ -11,7 +11,7 @@ import com.parse.ParseClassName;
 
 /**
  * Name:            Customer
- * Description:   ****TODO****
+ * Description:   Customer  object that extends User to obtain User information.
  *
  */
 @ParseClassName("Customer")

@@ -1,14 +1,14 @@
 /**
  * Team Name: Orange Chicken
  *  File Name: Error.java
- *  Description:  ***TODO*****
+ *  Description:  Identify Errors.
  *
  */
 package rmomoko.cse110bank.Object;
 
 /**
  * Name:            Error
- * Description:   ****TODO****
+ * Description:   Identify Errors.
  *
  */
 public class Error {

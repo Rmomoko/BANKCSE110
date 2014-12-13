@@ -68,12 +68,12 @@ public class CustomerAccountActivity extends Activity{
     private DecimalFormat f = new DecimalFormat("##.00");
 
     /**
-     * Name:           OnCreate
-     * Purpose:        Create the layout of Customer Account Information page
-     * Description:  Create the UI of CustomerAccountActivity page.
-     *                      Get data from database to display the amount of accounts.
-     *                       Create all the buttons to do all the customer account activities.
-     */
+        * Name:           OnCreate
+        * Purpose:        Create the layout of Customer Account Information page
+        * Description:  Create the UI of CustomerAccountActivity page.
+        *                      Get data from database to display the amount of accounts.
+        *                       Create all the buttons to do all the customer account activities.
+         */
     public void onCreate(Bundle savedInstanceState) {
         /* Create the layout of CustomerAccountActivity page*/
         super.onCreate(savedInstanceState);
@@ -206,11 +206,11 @@ public class CustomerAccountActivity extends Activity{
     }
 
     /**
-     * Name:           check
-     * Purpose:        Check if the user close both checking and saving account goto login page.
-     * Description:  Check both account is closed or not.
-     *                       Force the customer logout and goto login page.
-     */
+        * Name:           check
+        * Purpose:        Check if the user close both checking and saving account goto login page.
+        * Description:  Check both account is closed or not.
+        *                       Force the customer logout and goto login page.
+        */
     public void check()
     {
         if(userCheckAccount.isClosed() && userSaveAccount.isClosed())
@@ -220,10 +220,10 @@ public class CustomerAccountActivity extends Activity{
         }
     }
     /**
-     * Name:           pageToSummary
-     * Purpose:        Change page when print summary button clicked.
-     * Description:  Go to summary page.
-     */
+        * Name:           pageToSummary
+        * Purpose:        Change page when print summary button clicked.
+        * Description:  Go to summary page.
+        */
     public void pageToSummary(View view) {
         Intent getScreen = new Intent(this, CusSummaryActivity.class);
         final int result = 1;
@@ -232,10 +232,10 @@ public class CustomerAccountActivity extends Activity{
     }
 
     /**
-     * Name:           pageToTransfer
-     * Purpose:        Change page when make transfer button clicked.
-     * Description:  Go to Make transfer page.
-     */
+        * Name:           pageToTransfer
+        * Purpose:        Change page when make transfer button clicked.
+        * Description:  Go to Make transfer page.
+        */
     public void pageToTransfer(View view) {
         Intent getScreen = new Intent(this, TransferChoiceActivity.class);
         final int result = 1;
@@ -243,10 +243,10 @@ public class CustomerAccountActivity extends Activity{
         finish();
     }
     /**
-     * Name:          pageToLogin
-     * Purpose:       Go back to login page.
-     * Description:  Go to login page.
-     */
+        * Name:          pageToLogin
+        *   Purpose:       Go back to login page.
+         *   Description:  Go to login page.
+        */
     public void pageToLogin() {
         Intent getScreen = new Intent(this, LoginActivity.class);
         final int result = 1;
@@ -255,20 +255,20 @@ public class CustomerAccountActivity extends Activity{
     }
 
     /**
-     * Name:          onBackPresse
-     * Purpose:       Enforce the customer to logout and go to login page.
-     * Description:  Enforce the customer to logout and go to login page.
-     */
+        * Name:          onBackPresse
+        * Purpose:       Enforce the customer to logout and go to login page.
+        * Description:  Enforce the customer to logout and go to login page.
+        */
     public void onBackPressed()
     {
         ParseUser.logOut();
         pageToLogin();
     }
     /**
-     * Name:          onOptionsItemSelected
-     *   Purpose:     Enforce the customer to logout and go to login page.
-     * Description:  Enforce the customer to logout and go to login page.
-     */
+        * Name:          onOptionsItemSelected
+        *   Purpose:     Enforce the customer to logout and go to login page.
+        * Description:  Enforce the customer to logout and go to login page.
+        */
     public boolean onOptionsItemSelected(MenuItem item){
         ParseUser.logOut();
         pageToLogin();

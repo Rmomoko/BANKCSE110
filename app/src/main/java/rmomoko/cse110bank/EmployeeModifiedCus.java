@@ -393,18 +393,19 @@ public class EmployeeModifiedCus extends Activity{
                         if(ave >= 1000 && ave < 2000)
                         {
                             double current = userSaveAccount.getBalance();
-                            /* apply 2% interest to savinging accoun balance */
+                            /* apply 2% interest to saving account balance */
                             userSaveAccount.put("balance", current + ave * 0.02);
                             userSaveAccount.put("lastTimeInterest", userSaveAccount.getUpdatedAt());
                             userSaveAccount.saveInBackground();
                             Date currentTime = userSaveAccount.getUpdatedAt();
+                            /* String to update in customer's account summary */
                             String temp = userSaveAccount.getHistory();
                             temp = (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
                                     + f.format(userSaveAccount.getBalance()) + " Interest " + f.format(ave * 0.02) + "\n"+temp ;
                             userSaveAccount.put("history", temp);
                             userSaveAccount.saveInBackground();
 
-                            /* update the checking account amount */
+                            /* update the saving account amount */
                             savingNumber.setText("$ " + f.format((current + ave * 0.02)));
                             Toast.makeText(EmployeeModifiedCus.this, "Interest Apply", Toast.LENGTH_SHORT).show();
                         }
@@ -412,15 +413,18 @@ public class EmployeeModifiedCus extends Activity{
                         else if(ave >= 2000 && ave < 3000)
                         {
                             double current = userSaveAccount.getBalance();
+                            /* apply 3% interest to saving account balance */
                             userSaveAccount.put("balance", current + ave * 0.03);
                             userSaveAccount.put("lastTimeInterest", userSaveAccount.getUpdatedAt());
                             userSaveAccount.saveInBackground();
                             Date currentTime = userSaveAccount.getUpdatedAt();
+                            /* String to update in customer's account summary */
                             String temp = userSaveAccount.getHistory();
                             temp = (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
                                     +f.format( userSaveAccount.getBalance()) + " Interest " + f.format(ave * 0.03) + "\n"+temp ;
                             userSaveAccount.put("history", temp);
                             userSaveAccount.saveInBackground();
+                             /* update the saving account amount */
                             savingNumber.setText("$ " +f.format( (current + ave * 0.03)));
                             Toast.makeText(EmployeeModifiedCus.this, "Interest Apply", Toast.LENGTH_SHORT).show();
                         }
@@ -428,18 +432,22 @@ public class EmployeeModifiedCus extends Activity{
                         else if(ave >= 3000)
                         {
                             double current = userSaveAccount.getBalance();
+                            /* apply interest of 4% on saving */
                             userSaveAccount.put("balance", current + ave * 0.04);
                             userSaveAccount.put("lastTimeInterest", userSaveAccount.getUpdatedAt());
                             userSaveAccount.saveInBackground();
                             Date currentTime = userSaveAccount.getUpdatedAt();
+                            /* String to update in customer's account summary */
                             String temp = userSaveAccount.getHistory();
                             temp = (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
                                     + f.format(userSaveAccount.getBalance()) + " Interest " + f.format(ave * 0.04) + "\n"+temp ;
                             userSaveAccount.put("history", temp);
                             userSaveAccount.saveInBackground();
+                             /* update the saving account amount */
                             savingNumber.setText("$ " + f.format((current + ave * 0.04)));
                             Toast.makeText(EmployeeModifiedCus.this, "Interest Apply", Toast.LENGTH_SHORT).show();
                         }
+                        /* no interest apply */
                         else
                         {
                             userSaveAccount.put("lastTimeInterest", userSaveAccount.getUpdatedAt());

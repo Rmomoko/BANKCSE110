@@ -223,13 +223,13 @@ public class Account extends ParseObject{
     }
 
     /**
-     * Name:           checkBalance
-     *  Purpose:       get balance for account information.
-     * Description:  Check if the account is closed or not. If closed, return account closed sign we set it to be -2.
-     *                      If the account did not close return the balance.
-     * Return Value:  double balance - value of account balance.
-     *
-     */
+        * Name:           checkBalance
+        *  Purpose:       get balance for account information.
+        * Description:  Check if the account is closed or not. If closed, return account closed sign we set it to be -2.
+        *                      If the account did not close return the balance.
+        * Return Value:  double balance - value of account balance.
+        *
+        */
     public  double checkBalance(){
         if(isClosed)
             return balance;
@@ -237,7 +237,6 @@ public class Account extends ParseObject{
             return -2;
     }
 
-    //*****TODO******
     public void penalty(){
         if(balance < 100){
 
