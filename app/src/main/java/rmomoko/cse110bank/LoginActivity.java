@@ -67,6 +67,7 @@ public class LoginActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //create user,checking account and saving account
         curUser = new User();
         userCheckAccount = new CheckingAccount();
         userSaveAccount = new SavingAccount();
@@ -151,7 +152,10 @@ public class LoginActivity extends Activity{
         String username = mUsernameView.getText().toString();
         String password = mPasswordView.getText().toString();
 
+        // initialize cancel to false,which is used to request focus
         boolean cancel = false;
+
+        //initialize focus view to NULL
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
@@ -173,6 +177,7 @@ public class LoginActivity extends Activity{
             cancel = true;
         }
 
+        // request focus
         if (cancel) {
             focusView.requestFocus();
         } else {
@@ -217,10 +222,11 @@ public class LoginActivity extends Activity{
         // Valid username and password
         if(curUser.isCustomer())
         {
-
+            // get checking account and saving account of current user
             userCheckAccount = curUser.getCheckingAccount();
             userSaveAccount = curUser.getSavingAccount();
 
+            // fetch checking account from database
             userCheckAccount.fetchInBackground(new GetCallback<CheckingAccount>() {
                 @Override
 

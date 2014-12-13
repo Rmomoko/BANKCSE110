@@ -43,15 +43,24 @@ import rmomoko.cse110bank.Object.SavingAccount;
  */
 public class TransferToSomeoneAccount extends Activity {
 
+    // initialize variables for transferAmount,someoneEmail of EditText type
     private EditText transferAmount;
     private EditText someoneEmail;
+
+    // initialize amount
     private double amount;
     private double currentTo;
+
+    // initialize User type current user, "someone" the money transferred to.
+    // Initialize the amount of money in current user's checking,
+    // and the amount of money in someone's checking
     private User someone;
     private CheckingAccount someoneCheckAccount;
     private User user;
     private CheckingAccount userCheckAccount;
     private SavingAccount userSaveAccount;
+
+    // make sure the amount of money is in two decimal space
     private DecimalFormat f = new DecimalFormat("##.00");
 
     /**
@@ -68,8 +77,10 @@ public class TransferToSomeoneAccount extends Activity {
         transferAmount = (EditText) findViewById(R.id.transfer_to_someone_amount);
         someoneEmail = (EditText) findViewById(R.id.transfer_to_someone_email);
 
+        // get current user from database
         user = (User)ParseUser.getCurrentUser();
 
+        // initialize from checking Button
         Button fromCkButton = (Button) findViewById(R.id.transfer_from_checking);
         fromCkButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +136,7 @@ public class TransferToSomeoneAccount extends Activity {
             }
         });
 
+        // initialize from saving Button
         Button fromSaButton = (Button) findViewById(R.id.transfer_from_saving);
         fromSaButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,20 +200,30 @@ public class TransferToSomeoneAccount extends Activity {
      *                to some other user's account based on the amount specified by the user.
      */
     public void transferFromCk(){
+
+        // convert transfer amount from String to double type
         amount = Double.parseDouble(transferAmount.getText().toString());
 
+        // get Checking account of current user
         userCheckAccount = user.getCheckingAccount();
         userCheckAccount.fetchInBackground(new GetCallback<CheckingAccount>() {
             @Override
             public void done(CheckingAccount Object, ParseException e) {
                 if (e == null) {
                     double current = Object.getBalance();
-                    // check for different cases
+                    // check if there is enough money
                     if (amount > current) {
                         transferAmount.setError("Not enough money");
+
+                    // if there is enough money
                     } else {
+
+                        // deduct certain amount of money from current user's checking account
+                        // in database based on the transfer amount
                         Object.put("balance", current - amount);
                         Object.saveInBackground();
+                        // increase certain amount of money in someone's checking account
+                        // in database based on the transfer amount
                         someoneCheckAccount.put("balance", currentTo + amount);
                         someoneCheckAccount.saveInBackground();
 
@@ -247,8 +269,12 @@ public class TransferToSomeoneAccount extends Activity {
                     if (amount > current) {
                         transferAmount.setError("Not enough money");
                     } else {
-
+                        // deduct certain amount of money from current user's saving account
+                        // in database based on the transfer amount
                         Object.put("balance", current - amount);
+
+                        // increase certain amount of money in someone's saving account
+                        // in database based on the transfer amount
                         someoneCheckAccount.put("balance", currentTo + amount);
                         Object.saveInBackground();
                         someoneCheckAccount.saveInBackground();

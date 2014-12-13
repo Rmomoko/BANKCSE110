@@ -39,6 +39,8 @@ import rmomoko.cse110bank.Object.SavingAccount;
  *                transfer money between the checking account and the saving account.
  */
 public class TransferBetweenMyAccount extends Activity {
+
+    // initialization for transferAmount, amount, user, checking and saving account
     private EditText transferAmount;
     private double amount;
     private User someone;
@@ -66,6 +68,7 @@ public class TransferBetweenMyAccount extends Activity {
         fromSaToCkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // transfer from saving to checking account if transfer amount is not empty
                 if(!transferAmount.getText().toString().isEmpty())
                 {
                    transferFromSaToCk();
@@ -84,6 +87,7 @@ public class TransferBetweenMyAccount extends Activity {
         fromCkToSaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // transfer from saving to checking account if transfer amount is not empty
                 if(!transferAmount.getText().toString().isEmpty())
                 {
                     transferFromCkToSa();
@@ -104,7 +108,10 @@ public class TransferBetweenMyAccount extends Activity {
      *                to checking account based on the amount specified by the user.
      */
     public void transferFromSaToCk(){
+
+        // convert user typed string to double type amount
         amount = Double.parseDouble(transferAmount.getText().toString());
+        // get parse user from database
         someone = (User)ParseUser.getCurrentUser();
         // fetch information from the database
         ParseQuery<ParseUser> query = ParseUser.getQuery();
@@ -116,17 +123,24 @@ public class TransferBetweenMyAccount extends Activity {
             public void done(List<ParseUser> parseUsers, ParseException e) {
                 if(e == null && !parseUsers.isEmpty())
                 {
+                    // get current user and his/her checking and saving balance
                     someone = (User)parseUsers.get(0);
                     userCheckAccount = someone.getCheckingAccount();
                     userSaveAccount = someone.getSavingAccount();
                     double currentSaving = userSaveAccount.getBalance();
                     double currentChecking = userCheckAccount.getBalance();
+
+                    // check if there is enough money to transfer
                     if(amount > currentSaving)
                     {
                         transferAmount.setError("Not enough money");
                     }
+
+                    // if there is enough money
                     else
                     {
+                        // save the amount of money in checking and saving account
+                        // after transferring into database
                         userCheckAccount.put("balance", currentChecking + amount);
                         userSaveAccount.put("balance", currentSaving - amount);
                         userCheckAccount.saveInBackground();
@@ -161,7 +175,9 @@ public class TransferBetweenMyAccount extends Activity {
      *                to saving account based on the amount specified by the user.
      */
     public void transferFromCkToSa(){
+        // convert user typed string to double type amount
         amount = Double.parseDouble(transferAmount.getText().toString());
+        // get current parse user from database
         someone = (User)ParseUser.getCurrentUser();
         // fetch information from the database
         ParseQuery<ParseUser> query = ParseUser.getQuery();
