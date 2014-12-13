@@ -56,6 +56,7 @@ public class TransferChoiceActivity extends Activity {
         setContentView(R.layout.activity_transfer_choice);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // create button for transfer money
         Button transferMyOwnButton = (Button) findViewById(R.id.transfer_my_own_button);
         transferMyOwnButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +65,7 @@ public class TransferChoiceActivity extends Activity {
             }
         });
 
+        // create button for transfer money
         Button transferOtherButton = (Button) findViewById(R.id.transfer_to_someone_button);
         transferOtherButton.setOnClickListener(new View.OnClickListener() {
             @Override

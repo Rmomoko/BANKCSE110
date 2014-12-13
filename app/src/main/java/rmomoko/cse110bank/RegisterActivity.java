@@ -301,13 +301,21 @@ public class RegisterActivity extends Activity{
         startActivityForResult(getLoginActivity, result);
         finish();
     }
-
+    /**
+     * Name:          onBackPressed
+     * Purpose:       Go back to the previous page
+     * Description:   Go back to the recent previous page.
+     */
     @Override
     public void onBackPressed()
     {
         pageChange();
     }
-
+    /**
+     * Name:          onOptionsItemSelected
+     * Purpose:     Enforce the customer to logout and go to login page.
+     * Description:  Enforce the customer to logout and go to login page.
+     */
     public boolean onOptionsItemSelected(MenuItem item){
         pageChange();
         return true;

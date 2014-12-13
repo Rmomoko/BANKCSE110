@@ -75,6 +75,7 @@ public class TransferToSomeoneAccount extends Activity {
             @Override
             public void onClick(View view) {
                 if(!someoneEmail.getText().toString().isEmpty()) {
+                    // fetch information from the database
                     ParseQuery<ParseUser> query = ParseUser.getQuery();
                     query.whereEqualTo("email", someoneEmail.getText().toString());
                     query.include("CheckingAccount");
@@ -82,7 +83,9 @@ public class TransferToSomeoneAccount extends Activity {
                     query.findInBackground(new FindCallback<ParseUser>() {
                         @Override
                         public void done(List<ParseUser> parseUsers, ParseException e) {
+                            // check for different cases
                             if (e == null && !parseUsers.isEmpty()) {
+                                // check for valid user and account
                                 someone = (User) parseUsers.get(0);
                                 if (!transferAmount.getText().toString().isEmpty()) {
                                     someoneCheckAccount = someone.getCheckingAccount();
@@ -96,12 +99,15 @@ public class TransferToSomeoneAccount extends Activity {
                                     } else {
                                         Toast.makeText(TransferToSomeoneAccount.this, "Fail transfer! That account is closed", Toast.LENGTH_SHORT).show();
                                     }
-                                } else {
+                                }
+                                // check for valid input
+                                else {
                                     transferAmount.setError("You must input a number");
                                     transferAmount.requestFocus();
                                 }
 
                             }
+                            // check for valid input
                             else
                             {
                                 transferAmount.setError("You must input an email");
@@ -110,6 +116,7 @@ public class TransferToSomeoneAccount extends Activity {
                         }
                     });
                 }
+                // check for valid input
                 else
                 {
                     someoneEmail.setError("You must input an email");
@@ -123,6 +130,7 @@ public class TransferToSomeoneAccount extends Activity {
             @Override
             public void onClick(View view) {
                 if(!someoneEmail.getText().toString().isEmpty()) {
+                    // fetch information from the database
                     ParseQuery<ParseUser> query = ParseUser.getQuery();
                     query.whereEqualTo("email", someoneEmail.getText().toString());
                     query.include("CheckingAccount");
@@ -130,7 +138,9 @@ public class TransferToSomeoneAccount extends Activity {
                     query.findInBackground(new FindCallback<ParseUser>() {
                         @Override
                         public void done(List<ParseUser> parseUsers, ParseException e) {
+                            // check for different cases
                             if (e == null && !parseUsers.isEmpty()) {
+                                // check for valid user and account
                                 someone = (User) parseUsers.get(0);
                                 if (!transferAmount.getText().toString().isEmpty()) {
                                     someoneCheckAccount = someone.getCheckingAccount();
@@ -144,12 +154,15 @@ public class TransferToSomeoneAccount extends Activity {
                                     } else {
                                         Toast.makeText(TransferToSomeoneAccount.this, "Fail transfer! That account is closed", Toast.LENGTH_SHORT).show();
                                     }
-                                } else {
+                                }
+                                // check for valid input
+                                else {
                                     transferAmount.setError("You must input a number");
                                     transferAmount.requestFocus();
                                 }
 
                             }
+                            // check for valid input
                             else
                             {
                                 transferAmount.setError("You must input an email");
@@ -159,6 +172,7 @@ public class TransferToSomeoneAccount extends Activity {
                     });
                 }
                 else
+                // check for valid input
                 {
                     someoneEmail.setError("You must input an email");
                     someoneEmail.requestFocus();
@@ -182,6 +196,7 @@ public class TransferToSomeoneAccount extends Activity {
             public void done(CheckingAccount Object, ParseException e) {
                 if (e == null) {
                     double current = Object.getBalance();
+                    // check for different cases
                     if (amount > current) {
                         transferAmount.setError("Not enough money");
                     } else {
@@ -190,6 +205,7 @@ public class TransferToSomeoneAccount extends Activity {
                         someoneCheckAccount.put("balance", currentTo + amount);
                         someoneCheckAccount.saveInBackground();
 
+                        // create transaction history based on time information and transfer detail
                         Date currentTime = someoneCheckAccount.getUpdatedAt();
                         String temp = someoneCheckAccount.getHistory();
                         temp = (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
@@ -227,6 +243,7 @@ public class TransferToSomeoneAccount extends Activity {
             public void done(SavingAccount Object, ParseException e) {
                 if (e == null) {
                     double current = Object.getBalance();
+                    // check for different cases
                     if (amount > current) {
                         transferAmount.setError("Not enough money");
                     } else {
@@ -236,6 +253,7 @@ public class TransferToSomeoneAccount extends Activity {
                         Object.saveInBackground();
                         someoneCheckAccount.saveInBackground();
 
+                        // create transaction history based on time information and transfer detail
                         Date currentTime = someoneCheckAccount.getUpdatedAt();
                         String temp = someoneCheckAccount.getHistory();
                         temp = (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "

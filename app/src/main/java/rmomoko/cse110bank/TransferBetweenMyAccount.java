@@ -44,6 +44,7 @@ public class TransferBetweenMyAccount extends Activity {
     private User someone;
     private CheckingAccount userCheckAccount;
     private SavingAccount userSaveAccount;
+    // create format for money
     private DecimalFormat f = new DecimalFormat("##.00");
 
     /**
@@ -60,7 +61,7 @@ public class TransferBetweenMyAccount extends Activity {
         transferAmount = (EditText) findViewById(R.id.transfer_my_own_amount);
 
 
-
+        // create button for transfer money from saving to checking
         Button fromSaToCkButton = (Button) findViewById(R.id.transfer_saving_to_checking);
         fromSaToCkButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +70,7 @@ public class TransferBetweenMyAccount extends Activity {
                 {
                    transferFromSaToCk();
                 }
+                // check for valid input
                 else{
                     transferAmount.setError("You must input a number");
                     transferAmount.requestFocus();
@@ -77,6 +79,7 @@ public class TransferBetweenMyAccount extends Activity {
             }
         });
 
+        // create button for transfer money from checking to saving
         Button fromCkToSaButton = (Button) findViewById(R.id.transfer_checking_to_saving);
         fromCkToSaButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +88,7 @@ public class TransferBetweenMyAccount extends Activity {
                 {
                     transferFromCkToSa();
                 }
+                // check for valid input
                 else{
                     transferAmount.setError("You must input a number");
                     transferAmount.requestFocus();
@@ -102,6 +106,7 @@ public class TransferBetweenMyAccount extends Activity {
     public void transferFromSaToCk(){
         amount = Double.parseDouble(transferAmount.getText().toString());
         someone = (User)ParseUser.getCurrentUser();
+        // fetch information from the database
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("username",someone.getUsername());
         query.include("CheckingAccount");
@@ -126,6 +131,7 @@ public class TransferBetweenMyAccount extends Activity {
                         userSaveAccount.put("balance", currentSaving - amount);
                         userCheckAccount.saveInBackground();
                         userSaveAccount.saveInBackground();
+                        // create transaction history based on time information and transfer detail
                         Date currentTime = userCheckAccount.getUpdatedAt();
                         String temp = userCheckAccount.getHistory();
                         temp = (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
@@ -157,6 +163,7 @@ public class TransferBetweenMyAccount extends Activity {
     public void transferFromCkToSa(){
         amount = Double.parseDouble(transferAmount.getText().toString());
         someone = (User)ParseUser.getCurrentUser();
+        // fetch information from the database
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("username",someone.getUsername());
         query.include("CheckingAccount");
@@ -170,6 +177,7 @@ public class TransferBetweenMyAccount extends Activity {
                     userSaveAccount = someone.getSavingAccount();
                     double currentSaving = userSaveAccount.getBalance();
                     double currentChecking = userCheckAccount.getBalance();
+                    // check for different cases
                     if (amount > currentChecking) {
                         transferAmount.setError("Not enough money");
                     } else {
@@ -177,6 +185,7 @@ public class TransferBetweenMyAccount extends Activity {
                         userSaveAccount.put("balance", currentSaving + amount);
                         userCheckAccount.saveInBackground();
                         userSaveAccount.saveInBackground();
+                        // create transaction history based on time information and transfer detail
                         Date currentTime = userCheckAccount.getUpdatedAt();
                         String temp = userCheckAccount.getHistory();
                         temp = (currentTime.getYear()+ 1900) + "/" + (currentTime.getMonth()+1) + "/" + currentTime.getDate() + " "
