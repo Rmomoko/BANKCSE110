@@ -236,12 +236,6 @@ public class Account extends ParseObject{
         else
             return -2;
     }
-
-    public void penalty(){
-        if(balance < 100){
-
-        }
-    }
 }
 
 

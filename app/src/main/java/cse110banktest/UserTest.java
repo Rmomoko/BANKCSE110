@@ -14,15 +14,18 @@ import rmomoko.cse110bank.Object.User;
 
 public class UserTest extends InstrumentationTestCase {
 
-
+    /**
+     * Name:           testGetSomeUser
+     *  Purpose:      To test the user function
+     * Description:  Test the function
+     *
+     */
     public void testGetSomeUser() throws Exception {
         Intent getScreen = new Intent("LoginActivity");
         launchActivity("rmomoko.cse110bank", LoginActivity.class, null);
 
         User shuaige = new User();
-        //shuaige.getSomeUser("test");
-        //assertEquals("",shuaige.getUserName());
-        //shuaige.getSomeUser("daye@daye.com");
-        //assertEquals("daye",shuaige.getUserName());
+        shuaige.getCheckingAccount();
+        assertEquals("",shuaige.getClassName());
     }
 }

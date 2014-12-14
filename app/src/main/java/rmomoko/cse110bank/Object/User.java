@@ -31,6 +31,10 @@ import java.util.List;
 @ParseClassName("_User")
 public class User extends ParseUser{
 
+    private String userID;
+    private String password;
+
+
     /**
      * Name:           User
      *  Purpose:       User constructor.
@@ -74,28 +78,18 @@ public class User extends ParseUser{
         return (SavingAccount) getParseObject("SavingAccount");
     }
 
-    public void getSomeUser(String email)
+
+    /**
+     * Name:           close
+     *  Purpose:      close the account
+     * Description:  get the two account be null
+     * Return Value:  void
+     *
+     */
+    public void close()
     {
-       /* ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("email",email);
-        query.findInBackground(new FindCallback<ParseUser>() {
-            @Override
-            public void done(List<ParseUser> parseUsers, ParseException e) {
-                System.out.println("2");
-                if(e == null)
-                {
-                    System.out.println("3");
-                    if(!parseUsers.isEmpty()) {
-                        username = parseUsers.get(0).getUsername();
-                        System.out.println("4");
-                        System.out.print(username);
-                    }
-                }
-            }
-        });*/
+        put("SavingAccount", null);
+        put("CheckingAccount", null);
     }
-
-
-
 
 }
